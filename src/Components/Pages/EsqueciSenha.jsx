@@ -31,7 +31,7 @@ export default function EsqueciSenha() {
       <main className={styles.main}>
         <div className={styles.container}>
           {/* <img src={logo} alt="Logo Blackjack" className={styles.logo} /> */}
-          <Logo className={styles.logo} />
+          <Logo className={styles.logo} size={150} />
           <h1 className={styles.title}>Esqueci minha senha</h1>
           <form onSubmit={handleSubmit} className={styles.form}>
             <div className={styles.inputGroup}>

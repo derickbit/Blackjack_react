@@ -4,6 +4,7 @@ import styles from "./forms.module.css";
 import logo from "../../assets/blackjack_logo.jpg";
 import { useUsersContext } from "../../contexts/UsersProvider";
 import SubmitButton from "../Form/SubmitButton";
+import eyeSprite from "../../assets/eye-sprite.png";
 
 function EditarPerfil() {
   const { currentUser, updateUser, deleteUser } = useUsersContext();
@@ -15,6 +16,7 @@ function EditarPerfil() {
   const [mensagemErro, setMensagemErro] = useState("");
   const [showPasswordRules, setShowPasswordRules] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   function isValidEmail(email) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -43,6 +45,7 @@ function EditarPerfil() {
     if (currentUser) {
       setName(currentUser.name || "");
       setEmail(currentUser.email || "");
+      setSenha(currentUser.senha || ""); // Preenche o campo senha com a senha atual, se disponível
     }
   }, [currentUser]);
 
@@ -143,18 +146,37 @@ function EditarPerfil() {
               <label htmlFor="senha" className={styles.label}>
                 Senha:
               </label>
-              <input
-                type="password"
-                name="senha"
-                id="senha"
-                value={senha}
-                onChange={handleSenha}
-                onFocus={() => setShowPasswordRules(true)}
-                onBlur={() => setShowPasswordRules(false)}
-                required
-                className={styles.input}
-                autoComplete="new-password"
-              />
+              <div className={styles.passwordWrapper}>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="senha"
+                  id="senha"
+                  value={senha}
+                  onChange={handleSenha}
+                  onFocus={() => setShowPasswordRules(true)}
+                  onBlur={() => setShowPasswordRules(false)}
+                  required
+                  className={styles.input}
+                  autoComplete="new-password"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  className={styles.passwordToggleBtn}
+                  tabIndex={-1}
+                  aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+                >
+                  <span className={styles.eyeSpriteWrapper}>
+                    <img
+                      src={eyeSprite}
+                      alt={showPassword ? "Ocultar senha" : "Mostrar senha"}
+                      className={
+                        showPassword ? styles.eyeImgClosed : styles.eyeImgOpen
+                      }
+                    />
+                  </span>
+                </button>
+              </div>
               {showPasswordRules && (
                 <div className={styles.passwordPopover}>
                   <div className={styles.passwordPopoverTitle}>

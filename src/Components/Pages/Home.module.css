@@ -4,20 +4,28 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 4em 2em;
+  justify-content: flex-start;
+  padding: 6em 2em 2em 2em;
   margin: 0 auto;
   text-align: center;
+  background: transparent; /* Remove qualquer cor de fundo */
+  min-height: 100vh;
+}
+
+.home_container h1,
+.home_container h2 {
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
 .home_container h1 {
   font-size: 2.5em;
-  margin-bottom: 0.5em;
+  margin-bottom: 0.2em;
 }
 
 .home_container h2 {
-  font-size: 2.5em;
-  margin-bottom: 0.5em;
+  font-size: 1.7em;
+  margin-bottom: 1.5em;
 }
 
 .home_container p {
@@ -127,4 +135,10 @@
 }
 .animatedCircle:nth-child(3) {
   animation-delay: 0.3s;
+}
+
+.unity_canvas {
+  width: 395px;
+  height: 618px;
+  /* Outras regras que você quiser */
 }

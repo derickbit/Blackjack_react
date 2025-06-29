@@ -7,6 +7,8 @@
   flex-wrap: wrap; /* Ajusta para telas menores */
   padding-top: 72px; /* Altura da navbar fixa */
   padding-bottom: 80px; /* Mais espaço para garantir que nada fique atrás do footer */
+  background: transparent !important; /* Garante fundo transparente */
+  box-shadow: none !important;
 }
 
 .column {

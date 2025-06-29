@@ -1,18 +1,13 @@
 .logoContainer {
-  /* Adicione quaisquer estilos de container aqui se precisar no futuro */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .cropped {
-  /*
-    A mágica acontece aqui!
-    inset(30%) define um retângulo de recorte que começa a 30% de distância
-    de cada uma das quatro bordas (topo, direita, baixo, esquerda).
-    Isso deixa um quadrado visível de 40% x 40% no centro.
-    (100% - 30% - 30% = 40%)
-  */
-  clip-path: inset(20%);
-  transform: scale(3); /* Aumenta o tamanho do quadrado visível */
-
-  /* Opcional: Garante que a imagem não encolha para caber no recorte */
-  object-fit: none;
+  /* Remove recorte e escala para não distorcer o logo */
+  object-fit: contain;
+  width: 50px;
+  height: 50px;
+  /* Remove clip-path e transform */
 }

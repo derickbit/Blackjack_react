@@ -114,7 +114,7 @@ function Cadastro() {
       <main className={styles.main}>
         <div className={styles.container}>
           {/* <img src={logo} alt="Logo Blackjack" className={styles.logo} /> */}
-          <Logo className={styles.logo} />
+          <Logo className={styles.logo} size={150} />
 
           <h1 className={styles.title}>Cadastro</h1>
           {mensagemErro && <p className={styles.prompt}>{mensagemErro}</p>}

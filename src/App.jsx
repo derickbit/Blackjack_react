@@ -27,6 +27,8 @@ import EsqueciSenha from "./Components/Pages/EsqueciSenha";
 import RedefinirSenha from "./Components/Pages/RedefinirSenha";
 import Sobre from "./Components/Pages/Sobre";
 
+import ParallaxBackground from "./Components/ParallaxBackground";
+
 function AppContent() {
   const location = useLocation();
 
@@ -47,6 +49,7 @@ function AppContent() {
 
   return (
     <>
+      <ParallaxBackground />
       {!shouldHideNavbar && <Navbar />}
       <Container customClass="min_height">
         <Routes>

@@ -51,7 +51,7 @@ function Login() {
       <main className={styles.main}>
         <div className={styles.container}>
           {/* <img src={logo} alt="Logo Blackjack" className={styles.logo} /> */}
-          <Logo className={styles.logo} />
+          <Logo className={styles.logo} size={150} />
           <h1 className={styles.title}>Login</h1>
           {mensagemErro && <p className={styles.prompt}>{mensagemErro}</p>}
           <form className={styles.form} method="post" onSubmit={onSubmit}>
