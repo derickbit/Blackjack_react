@@ -10,7 +10,7 @@ import Home from "./Components/Pages/Home";
 import Footer from "./Components/Layout/Footer";
 import Reports from "./Components/Pages/Reports";
 import Ranking from "./Components/Pages/Ranking";
-import Partida from "./Components/Pages/Partida";
+import Historico from "./Components/Pages/Historico";
 import Login from "./Components/Pages/Login";
 import Cadastro from "./Components/Pages/Cadastro";
 import EditarPerfil from "./Components/Pages/EditarPerfil";
@@ -18,7 +18,7 @@ import { AuthProvider } from "./contexts/AuthProvider";
 import UsersProvider from "./contexts/UsersProvider";
 import ReportsProvider from "./contexts/ReportsProvider";
 import { RankingProvider } from "./contexts/RankingProvider.jsx";
-import { PartidasProvider } from "./contexts/PartidasProvider.jsx";
+import { HistoricoProvider } from "./contexts/HistoricoProvider.jsx";
 import ProtectedRoute from "./Config/ProtectedRoute";
 import "animate.css";
 import AguardeVerificacao from "./Components/Pages/AguardeVerificacao";
@@ -26,6 +26,8 @@ import EmailVerificado from "./Components/Pages/EmailVerificado";
 import EsqueciSenha from "./Components/Pages/EsqueciSenha";
 import RedefinirSenha from "./Components/Pages/RedefinirSenha";
 import Sobre from "./Components/Pages/Sobre";
+import Comunidade from "./Components/Pages/Comunidade";
+import Atualizacoes from "./Components/Pages/Atualizacoes";
 
 import ParallaxBackground from "./Components/ParallaxBackground";
 
@@ -79,10 +81,10 @@ function AppContent() {
             }
           />
           <Route
-            path="/partida"
+            path="/historico"
             element={
               <ProtectedRoute>
-                <Partida />
+                <Historico />
               </ProtectedRoute>
             }
           />
@@ -94,10 +96,26 @@ function AppContent() {
           <Route path="/redefinir-senha/:token" element={<RedefinirSenha />} />
           <Route path="/sobre" element={<Sobre />} />
           <Route
+            path="/comunidade"
+            element={
+              <ProtectedRoute>
+                <Comunidade />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/perfil"
             element={
               <ProtectedRoute>
                 <EditarPerfil />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/atualizacoes"
+            element={
+              <ProtectedRoute>
+                <Atualizacoes />
               </ProtectedRoute>
             }
           />
@@ -114,11 +132,11 @@ function App() {
       <UsersProvider>
         <ReportsProvider>
           <RankingProvider>
-            <PartidasProvider>
+            <HistoricoProvider>
               <Router>
                 <AppContent />
               </Router>
-            </PartidasProvider>
+            </HistoricoProvider>
           </RankingProvider>
         </ReportsProvider>
       </UsersProvider>

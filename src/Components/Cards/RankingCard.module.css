@@ -1,25 +1,31 @@
 /* Estilo base para todos os cards */
+/* Cartão menor e menos espaçado */
 .ranking_card {
-  padding: 1em;
+  padding: 0.5em 0.7em;
   border: 1px solid #b1b1b191;
   border-radius: 5px;
-  margin: 0.5%;
+  margin: 0.2em 0;
   color: white; /* Cor padrão para texto */
-  margin-top: 5px;
-  margin-bottom: 5px;
+  font-size: 0.95em;
+  min-height: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 /* Estilo para o 1º lugar */
+/* Menos espaçamento para os 3 primeiros */
 .gold {
   background: linear-gradient(145deg, #ffec8b, #f0c911); /* Gradiente dourado */
   border-left-color: #b8860b; /* Borda dourada escura */
   font-weight: bold;
   box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2); /* Sombra mais forte para destaque */
-  margin-top: 18px;
-  margin-bottom: 18px;
+  margin-top: 8px;
+  margin-bottom: 8px;
 }
 
 /* Estilo para o 2º lugar */
+
 .silver {
   background: linear-gradient(
     145deg,
@@ -29,18 +35,19 @@
   border-left-color: #808080; /* Borda prata escura */
   font-weight: bold;
   box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2); /* Sombra mais forte para destaque */
-  margin-top: 18px;
-  margin-bottom: 18px;
+  margin-top: 8px;
+  margin-bottom: 8px;
 }
 
 /* Estilo para o 3º lugar */
+
 .bronze {
   background: linear-gradient(145deg, #cd7f32, #8b5a2b); /* Gradiente bronze */
   border-left-color: #8b5a2b; /* Borda bronze escura */
   font-weight: bold;
   box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2); /* Sombra mais forte para destaque */
-  margin-top: 18px;
-  margin-bottom: 18px;
+  margin-top: 8px;
+  margin-bottom: 8px;
 }
 
 /* Estilo para os demais */
@@ -52,14 +59,14 @@
 /* Mantendo estilos do título */
 .ranking_card h4 {
   color: #222;
-  padding: 0.4em;
-  margin-bottom: 1.3em;
-  font-size: 1.3em;
+  padding: 0.2em 0.1em;
+  margin-bottom: 0.5em;
+  font-size: 1.05em;
 }
 
 /* Pontuação */
 .ranking_card p {
-  margin-bottom: 1em;
+  margin-bottom: 0.4em;
 }
 
 .ranking_card p span {

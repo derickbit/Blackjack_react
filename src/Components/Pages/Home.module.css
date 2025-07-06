@@ -1,12 +1,12 @@
 .home_container {
-  width: 100%;
-  max-width: 1200px;
+  width: 100vw;
+  max-width: 100vw;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: 6em 2em 2em 2em;
-  margin: 0 auto;
+  padding: 6em 0 2em 0;
+  margin: 0;
   text-align: center;
   background: transparent; /* Remove qualquer cor de fundo */
   min-height: 100vh;
@@ -30,7 +30,8 @@
 
 .home_container p {
   margin-bottom: 1.5em;
-  color: #7b7b7b;
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
 .home_container img {
@@ -39,9 +40,67 @@
   margin: 2em 0;
 }
 
-.home_container > div {
-  max-width: 600px; /* Para manter o conteúdo em foco */
-  margin: 0 auto;
+/* Botão estilo navbar */
+.nav_button {
+  appearance: none;
+  border: none;
+  outline: none;
+  background: linear-gradient(90deg, #232526 0%, #414345 100%);
+  color: #fff;
+  font-size: 1.15em;
+  font-family: inherit;
+  font-weight: 500;
+  border-radius: 2em;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 0.7em 1.7em;
+  margin: 0 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  cursor: pointer;
+  transition: background 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  text-align: left;
+  height: auto;
+  line-height: 1.2;
+  min-width: 0;
+  box-sizing: border-box;
+}
+.nav_button:hover {
+  color: #fff;
+  background: linear-gradient(90deg, #434343 0%, #232526 100%);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px) scale(1.045);
+}
+
+/* Modal de jogo: sobrepõe conteúdo, mas não navbar/footer */
+.game_modal {
+  position: fixed;
+  top: 80px; /* altura do navbar, ajuste se necessário */
+  left: 0;
+  width: 50vw;
+  min-width: 320px;
+  max-width: 600px;
+  height: calc(
+    100vh - 80px - 64px
+  ); /* 64px = altura do footer, ajuste se necessário */
+  background: #232526;
+  border-radius: 1em;
+  box-shadow: 0 2px 32px rgba(0, 0, 0, 0.28);
+  padding: 1.5em 1em 3.5em 1em; /* espaço extra para botão mobile */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1100;
+}
+.game_modal.right {
+  left: auto;
+  right: 0;
 }
 
 .playgame {
@@ -141,4 +200,49 @@
   width: 395px;
   height: 618px;
   /* Outras regras que você quiser */
+}
+
+@media (max-width: 600px) {
+  .home_container {
+    padding: 0;
+    margin: 0;
+    min-height: unset;
+    justify-content: center;
+    align-items: center;
+  }
+  .home_container h1 {
+    font-size: 1.5em;
+    margin-bottom: 0.1em;
+    margin-top: 0.5em;
+  }
+  .home_container h2 {
+    font-size: 1.1em;
+    margin-bottom: 1em;
+  }
+  .game_modal {
+    width: 100vw;
+    min-width: 0;
+    max-width: 100vw;
+    left: 0;
+    right: 0;
+    border-radius: 0;
+    top: 0;
+    height: 100vh;
+    padding: 1em 0.5em 4em 0.5em;
+    box-sizing: border-box;
+  }
+  .game_modal.right {
+    right: 0;
+    left: 0;
+  }
+}
+.link,
+.link:visited,
+.link:active,
+.link:hover,
+.link:focus {
+  color: inherit !important;
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: inherit;
 }

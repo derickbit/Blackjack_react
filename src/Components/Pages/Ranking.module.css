@@ -1,3 +1,19 @@
+.grand_title_container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 0; /* Reduzido para colar no topo */
+  margin-bottom: 0.5em; /* Mantém só um pequeno espaço para as divs */
+}
+
+.grand_title {
+  font-size: 3.5rem;
+  font-weight: bold;
+  color: #222;
+  letter-spacing: 2px;
+  margin: 0;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
 .project_container {
   min-height: 80vh;
   display: flex;
@@ -9,15 +25,19 @@
 }
 
 .ranking_box {
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: #f5f7fa;
   border-radius: 16px;
-  box-shadow: 0 6px 32px rgba(0, 0, 0, 0.1);
-  padding: 2em 2em 1.5em 2em;
-  max-width: 420px;
-  width: 120%;
+  box-shadow: 0 6px 32px rgba(60, 60, 60, 0.12);
+  padding: 2em 2.5em 1.5em 2.5em;
+  max-width: 700px;
+  min-width: 420px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex: 1 1 600px;
+  max-height: 65vh; /* Limita a altura máxima da caixa */
+  overflow-y: auto;
 }
 
 .tittle_container {
@@ -27,7 +47,7 @@
   margin-bottom: 1.5em;
 }
 
-.tittle_container h1 {
+.tittle_container h2 {
   font-size: 2.2rem;
   color: #222;
   letter-spacing: 1px;
@@ -37,12 +57,22 @@
 
 .ranking_list {
   width: 100%;
-  max-height: 55vh;
-  overflow-y: auto;
+  flex: 1 1 auto; /* Faz a lista crescer para ocupar o espaço */
+  max-height: 55vh; /* Limita a altura da lista */
+  overflow-y: auto; /* Scroll interno na lista */
   display: flex;
   flex-direction: column;
-  gap: 1em;
-  padding: 0 1em;
+  gap: 0.5em;
+  padding: 0 0.3em;
   background: transparent;
   border: none;
+}
+
+.ranking_flex {
+  display: flex;
+  gap: 3em;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 1200px;
 }

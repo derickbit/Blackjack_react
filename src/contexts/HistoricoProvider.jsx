@@ -3,13 +3,13 @@ import axiosClient from "../utils/axios_client";
 import { useAuthContext } from "./AuthProvider";
 import { RankingContext } from "./RankingProvider";
 
-const PartidasContext = createContext();
+const HistoricoContext = createContext();
 
-export const usePartidas = () => {
-  return useContext(PartidasContext);
+export const useHistorico = () => {
+  return useContext(HistoricoContext);
 };
 
-export const PartidasProvider = ({ children }) => {
+export const HistoricoProvider = ({ children }) => {
   const { user } = useAuthContext(); // Obtém o usuário autenticado
   const { fetchRanking } = useContext(RankingContext);
   const [mensagem, setMensagem] = useState("");
@@ -59,9 +59,8 @@ export const PartidasProvider = ({ children }) => {
       // Formata o histórico de partidas
       const partidasFormatadas = response.data.data.map((partida) => ({
         id: partida.id,
-        jogador1: partida.jogador1.name,
-        jogador2: partida.jogador2.name,
-        vencedor: partida.vencedor.name,
+        jogador: partida.jogador.name,
+        jogo: partida.jogo || "Desconhecido",
         pontuacao: partida.pontuacao,
         created_at: partida.created_at,
       }));
@@ -73,10 +72,10 @@ export const PartidasProvider = ({ children }) => {
   }, [user]);
 
   return (
-    <PartidasContext.Provider
+    <HistoricoContext.Provider
       value={{ mensagem, sortearPartida, fetchHistoricoPartidas, historico }}
     >
       {children}
-    </PartidasContext.Provider>
+    </HistoricoContext.Provider>
   );
 };

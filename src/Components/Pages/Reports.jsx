@@ -1,10 +1,11 @@
-import { useState, useEffect, useRef, useCallback } from "react"; // Adicionado useCallback
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useReportsContext } from "../../contexts/ReportsProvider";
 import styles from "./forms.module.css";
 import SubmitButton from "../Form/SubmitButton";
 import { useAuthContext } from "../../contexts/AuthProvider";
+import imageCompression from "browser-image-compression";
 
-// Ícone de atualização simples (SVG) - Coloque onde preferir ou use um ícone de biblioteca
+// Ícone de atualização simples (SVG)
 const RefreshIcon = ({ onClick, style, title = "Atualizar" }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -29,9 +30,8 @@ const RefreshIcon = ({ onClick, style, title = "Atualizar" }) => (
   </svg>
 );
 
-// Helper para obter a URL base do backend (como você ajustou)
 const getBackendBaseUrl = () => {
-  const apiUrl = import.meta.env.VITE_API_URL || ""; // CORRIGIDO para import.meta.env
+  const apiUrl = import.meta.env.VITE_API_URL || "";
   if (apiUrl && apiUrl.endsWith("/api")) {
     return apiUrl.slice(0, -"/api".length);
   }
@@ -41,6 +41,10 @@ const getBackendBaseUrl = () => {
   return "http://localhost:8000";
 };
 const BACKEND_BASE_URL = getBackendBaseUrl();
+
+const MAX_IMAGE_SIZE_MB = 10; // Limite máximo aceito pelo backend
+const MAX_COMPRESSED_SIZE_MB = 0.5; // Tamanho alvo para compressão (ex: 0.5MB)
+const MAX_WIDTH_OR_HEIGHT = 900; // Redimensiona se maior que isso
 
 const Reports = () => {
   const {
@@ -52,10 +56,9 @@ const Reports = () => {
     updateReportStatus,
   } = useReportsContext();
 
-  // Refs para os timers de polling
-  const reportsPollingRef = useRef(null); // <<< Novo ref para polling da lista de reports
-  const messagesPollingRef = useRef(null); // <<< Renomeado 'intervalRef' para clareza
-
+  const reportsPollingRef = useRef(null);
+  const messagesPollingRef = useRef(null);
+  const [sendingMessage, setSendingMessage] = useState(false);
   const messagesEndRef = useRef(null);
   const fileInputRefNewReport = useRef(null);
   const fileInputRefChatMessage = useRef(null);
@@ -78,30 +81,23 @@ const Reports = () => {
   const [newChatMessageImagePreview, setNewChatMessageImagePreview] =
     useState(null);
 
-  // Função para carregar a lista de reports (para ser usada pelo polling e botão)
   const loadReportsList = useCallback(async () => {
-    // console.log("Atualizando lista de reports..."); // Para depuração
     if (user) {
       await fetchReports();
     }
-    setLoading(false); // Garante que o loading principal seja tratado
+    setLoading(false);
   }, [fetchReports, user]);
 
-  // Carrega os reports do usuário e configura polling de 1 minuto para a lista
   useEffect(() => {
-    loadReportsList(); // Carga inicial
+    loadReportsList();
+    clearInterval(reportsPollingRef.current);
+    reportsPollingRef.current = setInterval(loadReportsList, 60000);
+    return () => clearInterval(reportsPollingRef.current);
+  }, [loadReportsList]);
 
-    clearInterval(reportsPollingRef.current); // Limpa qualquer intervalo anterior
-    reportsPollingRef.current = setInterval(loadReportsList, 60000); // <<< ATUALIZAÇÃO: Polling a cada 60 segundos
-
-    return () => clearInterval(reportsPollingRef.current); // Limpa ao desmontar
-  }, [loadReportsList]); // Depende da função memoizada
-
-  // Função para carregar mensagens do chat (para ser usada pelo polling e botão)
   const loadChatMessages = useCallback(
     async (reportIdToLoad) => {
       if (user && reportIdToLoad) {
-        // console.log(`Atualizando mensagens para report ${reportIdToLoad}...`); // Para depuração
         const msgs = await fetchReportMessages(reportIdToLoad);
         setMessages(msgs || []);
       }
@@ -109,31 +105,26 @@ const Reports = () => {
     [fetchReportMessages, user]
   );
 
-  // Busca mensagens do chat e configura polling de 1 minuto (somente quando o chat está aberto)
   useEffect(() => {
     if (showChat && selectedReport?.id) {
-      loadChatMessages(selectedReport.id); // Busca imediatamente ao abrir
-
-      clearInterval(messagesPollingRef.current); // Limpa qualquer intervalo anterior
+      loadChatMessages(selectedReport.id);
+      clearInterval(messagesPollingRef.current);
       messagesPollingRef.current = setInterval(
         () => loadChatMessages(selectedReport.id),
         60000
-      ); // <<< ATUALIZAÇÃO: Polling a cada 60 segundos
-
-      return () => clearInterval(messagesPollingRef.current); // Limpa ao fechar chat ou trocar de report
+      );
+      return () => clearInterval(messagesPollingRef.current);
     } else {
-      clearInterval(messagesPollingRef.current); // Garante limpeza se o chat for fechado
+      clearInterval(messagesPollingRef.current);
     }
-  }, [showChat, selectedReport, loadChatMessages]); // Dependências corretas
+  }, [showChat, selectedReport, loadChatMessages]);
 
-  // Scroll para o final das mensagens (SEU CÓDIGO ORIGINAL)
   useEffect(() => {
     if (showChat) {
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages, showChat]);
 
-  // Auto-abrir chat (SEU CÓDIGO ORIGINAL - comente ou ajuste se causar problemas)
   useEffect(() => {
     if (!loading && reports.length > 0 && !showChat) {
       const latest = [...reports].sort(
@@ -141,15 +132,11 @@ const Reports = () => {
       )[0];
       if (latest && latest.id !== lastReportId) {
         setLastReportId(latest.id);
-        // setSelectedReport(latest); // Comentado para não auto-abrir
-        // setShowChat(true);        // Comentado para não auto-abrir
-        // if (latest.id) fetchReportMessages(latest.id).then(setMessages); // Comentado
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reports, loading, showChat]);
 
-  // Limpa Object URLs (SEU CÓDIGO ORIGINAL)
   useEffect(() => {
     const currentReportPreview = newReportImagePreview;
     const currentMessagePreview = newChatMessageImagePreview;
@@ -159,30 +146,25 @@ const Reports = () => {
     };
   }, [newReportImagePreview, newChatMessageImagePreview]);
 
-  // Abre o chat de um report (SEU CÓDIGO ORIGINAL)
   const openChat = async (report) => {
     setSelectedReport(report);
     setShowChat(true);
     if (report.id) {
-      // A busca inicial de mensagens agora é tratada pelo useEffect que observa showChat e selectedReport
-      // Mas podemos chamar aqui para garantir que carrega ao clicar, caso o useEffect demore um ciclo.
       const msgs = await fetchReportMessages(report.id);
       setMessages(msgs || []);
     }
   };
 
-  // Função para fechar o chat
   const handleCloseChat = () => {
     setShowChat(false);
     setSelectedReport(null);
     setMessages([]);
   };
 
-  // Handler de status (SEU CÓDIGO ORIGINAL)
   const handleStatusChange = async (reportId, newStatus) => {
     try {
       await updateReportStatus(reportId, newStatus);
-      await loadReportsList(); // <<< ATUALIZAÇÃO: Chama a função de recarregar reports
+      await loadReportsList();
     } catch (e) {
       alert(
         "Erro ao atualizar status. Verifique se você está autenticado como admin."
@@ -190,56 +172,107 @@ const Reports = () => {
     }
   };
 
-  // Handlers de imagem (SEU CÓDIGO ORIGINAL - já incluem preview e limpeza de ObjectURL)
-  const handleNewReportImageChange = (e) => {
+  // NOVO: Handler de imagem do novo report com compressão
+  const handleNewReportImageChange = async (e) => {
     const file = e.target.files[0];
     if (newReportImagePreview) URL.revokeObjectURL(newReportImagePreview);
     if (file) {
-      setNewReport({ ...newReport, imagem: file });
-      setNewReportImagePreview(URL.createObjectURL(file));
+      if (file.size > MAX_IMAGE_SIZE_MB * 1024 * 1024) {
+        alert(`A imagem deve ter no máximo ${MAX_IMAGE_SIZE_MB}MB.`);
+        return;
+      }
+      try {
+        const options = {
+          maxSizeMB: MAX_COMPRESSED_SIZE_MB,
+          maxWidthOrHeight: MAX_WIDTH_OR_HEIGHT,
+          useWebWorker: true,
+        };
+        const compressedFile = await imageCompression(file, options);
+        setNewReport({ ...newReport, imagem: compressedFile });
+        setNewReportImagePreview(URL.createObjectURL(compressedFile));
+      } catch (err) {
+        alert("Erro ao comprimir imagem.");
+        setNewReport({ ...newReport, imagem: null });
+        setNewReportImagePreview(null);
+      }
     } else {
       setNewReport({ ...newReport, imagem: null });
       setNewReportImagePreview(null);
     }
   };
 
-  const handleNewChatMessageImageChange = (e) => {
+  // NOVO: Handler de imagem do chat com compressão
+  const handleNewChatMessageImageChange = async (e) => {
     const file = e.target.files[0];
     if (newChatMessageImagePreview)
       URL.revokeObjectURL(newChatMessageImagePreview);
     if (file) {
-      setNewChatMessageImage(file);
-      setNewChatMessageImagePreview(URL.createObjectURL(file));
+      if (file.size > MAX_IMAGE_SIZE_MB * 1024 * 1024) {
+        alert(`A imagem deve ter no máximo ${MAX_IMAGE_SIZE_MB}MB.`);
+        return;
+      }
+      try {
+        const options = {
+          maxSizeMB: MAX_COMPRESSED_SIZE_MB,
+          maxWidthOrHeight: MAX_WIDTH_OR_HEIGHT,
+          useWebWorker: true,
+        };
+        const compressedFile = await imageCompression(file, options);
+        setNewChatMessageImage(compressedFile);
+        setNewChatMessageImagePreview(URL.createObjectURL(compressedFile));
+      } catch (err) {
+        alert("Erro ao comprimir imagem.");
+        setNewChatMessageImage(null);
+        setNewChatMessageImagePreview(null);
+      }
     } else {
       setNewChatMessageImage(null);
       setNewChatMessageImagePreview(null);
     }
   };
 
-  // Envia uma nova mensagem no chat (SEU CÓDIGO ORIGINAL COM PEQUENO AJUSTE)
   const handleSendMessage = async (e) => {
     e.preventDefault();
+    if (sendingMessage) return; // Evita múltiplos envios
     if ((!newMessage || !newMessage.trim()) && !newChatMessageImage) return;
     if (!selectedReport?.id) return;
 
-    const formData = new FormData();
-    formData.append("mensagem", newMessage.trim());
-    if (newChatMessageImage) formData.append("imagem", newChatMessageImage);
+    setSendingMessage(true); // Bloqueia o botão imediatamente
+    try {
+      const formData = new FormData();
+      formData.append("mensagem", newMessage.trim());
+      if (newChatMessageImage) formData.append("imagem", newChatMessageImage);
 
-    await sendReportMessage(selectedReport.id, formData); // O provider pode chamar fetchReports
-    await loadChatMessages(selectedReport.id); // <<< ATUALIZAÇÃO: Chama a função de recarregar mensagens do chat
+      for (let [key, value] of formData.entries()) {
+        console.log(key, value);
+      }
 
-    setNewMessage("");
-    setNewChatMessageImage(null);
-    if (newChatMessageImagePreview)
-      URL.revokeObjectURL(newChatMessageImagePreview);
-    setNewChatMessageImagePreview(null);
-    if (fileInputRefChatMessage.current) {
-      fileInputRefChatMessage.current.value = "";
+      await sendReportMessage(selectedReport.id, formData);
+      await loadChatMessages(selectedReport.id);
+      setNewMessage("");
+      setNewChatMessageImage(null);
+      if (newChatMessageImagePreview)
+        URL.revokeObjectURL(newChatMessageImagePreview);
+      setNewChatMessageImagePreview(null);
+      if (fileInputRefChatMessage.current) {
+        fileInputRefChatMessage.current.value = "";
+      }
+    } catch (error) {
+      if (error.response && error.response.data) {
+        console.error("Erro detalhado do backend:", error.response.data);
+        alert(
+          "Erro ao enviar mensagem: " +
+            JSON.stringify(error.response.data, null, 2)
+        );
+      } else {
+        console.error(error);
+        alert("Erro ao enviar mensagem.");
+      }
+    } finally {
+      setSendingMessage(false); // Libera o botão após o envio (ou erro)
     }
   };
 
-  // Cria um novo report (SEU CÓDIGO ORIGINAL COM PEQUENO AJUSTE)
   const handleCreateReport = async (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -247,127 +280,129 @@ const Reports = () => {
     formData.append("mensagem", newReport.mensagem);
     if (newReport.imagem) formData.append("imagem", newReport.imagem);
 
-    await createReport(formData); // O provider já chama fetchReports
+    await createReport(formData);
     setNewReport({ titulo: "", mensagem: "", imagem: null });
     if (newReportImagePreview) URL.revokeObjectURL(newReportImagePreview);
     setNewReportImagePreview(null);
     if (fileInputRefNewReport.current) {
       fileInputRefNewReport.current.value = "";
     }
-    // Não precisa chamar fetchReports() aqui se o createReport no provider já o faz.
   };
 
   return (
-    <div className={styles.loginContainer}>
-      <main className={styles.main}>
-        <div className={styles.container}>
-          <h1 className={styles.title}>Envie seu recado</h1>
-          <h3 className={styles.subtitle}>
-            <p>Tem alguma dúvida, elogio, report, feedbacks em geral?</p>
-            <p> Nos envie por aqui:</p>
-          </h3>
+    <div className={styles.project_container}>
+      <div className={styles.reports_title_container}>
+        <h1 className={styles.reports_grand_title}>Envie seu recado</h1>
+      </div>
+      <div className={styles.reports_flex}>
+        {/* Formulário de novo report */}
 
-          {/* Formulário para novo report - SÓ APARECE SE NÃO FOR ADMIN */}
-          {user && user.role !== "admin" && (
-            <form
-              className={styles.form}
-              onSubmit={handleCreateReport}
-              style={{ marginBottom: "20px" }}
-            >
-              {/* ... Seu formulário de novo report aqui (mantido como estava no seu código) ... */}
-              {/* Input Título */}
-              <div className={styles.inputGroup}>
-                <label className={styles.label} htmlFor="titulo">
-                  Título:
-                </label>
-                <input
-                  className={styles.input}
-                  type="text"
-                  id="titulo"
-                  placeholder="Título"
-                  value={newReport.titulo}
-                  onChange={(e) =>
-                    setNewReport({ ...newReport, titulo: e.target.value })
-                  }
-                  required
-                />
-              </div>
-              {/* Input Mensagem */}
-              <div className={styles.inputGroup}>
-                <label className={styles.label} htmlFor="mensagem">
-                  Descreva seu relato:
-                </label>
-                <textarea
-                  className={styles.input}
-                  id="mensagem"
-                  placeholder="Descreva seu relato"
-                  value={newReport.mensagem}
-                  onChange={(e) =>
-                    setNewReport({ ...newReport, mensagem: e.target.value })
-                  }
-                  required
-                  rows={3}
-                />
-              </div>
-              {/* Input Imagem NOVO REPORT com PREVIEW (mantendo sua estrutura que disse estar OK) */}
-              <div
-                className={styles.inputGroup}
-                style={{ flexDirection: "row", alignItems: "center", gap: 12 }}
-              >
-                <label
-                  className={styles.customFileUploadButton}
-                  title="Anexar imagem"
-                >
-                  {" "}
-                  {/* <<< NOVO ESTILO SUGERIDO */}
-                  <input
-                    ref={fileInputRefNewReport}
-                    type="file"
-                    accept="image/*"
-                    onChange={handleNewReportImageChange}
-                    style={{ display: "none" }} // Esconde o input padrão
-                  />
-                  <span className={styles.attachmentIcon}>📎</span>{" "}
-                  {/* Ícone */}
-                  <span className={styles.attachmentText}>
-                    {" "}
-                    {/* Texto ao lado do ícone */}
-                    {newReport.imagem ? newReport.imagem.name : "Anexar imagem"}
-                  </span>
-                </label>
-                {newReportImagePreview && (
-                  <img
-                    src={newReportImagePreview}
-                    alt="preview novo report"
-                    style={{
-                      width: 32,
-                      height: 32,
-                      borderRadius: 4,
-                      objectFit: "cover",
-                      marginLeft: 8,
-                    }}
-                  />
-                )}
-                <span style={{ color: "#888", fontSize: "0.95em" }}>
-                  {newReport.imagem ? newReport.imagem.name : "Anexar imagem"}
-                </span>
-              </div>
-              <SubmitButton text="Enviar Relato" type="submit" />
-            </form>
-          )}
-
-          {/* Lista de reports */}
+        <div className={styles.reports_box}>
           <h2
             className={styles.title}
             style={{
               fontSize: "1.3rem",
-              marginTop: user && user.role === "admin" ? 0 : 30,
+              marginTop: 0,
               display: "flex",
               alignItems: "center",
+              justifyContent: "space-between",
+              width: "100%",
+            }}
+          >
+            Enviar novo relato
+          </h2>
+          <form
+            className={styles.form}
+            onSubmit={handleCreateReport}
+            style={{ marginBottom: "20px", width: "100%" }}
+          >
+            <div className={styles.inputGroup}>
+              <label className={styles.label} htmlFor="titulo">
+                Título:
+              </label>
+              <input
+                className={styles.input}
+                type="text"
+                id="titulo"
+                placeholder="Título"
+                value={newReport.titulo}
+                onChange={(e) =>
+                  setNewReport({ ...newReport, titulo: e.target.value })
+                }
+                required
+              />
+            </div>
+            <div className={styles.inputGroup}>
+              <label className={styles.label} htmlFor="mensagem">
+                Descreva seu relato:
+              </label>
+              <textarea
+                className={styles.input}
+                id="mensagem"
+                placeholder="Descreva seu relato"
+                value={newReport.mensagem}
+                onChange={(e) =>
+                  setNewReport({ ...newReport, mensagem: e.target.value })
+                }
+                required
+                rows={3}
+              />
+            </div>
+            <div
+              className={styles.inputGroup}
+              style={{ flexDirection: "row", alignItems: "center", gap: 12 }}
+            >
+              <label
+                className={styles.customFileUploadButton}
+                title="Anexar imagem"
+              >
+                <input
+                  ref={fileInputRefNewReport}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleNewReportImageChange}
+                  style={{ display: "none" }}
+                />
+                <span className={styles.attachmentIcon}>📎</span>
+                <span className={styles.attachmentText}>
+                  {newReport.imagem ? newReport.imagem.name : "Anexar imagem"}
+                </span>
+              </label>
+              {newReportImagePreview && (
+                <img
+                  src={newReportImagePreview}
+                  alt="preview novo report"
+                  style={{
+                    width: 32,
+                    height: 32,
+                    borderRadius: 4,
+                    objectFit: "cover",
+                    marginLeft: 8,
+                  }}
+                />
+              )}
+              <span style={{ color: "#888", fontSize: "0.95em" }}>
+                {newReport.imagem ? newReport.imagem.name : "Anexar imagem"}
+              </span>
+            </div>
+            <SubmitButton text="Enviar Relato" type="submit" />
+          </form>
+        </div>
+
+        {/* Lista de relatos enviados */}
+        <div className={styles.reports_box}>
+          <h2
+            className={styles.title}
+            style={{
+              fontSize: "1.3rem",
+              marginTop: 0,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              width: "100%",
             }}
           >
             Relatos enviados
-            {/* Botão de Atualizar Lista de Reports */}
             {!loading && user && (
               <RefreshIcon
                 onClick={loadReportsList}
@@ -381,7 +416,6 @@ const Reports = () => {
             <p>Nenhum relato encontrado.</p>
           ) : (
             <div className={styles.reportsTableWrapper}>
-              {/* ... Sua tabela de reports (mantida como estava no seu código) ... */}
               <table className={styles.reportsTable}>
                 <thead>
                   <tr>
@@ -428,157 +462,146 @@ const Reports = () => {
               </table>
             </div>
           )}
+        </div>
+      </div>
 
-          {/* Modal/chat do report */}
-          {showChat && selectedReport && (
-            <div className={styles.chatModalOverlay} onClick={handleCloseChat}>
-              <div
-                className={styles.chatbox}
-                onClick={(e) => e.stopPropagation()}
-              >
-                <div
-                  className={styles.chatHeader}
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    paddingBottom: "10px",
-                    borderBottom: "1px solid #eee",
-                  }}
+      {showChat && selectedReport && (
+        <div className={styles.chatModalOverlay} onClick={handleCloseChat}>
+          <div className={styles.chatbox} onClick={(e) => e.stopPropagation()}>
+            <div
+              className={styles.chatHeader}
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                paddingBottom: "10px",
+                borderBottom: "1px solid #eee",
+              }}
+            >
+              <span>Chat: {selectedReport.titulo}</span>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <RefreshIcon
+                  onClick={() => loadChatMessages(selectedReport.id)}
+                  style={{ marginRight: "10px" }}
+                  title="Atualizar mensagens"
+                />
+                <button
+                  className={styles.closeBtn}
+                  onClick={handleCloseChat}
+                  title="Fechar"
                 >
-                  <span>Chat: {selectedReport.titulo}</span>
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    {/* Botão de Atualizar Mensagens do Chat */}
-                    <RefreshIcon
-                      onClick={() => loadChatMessages(selectedReport.id)}
-                      style={{ marginRight: "10px" }}
-                      title="Atualizar mensagens"
-                    />
-                    <button
-                      className={styles.closeBtn}
-                      onClick={handleCloseChat}
-                      title="Fechar"
-                    >
-                      ×
-                    </button>
-                  </div>
-                </div>
-                <div className={styles.chatMessagesArea}>
-                  {/* ... Seu map de mensagens (mantido como estava no seu código, mas esperando msg.imagem_url) ... */}
-                  {messages.map((msg) => (
-                    <div
-                      key={msg.id}
-                      style={{
-                        marginBottom: 12,
-                        textAlign: msg.user_id === user?.id ? "right" : "left",
-                      }}
-                    >
-                      <div
-                        style={{
-                          backgroundColor:
-                            msg.user_id === user?.id ? "#dcf8c6" : "#f1f0f0",
-                          padding: "8px 12px",
-                          borderRadius: "10px",
-                          display: "inline-block",
-                          maxWidth: "70%",
-                          textAlign: "left",
-                          boxShadow: "0 1px 1px rgba(0,0,0,0.1)",
-                        }}
-                      >
-                        <strong>
-                          {msg.user?.name ||
-                            (msg.user_id === user?.id ? "Você" : "Suporte")}
-                        </strong>
-                        : <div>{msg.mensagem}</div>
-                        {/* EXIBIÇÃO DE IMAGEM NO CHAT - ESPERA 'imagem_url' DO BACKEND */}
-                        {msg.imagem_url && (
-                          <div style={{ marginTop: "5px" }}>
-                            <img
-                              src={msg.imagem_url} // DEVE VIR DO BACKEND COM URL COMPLETA
-                              alt="Imagem da mensagem"
-                              style={{
-                                maxWidth: "200px",
-                                maxHeight: "200px",
-                                borderRadius: 6,
-                                cursor: "pointer",
-                                display: "block",
-                              }}
-                              onClick={() =>
-                                window.open(msg.imagem_url, "_blank")
-                              }
-                            />
-                          </div>
-                        )}
-                        <div
-                          style={{
-                            fontSize: "0.8em",
-                            color: "#888",
-                            marginTop: "4px",
-                            textAlign: "right",
-                          }}
-                        >
-                          {new Date(msg.created_at).toLocaleString()}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                  <div ref={messagesEndRef} />
-                </div>
-                {/* Formulário de Envio de Mensagem no Chat com PREVIEW ACIMA (mantendo a estrutura que você gostou) */}
-                <form
-                  className={styles.form}
-                  onSubmit={handleSendMessage}
-                  style={{
-                    marginTop: 8,
-                    paddingTop: "10px",
-                    borderTop: "1px solid #eee",
-                  }}
-                >
-                  {newChatMessageImagePreview && (
-                    <div style={{ marginBottom: "10px", textAlign: "center" }}>
-                      <img
-                        src={newChatMessageImagePreview}
-                        alt="Preview da nova imagem do chat"
-                        style={{
-                          maxHeight: "80px",
-                          maxWidth: "100%",
-                          borderRadius: 4,
-                          objectFit: "contain",
-                        }}
-                      />
-                    </div>
-                  )}
-                  <div className={styles.chatInputRow}>
-                    {" "}
-                    {/* Seu input de chat aqui (mantido como estava no seu código) */}
-                    <input
-                      className={styles.chatInput}
-                      type="text"
-                      placeholder="Digite sua mensagem"
-                      value={newMessage}
-                      onChange={(e) => setNewMessage(e.target.value)}
-                    />
-                    <label
-                      className={styles.attachmentLabel}
-                      title="Anexar imagem"
-                    >
-                      <input
-                        ref={fileInputRefChatMessage}
-                        className={styles.attachmentInput}
-                        type="file"
-                        accept="image/*"
-                        onChange={handleNewChatMessageImageChange} // Handler para preview
-                      />
-                      <span className={styles.attachmentIcon}>📎</span>
-                    </label>
-                    <SubmitButton text="Enviar" type="submit" />
-                  </div>
-                </form>
+                  ×
+                </button>
               </div>
             </div>
-          )}
+            <div className={styles.chatMessagesArea}>
+              {messages.map((msg) => (
+                <div
+                  key={msg.id}
+                  style={{
+                    marginBottom: 12,
+                    textAlign: msg.user_id === user?.id ? "right" : "left",
+                  }}
+                >
+                  <div
+                    style={{
+                      backgroundColor:
+                        msg.user_id === user?.id ? "#dcf8c6" : "#f1f0f0",
+                      padding: "8px 12px",
+                      borderRadius: "10px",
+                      display: "inline-block",
+                      maxWidth: "70%",
+                      textAlign: "left",
+                      boxShadow: "0 1px 1px rgba(0,0,0,0.1)",
+                    }}
+                  >
+                    <strong>
+                      {msg.user?.name ||
+                        (msg.user_id === user?.id ? "Você" : "Suporte")}
+                    </strong>
+                    : <div>{msg.mensagem}</div>
+                    {msg.imagem_url && (
+                      <div style={{ marginTop: "5px" }}>
+                        <img
+                          src={msg.imagem_url}
+                          alt="Imagem da mensagem"
+                          style={{
+                            maxWidth: "200px",
+                            maxHeight: "200px",
+                            borderRadius: 6,
+                            cursor: "pointer",
+                            display: "block",
+                          }}
+                          onClick={() => window.open(msg.imagem_url, "_blank")}
+                        />
+                      </div>
+                    )}
+                    <div
+                      style={{
+                        fontSize: "0.8em",
+                        color: "#888",
+                        marginTop: "4px",
+                        textAlign: "right",
+                      }}
+                    >
+                      {new Date(msg.created_at).toLocaleString()}
+                    </div>
+                  </div>
+                </div>
+              ))}
+              <div ref={messagesEndRef} />
+            </div>
+            <form
+              className={styles.form}
+              onSubmit={handleSendMessage}
+              style={{
+                marginTop: 8,
+                paddingTop: "10px",
+                borderTop: "1px solid #eee",
+              }}
+            >
+              {newChatMessageImagePreview && (
+                <div style={{ marginBottom: "10px", textAlign: "center" }}>
+                  <img
+                    src={newChatMessageImagePreview}
+                    alt="Preview da nova imagem do chat"
+                    style={{
+                      maxHeight: "80px",
+                      maxWidth: "100%",
+                      borderRadius: 4,
+                      objectFit: "contain",
+                    }}
+                  />
+                </div>
+              )}
+              <div className={styles.chatInputRow}>
+                <input
+                  className={styles.chatInput}
+                  type="text"
+                  placeholder="Digite sua mensagem"
+                  value={newMessage}
+                  onChange={(e) => setNewMessage(e.target.value)}
+                />
+                <label className={styles.attachmentLabel} title="Anexar imagem">
+                  <input
+                    ref={fileInputRefChatMessage}
+                    className={styles.attachmentInput}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleNewChatMessageImageChange}
+                  />
+                  <span className={styles.attachmentIcon}>📎</span>
+                </label>
+                <SubmitButton
+                  text="Enviar"
+                  type="submit"
+                  disabled={sendingMessage}
+                />
+              </div>
+            </form>
+          </div>
         </div>
-      </main>
+      )}
     </div>
   );
 };

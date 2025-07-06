@@ -72,10 +72,17 @@ function Navbar() {
             <Link to="/ranking">Ranking</Link>
           </li>
           <li className={styles.item} onClick={handleMobileLinkClick}>
-            <Link to="/partida">Partida</Link>
+            <Link to="/historico">Historico</Link>
           </li>
+
           <li className={styles.item} onClick={handleMobileLinkClick}>
             <Link to="/reports">Contato</Link>
+          </li>
+          <li className={styles.item} onClick={handleMobileLinkClick}>
+            <Link to="/comunidade">Comunidade</Link>
+          </li>
+          <li className={styles.item} onClick={handleMobileLinkClick}>
+            <Link to="/atualizacoes">Atualizações</Link>
           </li>
           <li className={styles.item} onClick={handleMobileLinkClick}>
             <Link to="/sobre">Sobre</Link>

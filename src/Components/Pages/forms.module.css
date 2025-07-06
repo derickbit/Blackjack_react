@@ -88,10 +88,6 @@
   composes: mainButton from "../../styles/Button.css";
 }
 
-.button:hover {
-  /* Não faz nada, já está no mainButton */
-}
-
 .prompt {
   margin-top: 20px;
   font-size: 0.9rem;
@@ -153,7 +149,7 @@
   position: fixed;
   bottom: 88px; /* Altura do footer (64px) + espaçamento extra */
   right: 24px;
-  width: 350px;
+  width: 400px;
   max-width: 90vw;
   z-index: 1000;
   background: #fff;
@@ -162,8 +158,8 @@
   padding: 16px;
   display: flex;
   flex-direction: column;
-  min-height: 350px;
-  max-height: 500px;
+  min-height: 400px;
+  max-height: 80vh;
 }
 
 /* Tabela de relatos */
@@ -290,12 +286,12 @@
   background: #f9f9f9;
   border-radius: 8px;
   padding: 10px;
-  max-height: 250px;
+  max-height: 450px;
   min-height: 100px;
 }
 
 .reportsTableWrapper {
-  max-height: 200px; /* aumente para testar melhor */
+  max-height: 500px; /* aumente para testar melhor */
   overflow-y: auto;
   width: 100%;
   margin-bottom: 24px;
@@ -353,4 +349,60 @@
   height: 48px;
   display: block;
   margin-top: -24px; /* sobe a imagem para mostrar a parte de baixo (olho fechado) */
+}
+
+/* Adicione ao final do arquivo */
+
+.reports_flex {
+  display: flex;
+  gap: 3em;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 1600px; /* aumente aqui para permitir caixas maiores */
+  margin: 0 auto;
+  padding: 2em 0;
+}
+
+.reports_box {
+  background: #f5f7fa;
+  border-radius: 16px;
+  box-shadow: 0 6px 32px rgba(60, 60, 60, 0.12);
+  padding: 2em 2.5em 1.5em 2.5em;
+  max-width: 950px; /* aumente aqui */
+  min-width: 520px; /* aumente aqui */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1 1 800px; /* aumente aqui para crescer mais */
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.reports_title_container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5em;
+  margin-top: 2.5em; /* Adicione esta linha para afastar do topo */
+}
+
+.reports_grand_title {
+  font-size: 3.5rem;
+  font-weight: bold;
+  color: #222;
+  letter-spacing: 1px;
+  margin: 0;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+.project_container {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  /* background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); */
 }

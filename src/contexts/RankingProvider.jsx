@@ -5,16 +5,20 @@ import axiosClient from "../utils/axios_client";
 export const RankingContext = createContext();
 
 export const RankingProvider = ({ children }) => {
-  const [ranking, setRanking] = useState([]);
+  const [ranking, setRanking] = useState({ HiLo: [], BlackJack: [] });
   const [loading, setLoading] = useState(true);
 
   const fetchRanking = useCallback(async () => {
     setLoading(true);
     try {
       const response = await axiosClient.get("/partidas/ranking");
-      setRanking(response.data);
+      setRanking({
+        HiLo: response.data.HiLo || [],
+        BlackJack: response.data.BlackJack || [],
+      });
     } catch (error) {
       console.error("Erro ao buscar o ranking:", error);
+      setRanking({ HiLo: [], BlackJack: [] });
     } finally {
       setLoading(false);
     }

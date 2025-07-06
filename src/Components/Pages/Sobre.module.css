@@ -1,3 +1,257 @@
+.sobreTabsBg {
+  min-height: 100vh;
+  padding: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  /* sem background aqui */
+}
+
+.sobreTabsGrid {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 0;
+  max-width: 900px;
+  width: 900px;
+  min-width: 320px;
+  margin: 64px auto 0 auto;
+  background: #fff;
+  border-radius: 1.2rem;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
+  min-height: 650px;
+  overflow: hidden;
+}
+
+.sobreTabsMenu {
+  background: #fafafa;
+  border-right: 1.5px solid #ececec;
+  padding: 2.5rem 0.5rem 2.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+.sobreTabsMenu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.sobreTabButton {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: left;
+  font-size: 1.25rem;
+  color: #444;
+  padding: 1.3rem 1.2rem;
+  border-radius: 1.5rem 0 0 1.5rem;
+  margin-bottom: 0.3rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.18s, color 0.18s;
+}
+.sobreTabButton:hover {
+  background: #eafaf2;
+  color: #1e293b;
+}
+.sobreTabButtonActive {
+  composes: sobreTabButton;
+  background: #b4e2c9;
+  color: #111;
+  font-weight: 700;
+}
+
+/* Unificação e padronização das abas e conteúdo central */
+.sobreTabsContent {
+  padding: 2.2rem 2.2rem 2.2rem 1.7rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-height: 400px;
+  max-height: 650px;
+  overflow-y: auto;
+  font-size: 1.08rem;
+  box-sizing: border-box;
+}
+
+.sobreTabTitle {
+  font-size: 1.45rem;
+  font-weight: 700;
+  margin-bottom: 1.1rem;
+  color: #222;
+  line-height: 1.1;
+  font-family: inherit;
+  text-align: justify;
+}
+
+.sobreTabText,
+.sobreTabsContent p,
+.sobreTabsContent li,
+.sobreTabsContent ol,
+.sobreTabsContent ul {
+  color: #444;
+  margin-bottom: 0.55rem;
+  line-height: 1.7;
+  font-family: inherit;
+  text-align: justify;
+  font-size: 1.08rem;
+}
+
+.sobreTabsContent ol,
+.sobreTabsContent ul {
+  padding-left: 1.2rem;
+  margin-top: 0.4rem;
+}
+.sobreTabsContent li {
+  margin-bottom: 0.35rem;
+}
+
+/* Padronização para seções futuras */
+.sobreFuturoSection {
+  margin-bottom: 1.1rem;
+}
+.sobreFuturoSubtitle {
+  font-size: 1.13rem;
+  font-weight: 600;
+  color: #25603b;
+  margin-bottom: 0.3rem;
+  margin-top: 0.7rem;
+  text-align: justify;
+}
+
+/* Ajuste para conteúdo futuro (scroll interno) */
+.sobreFuturoContent {
+  width: 100%;
+  padding-right: 0.7rem;
+  box-sizing: border-box;
+}
+
+/* Ajuste para conteúdo HiLo (scroll interno e padronização) */
+.sobreHiloContent {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  max-height: 650px;
+  overflow-y: auto;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.sobreHiloHeroRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 1.2rem;
+  width: 100%;
+  max-width: 600px;
+}
+.sobreHiloHeroImage {
+  width: 110px;
+  max-width: 120px;
+  height: auto;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.08);
+  flex-shrink: 0;
+}
+.sobreHiloSectionTitle {
+  font-size: 1.45rem;
+  font-weight: 700;
+  margin-bottom: 1.1rem;
+  color: #222;
+  text-align: justify;
+}
+.sobreHiloSectionSubtitle {
+  font-size: 1.13rem;
+  font-weight: 600;
+  color: #25603b;
+  margin-bottom: 0.3rem;
+  margin-top: 0.7rem;
+  text-align: justify;
+}
+.sobreHiloText {
+  font-size: 1.08rem;
+  color: #444;
+  margin-bottom: 0.55rem;
+  text-align: justify;
+}
+.sobreHiloList {
+  margin: 0 0 0.7rem 1.2rem;
+  padding: 0;
+  font-size: 1.08rem;
+  color: #444;
+  list-style: disc inside;
+  text-align: justify;
+}
+.sobreHiloList li {
+  margin-bottom: 0.35rem;
+  text-align: justify;
+}
+.sobreHiloDica {
+  font-size: 1.02rem;
+  color: #25603b;
+  margin-bottom: 0.5rem;
+  font-style: italic;
+  text-align: justify;
+}
+@media (max-width: 900px) {
+  .sobreTabsGrid {
+    grid-template-columns: 1fr;
+    border-radius: 0.8rem;
+    box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.06);
+    width: 98vw;
+    min-width: 0;
+    max-width: 99vw;
+  }
+  .sobreTabsMenu {
+    flex-direction: row;
+    border-right: none;
+    border-bottom: 1.5px solid #ececec;
+    padding: 1rem 0.5rem 0.5rem 0.5rem;
+    overflow-x: auto;
+    min-width: 0;
+  }
+  .sobreTabsMenu ul {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+  }
+  .sobreTabButton,
+  .sobreTabButtonActive {
+    border-radius: 1.5rem 1.5rem 0 0;
+    margin-bottom: 0;
+    margin-right: 0.3rem;
+    padding: 0.7rem 1.1rem;
+    font-size: 0.98rem;
+  }
+  .sobreTabsContent {
+    padding: 1.05rem 0.5rem;
+    font-size: 0.98rem;
+    max-height: 420px;
+  }
+  .sobreTabTitle {
+    font-size: 1.05rem;
+  }
+  .sobreTabsContent li {
+    font-size: 0.98rem;
+  }
+  .sobreFuturoContent,
+  .sobreHiloContent {
+    max-height: 420px;
+  }
+  .sobreHiloHeroRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.7rem;
+    max-width: 100%;
+  }
+  .sobreHiloHeroImage {
+    width: 90px;
+    max-width: 100px;
+  }
+}
+
 .sobreContainer {
   min-height: 100vh;
   background: #f3f4f6;
@@ -81,7 +335,7 @@
   background: #fff;
   color: #222;
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   border-radius: 999px;
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.08);
   padding: 0.7rem 1.5rem;
@@ -173,14 +427,14 @@
 }
 
 .sobreSectionSubtitle {
-  font-size: 1.3rem;
+  font-size: 1.15rem;
   font-weight: 600;
   color: #444;
   margin-bottom: 1rem;
 }
 
 .sobreSectionText {
-  font-size: 1.08rem;
+  font-size: 1.15rem;
   color: #444;
   margin-bottom: 2rem;
   line-height: 1.7;
@@ -210,7 +464,7 @@
 }
 .sobreSectionList li {
   margin-bottom: 0.4rem;
-  font-size: 1.05rem;
+  font-size: 1.15rem;
 }
 
 @media (max-width: 900px) {
@@ -257,4 +511,27 @@
   .sobreSectionRight {
     padding: 1.2rem 0.5rem;
   }
+}
+
+/* Sobre.module.css */
+.sobreDesignRow {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  align-items: center; /* <-- centraliza verticalmente */
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.sobreDesignImgs {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: 120px;
+  align-items: center;
+}
+.sobreDesignText {
+  text-align: justify;
+  min-width: 220px;
+  flex: 1;
 }
