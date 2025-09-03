@@ -6,6 +6,8 @@ import axiosClient from "../../utils/axios_client";
 import { useNavigate } from "react-router-dom";
 import SubmitButton from "../Form/SubmitButton";
 import Logo from "../Layout/Logo";
+import { useToast } from "../../utils/useToast";
+import ToastContainer from "../Layout/ToastContainer";
 
 function Cadastro() {
   const [name, setName] = useState("");
@@ -15,6 +17,7 @@ function Cadastro() {
   const [showPasswordRules, setShowPasswordRules] = useState(false);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const { toasts, showSuccess, showError, removeToast } = useToast();
 
   // Validação de email
   function isValidEmail(email) {
@@ -89,8 +92,14 @@ function Cadastro() {
       const response = await axiosClient.post("/users", payload);
       if (response.status === 201) {
         localStorage.setItem("LAST_REGISTER_EMAIL", email);
-        alert("Usuário criado com sucesso!");
-        navigate("/aguarde-verificacao");
+
+        // Mostra toast de sucesso
+        showSuccess("Usuário criado com sucesso! Verifique seu email.", 4000);
+
+        // Aguarda um pouco para o usuário ver o toast antes de navegar
+        setTimeout(() => {
+          navigate("/aguarde-verificacao");
+        }, 1500);
       }
     } catch (error) {
       console.error(error);
@@ -102,8 +111,11 @@ function Cadastro() {
           errorMessage += `${key}: ${errors[key].join(", ")}\n`;
         });
         setMensagemErro(errorMessage);
+        showError(errorMessage, 6000);
       } else {
-        setMensagemErro("Erro ao criar usuário. Tente novamente.");
+        const errorMsg = "Erro ao criar usuário. Tente novamente.";
+        setMensagemErro(errorMsg);
+        showError(errorMsg, 5000);
       }
     }
     setLoading(false);
@@ -111,6 +123,7 @@ function Cadastro() {
 
   return (
     <div className={styles.loginContainer}>
+      <ToastContainer toasts={toasts} onRemoveToast={removeToast} />
       <main className={styles.main}>
         <div className={styles.container}>
           {/* <img src={logo} alt="Logo Blackjack" className={styles.logo} /> */}

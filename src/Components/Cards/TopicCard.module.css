@@ -1,0 +1,304 @@
+.topicCard {
+  background: white;
+  border: 1px solid #e1e5e9;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.topicCard:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: #007bff;
+  transform: translateY(-1px);
+}
+
+.topicCard.pinned {
+  border-left: 4px solid #ffc107;
+  background: linear-gradient(135deg, #fff9e6 0%, #ffffff 100%);
+}
+
+.topicCard.closed {
+  opacity: 0.7;
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+}
+
+.topicHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.topicInfo {
+  flex: 1;
+}
+
+.topicTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.topicTitle h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  line-height: 1.3;
+}
+
+.pinnedIcon {
+  color: #ffc107;
+  font-size: 14px;
+}
+
+.closedIcon {
+  color: #6c757d;
+  font-size: 14px;
+}
+
+.topicMeta {
+  display: flex;
+  gap: 12px;
+  font-size: 14px;
+  color: #6c757d;
+}
+
+.author {
+  font-weight: 500;
+}
+
+.date {
+  opacity: 0.8;
+}
+
+.topicActions {
+  display: flex;
+  gap: 8px;
+}
+
+.actionButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 6px;
+  color: #6c757d;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.actionButton:hover {
+  background-color: #f8f9fa;
+  color: #333;
+}
+
+.deleteButton:hover {
+  color: #dc3545;
+  background-color: #fee;
+}
+
+.topicContent {
+  margin-bottom: 16px;
+}
+
+.contentText {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 12px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.topicImage {
+  margin-top: 12px;
+}
+
+.topicImage img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  max-height: 200px;
+  object-fit: cover;
+}
+
+.topicFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 16px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.topicStats {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #6c757d;
+}
+
+.statIcon {
+  font-size: 14px;
+}
+
+.likeButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.likeButton:hover:not(:disabled) {
+  background-color: #f8f9fa;
+}
+
+.likeButton.liked {
+  color: #dc3545;
+}
+
+.likeButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.lastComment {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 12px;
+  color: #6c757d;
+}
+
+.lastCommentText {
+  margin-bottom: 2px;
+}
+
+.lastCommentDate {
+  opacity: 0.8;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .topicCard {
+    padding: 16px;
+  }
+
+  .topicHeader {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .topicActions {
+    align-self: flex-end;
+  }
+
+  .topicFooter {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .lastComment {
+    align-items: flex-start;
+  }
+
+  .topicStats {
+    gap: 16px;
+  }
+}
+
+/* Modal de confirmação */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+
+.confirmModal {
+  background: white;
+  border-radius: 12px;
+  padding: 32px;
+  min-width: 400px;
+  max-width: 500px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.confirmModal h3 {
+  margin: 0 0 16px 0;
+  color: #333;
+  font-size: 24px;
+}
+
+.confirmModal p {
+  margin: 0 0 24px 0;
+  color: #666;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.confirmButtons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.cancelButton {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.cancelButton:hover {
+  background: #5a6268;
+  transform: translateY(-1px);
+}
+
+.confirmButton {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.confirmButton:hover {
+  background: #c82333;
+  transform: translateY(-1px);
+}

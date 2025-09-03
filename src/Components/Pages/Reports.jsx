@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useReportsContext } from "../../contexts/ReportsProvider";
+import { getImageUrl } from "../../utils/imageUtils";
 import styles from "./forms.module.css";
 import SubmitButton from "../Form/SubmitButton";
 import { useAuthContext } from "../../contexts/AuthProvider";
@@ -520,10 +521,10 @@ const Reports = () => {
                         (msg.user_id === user?.id ? "Você" : "Suporte")}
                     </strong>
                     : <div>{msg.mensagem}</div>
-                    {msg.imagem_url && (
+                    {msg.imagem && (
                       <div style={{ marginTop: "5px" }}>
                         <img
-                          src={msg.imagem_url}
+                          src={getImageUrl(msg.imagem)}
                           alt="Imagem da mensagem"
                           style={{
                             maxWidth: "200px",
@@ -532,7 +533,9 @@ const Reports = () => {
                             cursor: "pointer",
                             display: "block",
                           }}
-                          onClick={() => window.open(msg.imagem_url, "_blank")}
+                          onClick={() =>
+                            window.open(getImageUrl(msg.imagem), "_blank")
+                          }
                         />
                       </div>
                     )}

@@ -6,6 +6,8 @@ import "animate.css";
 import Logo from "./Logo";
 import Hamburger from "../Cards/Hamburger";
 import { useState, useRef } from "react";
+import { useToast } from "../../utils/useToast";
+import ToastContainer from "./ToastContainer";
 
 function Navbar() {
   const { setToken, setUser } = useAuthContext();
@@ -13,13 +15,22 @@ function Navbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const menuContainerRef = useRef(null);
+  const { toasts, showSuccess, removeToast } = useToast();
 
   const handleLogout = () => {
-    setToken(null);
-    setUser(null);
-    localStorage.removeItem("ACCESS_TOKEN");
-    navigate("/");
-    alert("Você foi deslogado!");
+    // Mostra toast de sucesso para logout ANTES de limpar os dados
+    showSuccess("Logout realizado com sucesso! Até logo!", 3000);
+
+    // Aguarda um pouco para o usuário ver o toast antes de fazer logout
+    setTimeout(() => {
+      setToken(null);
+      setUser(null);
+      localStorage.removeItem("ACCESS_TOKEN");
+      localStorage.removeItem("CURRENT_USER");
+
+      // Navega diretamente para login
+      navigate("/login");
+    }, 1500);
   };
 
   const handleHamburgerClick = () => {
@@ -34,6 +45,7 @@ function Navbar() {
 
   return (
     <nav className={styles.navbar}>
+      <ToastContainer toasts={toasts} onRemoveToast={removeToast} />
       <div className={styles.navLeft} ref={menuContainerRef}>
         <div className={styles.logoContainer}>
           <Logo src={logo} alt="Logo" className={styles.logo} />

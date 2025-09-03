@@ -19,6 +19,7 @@ import UsersProvider from "./contexts/UsersProvider";
 import ReportsProvider from "./contexts/ReportsProvider";
 import { RankingProvider } from "./contexts/RankingProvider.jsx";
 import { HistoricoProvider } from "./contexts/HistoricoProvider.jsx";
+import ForumProvider from "./contexts/ForumProvider.jsx";
 import ProtectedRoute from "./Config/ProtectedRoute";
 import "animate.css";
 import AguardeVerificacao from "./Components/Pages/AguardeVerificacao";
@@ -27,6 +28,7 @@ import EsqueciSenha from "./Components/Pages/EsqueciSenha";
 import RedefinirSenha from "./Components/Pages/RedefinirSenha";
 import Sobre from "./Components/Pages/Sobre";
 import Comunidade from "./Components/Pages/Comunidade";
+import TopicDetail from "./Components/Pages/TopicDetail";
 import Atualizacoes from "./Components/Pages/Atualizacoes";
 
 import ParallaxBackground from "./Components/ParallaxBackground";
@@ -104,6 +106,14 @@ function AppContent() {
             }
           />
           <Route
+            path="/comunidade/topico/:id"
+            element={
+              <ProtectedRoute>
+                <TopicDetail />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/perfil"
             element={
               <ProtectedRoute>
@@ -131,13 +141,15 @@ function App() {
     <AuthProvider>
       <UsersProvider>
         <ReportsProvider>
-          <RankingProvider>
-            <HistoricoProvider>
-              <Router>
-                <AppContent />
-              </Router>
-            </HistoricoProvider>
-          </RankingProvider>
+          <ForumProvider>
+            <RankingProvider>
+              <HistoricoProvider>
+                <Router>
+                  <AppContent />
+                </Router>
+              </HistoricoProvider>
+            </RankingProvider>
+          </ForumProvider>
         </ReportsProvider>
       </UsersProvider>
     </AuthProvider>

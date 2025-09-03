@@ -2,9 +2,11 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./forms.module.css";
 import logo from "../../assets/blackjack_logo.jpg";
-import { useUsersContext } from "../../contexts/UsersProvider";
+import { useUsersContext } from "../../contexts/UsersContext";
 import SubmitButton from "../Form/SubmitButton";
 import eyeSprite from "../../assets/eye-sprite.png";
+import { useToast } from "../../utils/useToast";
+import ToastContainer from "../Layout/ToastContainer";
 
 function EditarPerfil() {
   const { currentUser, updateUser, deleteUser } = useUsersContext();
@@ -17,6 +19,7 @@ function EditarPerfil() {
   const [showPasswordRules, setShowPasswordRules] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const { toasts, showSuccess, showError, removeToast } = useToast();
 
   function isValidEmail(email) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -86,10 +89,14 @@ function EditarPerfil() {
 
     try {
       await updateUser(payload);
-      alert("Perfil atualizado com sucesso!");
+
+      // Mostra toast de sucesso
+      showSuccess("Perfil atualizado com sucesso!", 3000);
       setSenha("");
     } catch (error) {
-      setMensagemErro("Erro ao atualizar perfil. Tente novamente.");
+      const errorMsg = "Erro ao atualizar perfil. Tente novamente.";
+      setMensagemErro(errorMsg);
+      showError(errorMsg, 5000);
     }
     setLoading(false);
   };
@@ -99,16 +106,25 @@ function EditarPerfil() {
     if (window.confirm("Tem certeza que deseja excluir sua conta?")) {
       try {
         await deleteUser();
-        alert("Conta excluída com sucesso!");
-        navigate("/login");
+
+        // Mostra toast de sucesso
+        showSuccess("Conta excluída com sucesso!", 3000);
+
+        // Aguarda um pouco para o usuário ver o toast antes de navegar
+        setTimeout(() => {
+          navigate("/login");
+        }, 1500);
       } catch (error) {
-        setMensagemErro("Erro ao excluir conta. Tente novamente.");
+        const errorMsg = "Erro ao excluir conta. Tente novamente.";
+        setMensagemErro(errorMsg);
+        showError(errorMsg, 5000);
       }
     }
   };
 
   return (
     <div className={`${styles.loginContainer} ${styles.centerBelowNavbar}`}>
+      <ToastContainer toasts={toasts} onRemoveToast={removeToast} />
       <main className={styles.main}>
         <div className={styles.container}>
           <h1 className={styles.title}>Editar Perfil</h1>

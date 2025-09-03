@@ -8,6 +8,8 @@ import { useRef, useState } from "react";
 import SubmitButton from "../Form/SubmitButton";
 import Logo from "../Layout/Logo";
 import eyeSprite from "../../assets/eye-sprite.png";
+import { useToast } from "../../utils/useToast";
+import ToastContainer from "../Layout/ToastContainer";
 
 function Login() {
   const { setToken, setUser } = useAuthContext();
@@ -16,6 +18,7 @@ function Login() {
   const navigate = useNavigate();
   const [mensagemErro, setMensagemErro] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const { toasts, showSuccess, showError, removeToast } = useToast();
 
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -34,8 +37,13 @@ function Login() {
       setUser(data.user);
       localStorage.setItem("CURRENT_USER", JSON.stringify(data.user));
 
-      alert("Usuário logado!");
-      navigate("/");
+      // Mostra toast de sucesso
+      showSuccess("Login realizado com sucesso! Bem-vindo de volta!", 4000);
+
+      // Aguarda um pouco para o usuário ver o toast antes de navegar
+      setTimeout(() => {
+        navigate("/");
+      }, 1500);
     } catch (error) {
       console.error("Erro ao fazer login:", error);
       // Tenta pegar a mensagem do backend, senão mostra mensagem padrão
@@ -43,11 +51,15 @@ function Login() {
         error?.response?.data?.message ||
         "Credenciais inválidas. Tente novamente!";
       setMensagemErro(msg);
+
+      // Também mostra um toast de erro
+      showError(msg, 5000);
     }
   };
 
   return (
     <div className={styles.loginContainer}>
+      <ToastContainer toasts={toasts} onRemoveToast={removeToast} />
       <main className={styles.main}>
         <div className={styles.container}>
           {/* <img src={logo} alt="Logo Blackjack" className={styles.logo} /> */}

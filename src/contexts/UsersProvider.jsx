@@ -1,19 +1,36 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axiosClient from "../utils/axios_client";
 import { useAuthContext } from "./AuthProvider";
+import { UsersContext } from "./UsersContext";
 import PropTypes from "prop-types";
-
-const UsersContext = createContext();
 
 export default function UsersProvider({ children }) {
   const { user, token } = useAuthContext();
   const [currentUser, setCurrentUser] = useState(null);
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
     if (user) {
       setCurrentUser(user);
     }
   }, [user]);
+
+  // Buscar lista de usuários (para menções e outras funcionalidades)
+  const fetchUsers = async (searchQuery = "") => {
+    try {
+      const params = searchQuery
+        ? `?search=${encodeURIComponent(searchQuery)}`
+        : "";
+      const response = await axiosClient.get(`/users${params}`);
+      const userData = response.data.data || response.data || [];
+      setUsers(userData);
+      return userData;
+    } catch (error) {
+      console.error("Erro ao buscar usuários:", error);
+      setUsers([]);
+      return [];
+    }
+  };
 
   const updateUser = async (formData) => {
     if (!currentUser || !token) {
@@ -69,7 +86,15 @@ export default function UsersProvider({ children }) {
   };
 
   return (
-    <UsersContext.Provider value={{ currentUser, updateUser, deleteUser }}>
+    <UsersContext.Provider
+      value={{
+        currentUser,
+        users,
+        updateUser,
+        deleteUser,
+        fetchUsers,
+      }}
+    >
       {children}
     </UsersContext.Provider>
   );
@@ -78,7 +103,3 @@ export default function UsersProvider({ children }) {
 UsersProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
-
-export function useUsersContext() {
-  return useContext(UsersContext);
-}
