@@ -45,7 +45,7 @@
 }
 
 .headerIcon {
-  color: #ffc107;
+  color: #e76f51; /* Cor laranja solicitada */
   font-size: 18px;
 }
 
@@ -63,7 +63,7 @@
 }
 
 .viewMentionsButton {
-  background-color: #ffc107;
+  background-color: #e76f51; /* Cor laranja solicitada */
   color: #212529;
   border: none;
   padding: 6px 12px;
@@ -144,14 +144,17 @@
 .searchAndFilters {
   display: flex;
   gap: 16px;
-  align-items: flex-end;
+  align-items: center; /* Mudando de flex-end para center para melhor alinhamento */
   flex-wrap: wrap;
+  justify-content: space-between; /* Distribui os elementos melhor */
 }
 
 .searchBox {
   position: relative;
   flex: 1;
   min-width: 250px;
+  display: flex;
+  align-items: center; /* Garantir alinhamento vertical */
 }
 
 .searchIcon {
@@ -166,11 +169,15 @@
 
 .searchBox input {
   padding-left: 40px;
+  width: 100%; /* Garantir que o input ocupe toda a largura disponível */
+  height: 40px; /* Altura fixa para consistência com os botões */
 }
 
 .filterButtons {
   display: flex;
   gap: 8px;
+  align-items: center; /* Garantir alinhamento vertical */
+  flex-shrink: 0; /* Evitar que encolha */
 }
 
 .filterButton {
@@ -185,22 +192,26 @@
   display: flex;
   align-items: center;
   gap: 6px;
+  height: 40px; /* Altura fixa igual ao input */
+  box-sizing: border-box; /* Incluir border na altura total */
 }
 
 .filterButton:hover {
-  border-color: #ffc107;
-  color: #ffc107;
-  background: rgba(255, 193, 7, 0.1);
+  border-color: #e76f51; /* Cor laranja solicitada */
+  color: #e76f51; /* Cor laranja solicitada */
+  background: rgba(231, 111, 81, 0.1); /* Fundo laranja translúcido */
 }
 
 .filterButton.active {
-  background-color: #ffc107;
-  border-color: #ffc107;
+  background-color: #e76f51; /* Cor laranja solicitada */
+  border-color: #e76f51; /* Cor laranja solicitada */
   color: #212529;
 }
 
 .sortSelect {
   min-width: 200px;
+  flex-shrink: 0; /* Evitar que encolha */
+  align-self: center; /* Garantir alinhamento vertical */
 }
 
 .topicsSection {
@@ -224,7 +235,7 @@
   width: 40px;
   height: 40px;
   border: 4px solid rgba(255, 255, 255, 0.2);
-  border-top: 4px solid #ffc107;
+  border-top: 4px solid #e76f51; /* Cor laranja solicitada */
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin-bottom: 16px;
@@ -269,7 +280,7 @@
 }
 
 .loginPrompt a {
-  color: #ffc107;
+  color: #e76f51; /* Cor laranja solicitada */
   text-decoration: none;
   font-weight: 500;
 }
@@ -323,6 +334,7 @@
   .searchAndFilters {
     flex-direction: column;
     align-items: stretch;
+    gap: 12px; /* Espaçamento consistente */
   }
 
   .searchBox {
@@ -330,8 +342,9 @@
   }
 
   .filterButtons {
-    justify-content: center;
+    justify-content: flex-start; /* Alinhamento à esquerda em mobile */
     flex-wrap: wrap;
+    gap: 8px;
   }
 
   .sortSelect {

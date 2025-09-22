@@ -66,7 +66,7 @@
   color: white;
 }
 .sobreTabButtonActive {
-  background: #ffc107;
+  background: #e76f51; /* Cor laranja solicitada */
   color: #212529;
   font-weight: 700;
   display: block;
@@ -131,7 +131,7 @@
 .sobreFuturoSubtitle {
   font-size: 1.13rem;
   font-weight: 600;
-  color: #ffc107;
+  color: #e76f51; /* Cor laranja solicitada */
   margin-bottom: 0.3rem;
   margin-top: 0.7rem;
   text-align: justify;
@@ -183,7 +183,7 @@
 .sobreHiloSectionSubtitle {
   font-size: 1.13rem;
   font-weight: 600;
-  color: #ffc107;
+  color: #e76f51; /* Cor laranja solicitada */
   margin-bottom: 0.3rem;
   margin-top: 0.7rem;
   text-align: justify;
@@ -208,7 +208,7 @@
 }
 .sobreHiloDica {
   font-size: 1.02rem;
-  color: #ffc107;
+  color: #e76f51; /* Cor laranja solicitada */
   margin-bottom: 0.5rem;
   font-style: italic;
   text-align: justify;

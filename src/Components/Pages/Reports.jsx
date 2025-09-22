@@ -397,7 +397,7 @@ const Reports = () => {
                 />
                 <span className={styles.attachmentIcon}>📎</span>
                 <span className={styles.attachmentText}>
-                  {newReport.imagem ? newReport.imagem.name : "Anexar imagem"}
+                  {newReport.imagem ? newReport.imagem.name : ""}
                 </span>
               </label>
               {newReportImagePreview && (

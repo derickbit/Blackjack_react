@@ -6,12 +6,24 @@
   margin-bottom: 12px;
   color: white;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-
-.commentCard.reply {
-  margin-left: 32px;
-  border-left: 3px solid #ffc107;
-  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  .likeButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    color: #ecf0f1; /* Cor clara para o botão like */
+    transition: all 0.2s ease;
+  }
+  ntCard.reply {
+    margin-left: 32px;
+    border-left: 3px solid #e76f51; /* Cor laranja solicitada */
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  }
 }
 
 .commentHeader {
@@ -54,7 +66,7 @@
   cursor: pointer;
   padding: 6px;
   border-radius: 4px;
-  color: #6c757d;
+  color: #ecf0f1; /* Cor clara para botões */
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
@@ -63,13 +75,18 @@
 }
 
 .actionButton:hover {
-  background-color: #f8f9fa;
-  color: #333;
+  background-color: #34495e; /* Fundo escuro no hover */
+  color: white;
 }
 
 .deleteButton:hover {
   color: #e76f51;
-  background-color: #fee;
+  background-color: rgba(
+    231,
+    111,
+    81,
+    0.1
+  ); /* Fundo sutil com cor de destaque */
 }
 
 .commentContent {
@@ -79,7 +96,7 @@
 .contentText {
   font-size: 15px;
   line-height: 1.6;
-  color: #333;
+  color: white; /* Texto branco para destaque */
   white-space: pre-wrap;
 }
 
@@ -125,14 +142,14 @@
 }
 
 .saveButton:disabled {
-  background-color: #6c757d;
+  background-color: #34495e; /* Cor mais consistente com o tema escuro */
   cursor: not-allowed;
 }
 
 .cancelButton {
   background: none;
-  border: 1px solid #6c757d;
-  color: #6c757d;
+  border: 1px solid #ecf0f1; /* Borda clara */
+  color: #ecf0f1; /* Texto claro */
   padding: 6px 12px;
   border-radius: 6px;
   cursor: pointer;
@@ -144,9 +161,9 @@
 }
 
 .cancelButton:hover:not(:disabled) {
-  background-color: #f8f9fa;
-  border-color: #333;
-  color: #333;
+  background-color: #34495e; /* Fundo escuro */
+  border-color: white; /* Borda branca */
+  color: white; /* Texto branco */
 }
 
 .cancelButton:disabled {
@@ -170,7 +187,7 @@
   align-items: center;
   gap: 6px;
   font-size: 14px;
-  color: #6c757d;
+  color: #ecf0f1; /* Cor clara para estatísticas */
 }
 
 .likeButton {
@@ -210,22 +227,22 @@
 }
 
 .replyButton:hover {
-  background-color: #f8f9fa;
-  color: #007bff;
+  background-color: #34495e; /* Fundo escuro no hover */
+  color: #e76f51; /* Cor laranja solicitada */
 }
 
 .replyForm {
   margin-top: 16px;
   padding: 16px;
-  background-color: #f8f9fa;
+  background-color: #34495e; /* Fundo escuro */
   border-radius: 8px;
-  border: 1px solid #dee2e6;
+  border: 1px solid #2c3e50;
 }
 
 .replyForm h4 {
   margin: 0 0 12px 0;
   font-size: 14px;
-  color: #6c757d;
+  color: white; /* Título em branco */
 }
 
 .replyActions {
@@ -251,7 +268,7 @@
 }
 
 .replySubmitButton:disabled {
-  background-color: #6c757d;
+  background-color: #34495e; /* Cor mais consistente com o tema escuro */
   cursor: not-allowed;
 }
 

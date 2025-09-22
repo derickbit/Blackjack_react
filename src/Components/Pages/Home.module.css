@@ -15,7 +15,7 @@
 .home_container h1,
 .home_container h2 {
   font-family: "Lora", serif;
-  color: #e0e1dd;
+  color: #1b263b; /* Mesma cor dos títulos das outras páginas */
   /* text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5); */
 }
 
@@ -32,7 +32,7 @@
 .home_container p {
   font-family: "Lora", serif;
   margin-bottom: 1.5em;
-  color: #e0e1dd;
+  color: #1b263b; /* Mesma cor dos títulos das outras páginas */
   /* text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5); */
 }
 
