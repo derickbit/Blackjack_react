@@ -12,8 +12,14 @@ const loggedIds = new Set();
 export const getImageUrl = (imagePath) => {
   if (!imagePath) return null;
 
+  // Debug: Log do que está sendo recebido
+  if (typeof imagePath === "string" && imagePath.length > 0) {
+    console.log(`🖼️ DEBUG getImageUrl: Recebido "${imagePath}"`);
+  }
+
   // Se já é uma URL completa (S3 ou outro CDN), retorna como está
   if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
+    console.log(`✅ URL completa detectada: ${imagePath}`);
     return imagePath;
   }
 
@@ -34,6 +40,9 @@ export const getImageUrl = (imagePath) => {
   };
 
   const backendBaseUrl = getBackendBaseUrl();
+
+  console.log(`🌍 Ambiente: ${isProduction ? "PRODUÇÃO" : "DESENVOLVIMENTO"}`);
+  console.log(`🔗 Base URL: ${backendBaseUrl}`);
 
   if (!isProduction) {
     // DESENVOLVIMENTO LOCAL - usa a URL do Laravel
@@ -67,23 +76,65 @@ export const getImageUrl = (imagePath) => {
       loggedIds.add(imagePath);
     }
 
-    // Em produção, as imagens estão no S3 no padrão reports/
+    // Em produção, as imagens estão no S3 no padrão reports/messages/
     // Mas como só temos o ID, tentamos construir baseado no padrão observado
-    return `${backendBaseUrl}/reports/${imagePath}`;
+    return `${backendBaseUrl}/reports/messages/${imagePath}`;
   }
 
   // Se não for um ID, mas for um caminho relativo, completamos com a URL base do S3
   if (!imagePath.startsWith("http") && !imagePath.startsWith("/")) {
+    // Se começa com "storage/", é um caminho do Laravel - em produção deve ir para o S3
+    if (imagePath.startsWith("storage/")) {
+      if (isProduction) {
+        // Em produção, remove "storage/" e mapeia para o padrão correto do S3
+        const s3Path = imagePath.replace("storage/", "");
+        // Para reports, o padrão no S3 mantém a estrutura: reports/messages/arquivo.png
+        if (s3Path.startsWith("reports/messages/")) {
+          const finalUrl = `${backendBaseUrl}/${s3Path}`;
+          console.log(
+            `🔄 Convertendo storage para S3: ${imagePath} -> ${finalUrl}`
+          );
+          return finalUrl;
+        }
+        const finalUrl = `${backendBaseUrl}/${s3Path}`;
+        console.log(
+          `🔄 Convertendo storage para S3: ${imagePath} -> ${finalUrl}`
+        );
+        return finalUrl;
+      } else {
+        // Em desenvolvimento, mantém o padrão storage/
+        return `${backendBaseUrl}/${imagePath}`;
+      }
+    }
+
     // Se já tem um padrão como "reports/arquivo.png", usa direto
     if (imagePath.includes("/")) {
       return `${backendBaseUrl}/${imagePath}`;
     }
-    // Se é só o nome do arquivo, assume que está na pasta reports
-    return `${backendBaseUrl}/reports/${imagePath}`;
+    // Se é só o nome do arquivo, assume que está na pasta reports/messages (padrão dos reports)
+    return `${backendBaseUrl}/reports/messages/${imagePath}`;
   }
 
   // Se começar com /, construimos a URL completa
   if (imagePath.startsWith("/")) {
+    // Se é /storage/ em produção, mapeia para S3
+    if (imagePath.startsWith("/storage/") && isProduction) {
+      const s3Path = imagePath.replace("/storage/", "");
+      // Para reports, o padrão no S3 mantém a estrutura: reports/messages/arquivo.png
+      if (s3Path.startsWith("reports/messages/")) {
+        const finalUrl = `${backendBaseUrl}/${s3Path}`;
+        console.log(
+          `🔄 Convertendo /storage para S3: ${imagePath} -> ${finalUrl}`
+        );
+        return finalUrl;
+      }
+      const finalUrl = `${backendBaseUrl}/${s3Path}`;
+      console.log(
+        `🔄 Convertendo /storage para S3: ${imagePath} -> ${finalUrl}`
+      );
+      return finalUrl;
+    }
+
     if (isProduction) {
       // Em produção, remove a barra inicial e usa o S3
       return `${backendBaseUrl}${imagePath}`;
