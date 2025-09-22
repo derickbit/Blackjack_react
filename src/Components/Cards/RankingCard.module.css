@@ -72,3 +72,21 @@
 .ranking_card p span {
   font-weight: bold;
 }
+
+/* Responsividade para celulares */
+@media (max-width: 768px) {
+  .ranking_card {
+    padding: 0.4em 0.6em;
+    font-size: 0.9em;
+    min-height: 55px;
+  }
+
+  .ranking_card h4 {
+    font-size: 1em;
+    margin-bottom: 0.4em;
+  }
+
+  .ranking_card p {
+    margin-bottom: 0.3em;
+  }
+}

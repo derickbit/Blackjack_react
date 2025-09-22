@@ -15,6 +15,14 @@
   margin: 0;
   /* text-shadow: 0 2px 12px rgba(255, 255, 255, 0.3); */
 }
+
+/* Responsividade para celulares */
+@media (max-width: 768px) {
+  .grand_title {
+    font-size: 2.5rem;
+    letter-spacing: 1px;
+  }
+}
 .project_container {
   min-height: 100vh;
   display: flex;
@@ -23,6 +31,13 @@
   justify-content: flex-start;
   background: transparent;
   padding: 3em 1em;
+}
+
+/* Responsividade para celulares */
+@media (max-width: 768px) {
+  .project_container {
+    padding: 2em 0.5em;
+  }
 }
 
 .ranking_box {
@@ -41,6 +56,17 @@
   overflow-y: auto;
 }
 
+/* Responsividade para celulares */
+@media (max-width: 768px) {
+  .ranking_box {
+    min-width: unset;
+    max-width: 100%;
+    padding: 1.5em 1em;
+    margin: 0 0.5em;
+    max-height: 50vh;
+  }
+}
+
 .tittle_container {
   width: 100%;
   display: flex;
@@ -54,6 +80,13 @@
   letter-spacing: 1px;
   font-weight: bold;
   margin: 0;
+}
+
+/* Responsividade para celulares */
+@media (max-width: 768px) {
+  .tittle_container h2 {
+    font-size: 1.8rem;
+  }
 }
 
 .ranking_list {
@@ -76,4 +109,13 @@
   align-items: flex-start;
   width: 100%;
   max-width: 1200px;
+}
+
+/* Responsividade para celulares */
+@media (max-width: 768px) {
+  .ranking_flex {
+    flex-direction: column;
+    gap: 1.5em;
+    align-items: center;
+  }
 }

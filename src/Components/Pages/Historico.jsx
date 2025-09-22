@@ -59,9 +59,9 @@ const HistoricoPartidas = () => {
             <tbody>
               {partidasPagina.map((partida) => (
                 <tr key={partida.codpartida}>
-                  <td>{partida.codpartida}</td>
-                  <td>{partida.pontuacao}</td>
-                  <td>
+                  <td data-label="ID da Partida">{partida.codpartida}</td>
+                  <td data-label="Pontuação">{partida.pontuacao}</td>
+                  <td data-label="Data">
                     {new Date(partida.created_at).toLocaleDateString()}{" "}
                     {new Date(partida.created_at).toLocaleTimeString([], {
                       hour: "2-digit",
@@ -76,14 +76,7 @@ const HistoricoPartidas = () => {
           <p className={styles.message}>Nenhuma partida encontrada.</p>
         )}
         {totalPages > 1 && (
-          <div
-            style={{
-              display: "flex",
-              gap: "0.5em",
-              justifyContent: "center",
-              marginTop: "1em",
-            }}
-          >
+          <div className={styles.paginationContainer}>
             <button
               onClick={() => setPage(page - 1)}
               disabled={page === 1}

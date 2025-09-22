@@ -13,12 +13,86 @@ button:hover {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
+/* Responsividade para celulares */
+@media (max-width: 768px) {
+  .table {
+    font-size: 0.9rem;
+    margin-top: 15px;
+  }
+}
+
+/* Para telas pequenas - layout de cards mobile */
+@media (max-width: 600px) {
+  .table,
+  .table thead,
+  .table tbody,
+  .table th,
+  .table td,
+  .table tr {
+    display: block;
+  }
+
+  .table thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  .table tr {
+    border: 1px solid #34495e;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    padding: 10px;
+    background: #2c3e50;
+  }
+
+  .table td {
+    border: none;
+    border-bottom: 1px solid #415261;
+    position: relative;
+    padding: 8px 8px 8px 45%;
+    text-align: left;
+  }
+
+  .table td:before {
+    content: attr(data-label) ": ";
+    position: absolute;
+    left: 6px;
+    width: 40%;
+    padding-right: 10px;
+    white-space: nowrap;
+    font-weight: bold;
+    color: #1e3c72;
+  }
+
+  .table td:last-child {
+    border-bottom: 0;
+  }
+}
+
 .table th,
 .table td {
   border: 1px solid #34495e;
   padding: 12px;
   text-align: center;
   color: white;
+}
+
+/* Responsividade para celulares */
+@media (max-width: 768px) {
+  .table th,
+  .table td {
+    padding: 8px 4px;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .table th,
+  .table td {
+    padding: 6px 2px;
+    font-size: 0.8rem;
+  }
 }
 
 .table th {
@@ -50,6 +124,21 @@ button:hover {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Responsividade para celulares */
+@media (max-width: 768px) {
+  .paginationButton {
+    padding: 0.5em 1em;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .paginationButton {
+    padding: 0.4em 0.8em;
+    font-size: 0.85rem;
+  }
+}
+
 .paginationButton:hover:not(:disabled) {
   background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%);
   transform: translateY(-2px);
@@ -77,4 +166,38 @@ button:hover {
   color: #e0e1dd;
   font-weight: 500;
   margin: 0 1rem;
+}
+
+.paginationContainer {
+  display: flex;
+  gap: 0.5em;
+  justify-content: center;
+  margin-top: 1em;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* Responsividade para celulares */
+@media (max-width: 768px) {
+  .paginationText {
+    margin: 0 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .paginationContainer {
+    gap: 0.3em;
+    margin-top: 0.8em;
+  }
+}
+
+@media (max-width: 480px) {
+  .paginationText {
+    margin: 0 0.3rem;
+    font-size: 0.85rem;
+  }
+
+  .paginationContainer {
+    gap: 0.2em;
+    margin-top: 0.6em;
+  }
 }
