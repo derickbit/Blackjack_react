@@ -1,3 +1,13 @@
+.project_container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background: transparent;
+  padding: 0 1em;
+}
+
 .loginContainer {
   display: flex;
   justify-content: center;
@@ -22,7 +32,7 @@
   display: flex;
   flex-direction: column;
   width: 100%; /* Adicione esta linha */
-  max-width: 500px; /* E esta, para limitar o tamanho */
+  max-width: 800px !important; /* E esta, para limitar o tamanho */
   margin: 0 auto; /* Centraliza dentro do container */
 }
 
@@ -32,13 +42,52 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-width: 900px;
+  max-width: 800px !important; /* Largura padrão de formulários */
   max-height: 90vh; /* Limita a altura máxima da área principal */
 
-  background: #fff;
+  background: #34495e;
   padding: 2rem 2rem 1.5rem 2rem;
   border-radius: 12px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  border: 1px solid #34495e;
+}
+
+/* Estilos específicos para Editar Perfil */
+.editarperfil_title_container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5em;
+  margin-top: 2.5em;
+}
+
+.editarperfil_grand_title {
+  font-family: "Lora", serif;
+  font-size: 3.5rem;
+  font-weight: bold;
+  color: #1b263b;
+  letter-spacing: 2px;
+  margin: 0;
+  /* text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3); */
+  text-align: center;
+}
+
+.grand_title_container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 0;
+  margin-bottom: 0.2em;
+}
+
+.grand_title {
+  font-family: "Lora", serif;
+  font-size: 3.5rem;
+  font-weight: bold;
+  color: #1b263b;
+  letter-spacing: 2px;
+  margin: 0;
+  /* text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3); */
 }
 
 .logo {
@@ -49,13 +98,13 @@
 .title {
   font-size: 2rem;
   margin-bottom: 0.5rem;
-  color: #555;
+  color: #e0e1dd;
 }
 
 .subtitle {
   font-size: 1rem;
   margin-bottom: 1rem;
-  color: #555;
+  color: #e0e1dd;
 }
 
 .inputGroup {
@@ -66,20 +115,29 @@
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
-  color: #555;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .input {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  padding: 12px;
+  border: 1px solid #34495e;
+  border-radius: 8px;
   font-size: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  transition: all 0.3s ease;
 }
 
 .input:focus {
-  border-color: #333;
+  border-color: #e76f51;
   outline: none;
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 0 3px rgba(231, 111, 81, 0.1);
+}
+
+.input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .button {
@@ -91,12 +149,12 @@
 .prompt {
   margin-top: 20px;
   font-size: 0.9rem;
-  color: #555;
+  color: rgba(255, 255, 255, 0.8);
   text-align: center;
 }
 
 .link {
-  color: #007bff;
+  color: #e76f51;
   text-decoration: none;
   font-weight: bold;
 }
@@ -110,19 +168,21 @@
   left: 0;
   top: 110%;
   z-index: 10;
-  background: #fff;
-  border: 1px solid #bbb;
-  border-radius: 6px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  background: #34495e;
+  border: 1px solid #34495e;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   padding: 12px 16px;
   min-width: 220px;
   font-size: 0.97em;
   animation: fadeIn 0.2s;
+  color: white;
 }
 
 .passwordPopoverTitle {
   font-weight: bold;
   margin-bottom: 6px;
+  color: #e76f51;
 }
 
 @keyframes fadeIn {
@@ -170,36 +230,43 @@
   border-collapse: separate;
   border-spacing: 0;
 
-  background: #fafbfc;
-  border-radius: 10px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  background: #34495e;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   overflow: hidden;
   font-size: 1rem;
+  border: 1px solid #34495e;
 }
 
 .reportsTable th,
 .reportsTable td {
-  padding: 8px 12px; /* Menor padding para mais linhas visíveis */
+  padding: 12px 16px; /* Padding melhorado */
   text-align: left;
-  font-size: 0.97em; /* Fonte um pouco menor */
+  font-size: 0.97em;
+  color: white;
 }
 
 .reportsTable th {
   position: sticky;
   top: 0;
   z-index: 2;
-  background: #f3f3f3; /* Garante que o cabeçalho não fique transparente */
-  color: #555;
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  color: white;
   font-weight: 600;
-  border-bottom: 1px solid #e5e5e5;
+  border-bottom: 1px solid #34495e;
 }
 
 .reportsTable tr:not(:last-child) td {
-  border-bottom: 1px solid #ececec;
+  border-bottom: 1px solid #34495e;
+}
+
+.reportsTable tr:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  transition: background-color 0.2s ease;
 }
 
 .reportsTable td {
-  color: #444;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .reportsTable .actionCell {
@@ -207,11 +274,20 @@
 }
 
 .reportsTable .smallBtn {
-  padding: 6px 16px;
+  padding: 8px 16px;
   font-size: 0.95em;
-  border-radius: 6px;
+  border-radius: 8px;
   min-width: unset;
   width: auto;
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  color: white;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.reportsTable .smallBtn:hover {
+  background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%);
+  transform: translateY(-1px);
 }
 
 .chatInputRow {
@@ -223,10 +299,23 @@
 
 .chatInput {
   flex: 1;
-  padding: 8px 12px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
+  padding: 10px 12px;
+  border: 1px solid #34495e;
+  border-radius: 8px;
   font-size: 1em;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.chatInput:focus {
+  border-color: #e76f51;
+  outline: none;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.chatInput::placeholder {
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .attachmentLabel {
@@ -259,6 +348,12 @@
   font-weight: bold;
 }
 
+.attachmentText {
+  color: #e0e1dd;
+  font-size: 0.9em;
+  margin-left: 0.5rem;
+}
+
 .closeBtn {
   display: flex;
   align-items: center;
@@ -266,8 +361,8 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: #222;
-  color: #fff;
+  background: #1b263b;
+  color: #e0e1dd;
   border: none;
   font-size: 1.2em;
   cursor: pointer;
@@ -276,7 +371,7 @@
 }
 
 .closeBtn:hover {
-  background: #444;
+  background: #34495e;
 }
 
 .chatMessagesArea {
@@ -316,7 +411,7 @@
   display: flex;
   align-items: center;
   height: 100%;
-  color: #333;
+  color: #e0e1dd;
 }
 
 .input {
@@ -365,9 +460,9 @@
 }
 
 .reports_box {
-  background: #f5f7fa;
+  background: #34495e;
   border-radius: 16px;
-  box-shadow: 0 6px 32px rgba(60, 60, 60, 0.12);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   padding: 2em 2.5em 1.5em 2.5em;
   max-width: 950px; /* aumente aqui */
   min-width: 520px; /* aumente aqui */
@@ -378,6 +473,7 @@
   flex: 1 1 800px; /* aumente aqui para crescer mais */
   max-height: 80vh;
   overflow-y: auto;
+  border: 1px solid #34495e;
 }
 
 .reports_title_container {
@@ -389,12 +485,13 @@
 }
 
 .reports_grand_title {
+  font-family: "Lora", serif;
   font-size: 3.5rem;
   font-weight: bold;
-  color: #222;
+  color: #1b263b;
   letter-spacing: 1px;
   margin: 0;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  /* text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3); */
   text-align: center;
 }
 
@@ -404,5 +501,49 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+  padding-bottom: 4rem; /* Adiciona espaçamento inferior para separar do footer */
   /* background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); */
+}
+
+/* Responsividade Mobile */
+@media (max-width: 768px) {
+  .container {
+    max-width: 90% !important;
+    min-width: 300px;
+    margin: 0 auto;
+    padding: 1.5rem 1rem;
+  }
+
+  .reports_grand_title {
+    font-size: 2.5rem;
+  }
+
+  .project_container {
+    padding: 0 1rem 2rem 1rem;
+  }
+
+  .form {
+    padding: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    max-width: 95% !important;
+    min-width: 280px;
+    padding: 1rem 0.8rem;
+  }
+
+  .reports_grand_title {
+    font-size: 2rem;
+  }
+
+  .title {
+    font-size: 1.8rem;
+  }
+
+  .input,
+  .button {
+    font-size: 0.9rem;
+  }
 }

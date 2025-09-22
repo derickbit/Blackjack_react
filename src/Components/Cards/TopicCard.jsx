@@ -14,7 +14,9 @@ import { useAuthContext } from "../../contexts/AuthProvider";
 import { useForumContext } from "../../contexts/ForumContext";
 import TextWithMentions from "../Form/TextWithMentions";
 import ToastContainer from "../Layout/ToastContainer";
+import ImageModal from "../Layout/ImageModal";
 import { useToast } from "../../utils/useToast";
+import { useImageModal } from "../../utils/useImageModal";
 import styles from "./TopicCard.module.css";
 
 const TopicCard = ({ topic, onEdit, onDelete, onClick }) => {
@@ -26,6 +28,10 @@ const TopicCard = ({ topic, onEdit, onDelete, onClick }) => {
   // Toast hook
   const { toasts, showSuccess, showError, removeToast } = useToast();
 
+  // Image modal hook
+  const { modalImage, modalAlt, isModalOpen, openImageModal, closeImageModal } =
+    useImageModal();
+
   const handleLike = async (e) => {
     e.stopPropagation(); // Evitar trigger do onClick do card
     if (isLiking || !user) return;
@@ -33,8 +39,8 @@ const TopicCard = ({ topic, onEdit, onDelete, onClick }) => {
     setIsLiking(true);
     try {
       await toggleTopicLike(topic.id);
-    } catch (error) {
-      console.error("Erro ao dar like:", error);
+    } catch {
+      // Erro será tratado pelo contexto
     } finally {
       setIsLiking(false);
     }
@@ -56,8 +62,7 @@ const TopicCard = ({ topic, onEdit, onDelete, onClick }) => {
     try {
       await onDelete(topic.id);
       showSuccess("Tópico excluído com sucesso!");
-    } catch (error) {
-      console.error("Erro ao excluir tópico:", error);
+    } catch {
       showError("Erro ao excluir tópico. Tente novamente.");
     } finally {
       setShowDeleteConfirm(false);
@@ -140,7 +145,15 @@ const TopicCard = ({ topic, onEdit, onDelete, onClick }) => {
 
         {topic.imagem_url && (
           <div className={styles.topicImage}>
-            <img src={topic.imagem_url} alt="Imagem do tópico" />
+            <img
+              src={topic.imagem_url}
+              alt="Imagem do tópico"
+              onClick={(e) => {
+                e.stopPropagation();
+                openImageModal(topic.imagem_url, "Imagem do tópico");
+              }}
+              style={{ cursor: "pointer" }}
+            />
           </div>
         )}
       </div>
@@ -214,6 +227,14 @@ const TopicCard = ({ topic, onEdit, onDelete, onClick }) => {
 
       {/* Toast Container */}
       <ToastContainer toasts={toasts} onRemoveToast={removeToast} />
+
+      {/* Image Modal */}
+      <ImageModal
+        isOpen={isModalOpen}
+        imageUrl={modalImage}
+        imageAlt={modalAlt}
+        onClose={closeImageModal}
+      />
     </div>
   );
 };

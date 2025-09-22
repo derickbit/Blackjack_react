@@ -1,5 +1,6 @@
 .topicDetailContainer {
-  max-width: 1000px;
+  max-width: 1200px; /* Largura fixa padronizada */
+  min-width: 1200px; /* Largura fixa padronizada */
   margin: 0 auto;
   padding: 20px;
   background-color: #f8f9fa;
@@ -102,7 +103,7 @@
 }
 
 .deleteButton:hover {
-  color: #dc3545;
+  color: #e76f51;
   background-color: #fee;
 }
 
@@ -149,15 +150,15 @@
 }
 
 .likeButton:hover:not(:disabled) {
-  border-color: #dc3545;
-  color: #dc3545;
-  background-color: rgba(220, 53, 69, 0.05);
+  border-color: #e76f51;
+  color: #e76f51;
+  background-color: rgba(231, 111, 81, 0.05);
 }
 
 .likeButton.liked {
-  border-color: #dc3545;
-  color: #dc3545;
-  background-color: rgba(220, 53, 69, 0.1);
+  border-color: #e76f51;
+  color: #e76f51;
+  background-color: rgba(231, 111, 81, 0.1);
 }
 
 .likeButton:disabled {
@@ -209,24 +210,64 @@
 }
 
 .submitCommentButton {
-  background-color: #007bff;
-  color: white;
+  background: linear-gradient(90deg, #1b263b 0%, #2c3e50 100%);
+  color: #e0e1dd;
   border: none;
-  padding: 12px 24px;
-  border-radius: 6px;
+  padding: 0.7em 1.6em;
+  border-radius: 2em;
   cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
-  transition: background-color 0.2s ease;
+  font-size: 1.08em;
+  font-weight: 600;
+  transition: background 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+  min-width: 120px;
+  min-height: 44px;
+}
+
+.submitCommentButton::after {
+  content: "";
+  position: absolute;
+  left: -75%;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    rgba(224, 225, 221, 0.18) 0%,
+    rgba(224, 225, 221, 0.01) 100%
+  );
+  transform: skewX(-20deg);
+  transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+}
+
+.submitCommentButton:hover::after {
+  left: 110%;
+  opacity: 1;
 }
 
 .submitCommentButton:hover:not(:disabled) {
-  background-color: #0056b3;
+  background: linear-gradient(90deg, #2c3e50 0%, #1b263b 100%);
+  box-shadow: 0 6px 18px rgba(27, 38, 59, 0.3);
+  transform: translateY(-2px) scale(1.045);
 }
 
 .submitCommentButton:disabled {
-  background-color: #6c757d;
+  background: linear-gradient(90deg, #6c757d 0%, #5a6268 100%);
+  color: #e0e1dd;
   cursor: not-allowed;
+  opacity: 0.6;
+  transform: none;
+}
+
+.submitCommentButton:disabled::after {
+  display: none;
 }
 
 .loginPrompt {
@@ -324,6 +365,8 @@
 @media (max-width: 768px) {
   .topicDetailContainer {
     padding: 16px;
+    max-width: 95%;
+    min-width: 300px;
   }
 
   .topicContent,
@@ -443,7 +486,7 @@
 }
 
 .confirmButton {
-  background: #dc3545;
+  background: #e76f51;
   color: white;
   border: none;
   padding: 12px 24px;
@@ -455,6 +498,6 @@
 }
 
 .confirmButton:hover {
-  background: #c82333;
+  background: #d85a3c;
   transform: translateY(-1px);
 }

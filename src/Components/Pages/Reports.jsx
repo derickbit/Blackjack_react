@@ -1,10 +1,15 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import PropTypes from "prop-types";
 import { useReportsContext } from "../../contexts/ReportsProvider";
 import { getImageUrl } from "../../utils/imageUtils";
 import styles from "./forms.module.css";
 import SubmitButton from "../Form/SubmitButton";
 import { useAuthContext } from "../../contexts/AuthProvider";
 import imageCompression from "browser-image-compression";
+import { useToast } from "../../utils/useToast";
+import ToastContainer from "../Layout/ToastContainer";
+import ImageModal from "../Layout/ImageModal";
+import { useImageModal } from "../../utils/useImageModal";
 
 // Ícone de atualização simples (SVG)
 const RefreshIcon = ({ onClick, style, title = "Atualizar" }) => (
@@ -31,6 +36,12 @@ const RefreshIcon = ({ onClick, style, title = "Atualizar" }) => (
   </svg>
 );
 
+RefreshIcon.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  style: PropTypes.object,
+  title: PropTypes.string,
+};
+
 const getBackendBaseUrl = () => {
   const apiUrl = import.meta.env.VITE_API_URL || "";
   if (apiUrl && apiUrl.endsWith("/api")) {
@@ -41,6 +52,7 @@ const getBackendBaseUrl = () => {
   }
   return "http://localhost:8000";
 };
+// eslint-disable-next-line no-unused-vars
 const BACKEND_BASE_URL = getBackendBaseUrl();
 
 const MAX_IMAGE_SIZE_MB = 10; // Limite máximo aceito pelo backend
@@ -56,6 +68,12 @@ const Reports = () => {
     sendReportMessage,
     updateReportStatus,
   } = useReportsContext();
+
+  const { toasts, showError, removeToast } = useToast();
+
+  // Image modal hook
+  const { modalImage, modalAlt, isModalOpen, openImageModal, closeImageModal } =
+    useImageModal();
 
   const reportsPollingRef = useRef(null);
   const messagesPollingRef = useRef(null);
@@ -166,9 +184,10 @@ const Reports = () => {
     try {
       await updateReportStatus(reportId, newStatus);
       await loadReportsList();
-    } catch (e) {
-      alert(
-        "Erro ao atualizar status. Verifique se você está autenticado como admin."
+    } catch {
+      showError(
+        "Erro ao atualizar status. Verifique se você está autenticado como admin.",
+        5000
       );
     }
   };
@@ -179,7 +198,7 @@ const Reports = () => {
     if (newReportImagePreview) URL.revokeObjectURL(newReportImagePreview);
     if (file) {
       if (file.size > MAX_IMAGE_SIZE_MB * 1024 * 1024) {
-        alert(`A imagem deve ter no máximo ${MAX_IMAGE_SIZE_MB}MB.`);
+        showError(`A imagem deve ter no máximo ${MAX_IMAGE_SIZE_MB}MB.`, 4000);
         return;
       }
       try {
@@ -191,8 +210,9 @@ const Reports = () => {
         const compressedFile = await imageCompression(file, options);
         setNewReport({ ...newReport, imagem: compressedFile });
         setNewReportImagePreview(URL.createObjectURL(compressedFile));
-      } catch (err) {
-        alert("Erro ao comprimir imagem.");
+      } catch (error) {
+        console.error("Erro ao comprimir imagem:", error);
+        showError("Erro ao comprimir imagem.", 4000);
         setNewReport({ ...newReport, imagem: null });
         setNewReportImagePreview(null);
       }
@@ -209,7 +229,7 @@ const Reports = () => {
       URL.revokeObjectURL(newChatMessageImagePreview);
     if (file) {
       if (file.size > MAX_IMAGE_SIZE_MB * 1024 * 1024) {
-        alert(`A imagem deve ter no máximo ${MAX_IMAGE_SIZE_MB}MB.`);
+        showError(`A imagem deve ter no máximo ${MAX_IMAGE_SIZE_MB}MB.`, 4000);
         return;
       }
       try {
@@ -221,8 +241,9 @@ const Reports = () => {
         const compressedFile = await imageCompression(file, options);
         setNewChatMessageImage(compressedFile);
         setNewChatMessageImagePreview(URL.createObjectURL(compressedFile));
-      } catch (err) {
-        alert("Erro ao comprimir imagem.");
+      } catch (error) {
+        console.error("Erro ao comprimir imagem:", error);
+        showError("Erro ao comprimir imagem.", 4000);
         setNewChatMessageImage(null);
         setNewChatMessageImagePreview(null);
       }
@@ -235,7 +256,13 @@ const Reports = () => {
   const handleSendMessage = async (e) => {
     e.preventDefault();
     if (sendingMessage) return; // Evita múltiplos envios
-    if ((!newMessage || !newMessage.trim()) && !newChatMessageImage) return;
+
+    // Validação: precisa ter texto ou imagem
+    if ((!newMessage || !newMessage.trim()) && !newChatMessageImage) {
+      showError("A mensagem deve ter um texto ou uma imagem", 4000);
+      return;
+    }
+
     if (!selectedReport?.id) return;
 
     setSendingMessage(true); // Bloqueia o botão imediatamente
@@ -243,10 +270,6 @@ const Reports = () => {
       const formData = new FormData();
       formData.append("mensagem", newMessage.trim());
       if (newChatMessageImage) formData.append("imagem", newChatMessageImage);
-
-      for (let [key, value] of formData.entries()) {
-        console.log(key, value);
-      }
 
       await sendReportMessage(selectedReport.id, formData);
       await loadChatMessages(selectedReport.id);
@@ -260,14 +283,21 @@ const Reports = () => {
       }
     } catch (error) {
       if (error.response && error.response.data) {
-        console.error("Erro detalhado do backend:", error.response.data);
-        alert(
-          "Erro ao enviar mensagem: " +
-            JSON.stringify(error.response.data, null, 2)
-        );
+        const errorData = error.response.data;
+
+        // Trata erros de validação do backend de forma mais amigável
+        if (errorData.errors && errorData.errors.mensagem) {
+          showError(errorData.errors.mensagem[0], 5000);
+        } else if (errorData.message) {
+          showError(errorData.message, 5000);
+        } else {
+          showError(
+            "Erro ao enviar mensagem. Verifique os dados e tente novamente.",
+            5000
+          );
+        }
       } else {
-        console.error(error);
-        alert("Erro ao enviar mensagem.");
+        showError("Erro ao enviar mensagem. Tente novamente.", 5000);
       }
     } finally {
       setSendingMessage(false); // Libera o botão após o envio (ou erro)
@@ -292,6 +322,7 @@ const Reports = () => {
 
   return (
     <div className={styles.project_container}>
+      <ToastContainer toasts={toasts} onRemoveToast={removeToast} />
       <div className={styles.reports_title_container}>
         <h1 className={styles.reports_grand_title}>Envie seu recado</h1>
       </div>
@@ -382,7 +413,7 @@ const Reports = () => {
                   }}
                 />
               )}
-              <span style={{ color: "#888", fontSize: "0.95em" }}>
+              <span style={{ color: "#e0e1dd", fontSize: "0.95em" }}>
                 {newReport.imagem ? newReport.imagem.name : "Anexar imagem"}
               </span>
             </div>
@@ -523,20 +554,40 @@ const Reports = () => {
                     : <div>{msg.mensagem}</div>
                     {msg.imagem && (
                       <div style={{ marginTop: "5px" }}>
-                        <img
-                          src={getImageUrl(msg.imagem)}
-                          alt="Imagem da mensagem"
-                          style={{
-                            maxWidth: "200px",
-                            maxHeight: "200px",
-                            borderRadius: 6,
-                            cursor: "pointer",
-                            display: "block",
-                          }}
-                          onClick={() =>
-                            window.open(getImageUrl(msg.imagem), "_blank")
-                          }
-                        />
+                        {getImageUrl(msg.imagem) ? (
+                          <img
+                            src={getImageUrl(msg.imagem)}
+                            alt="Imagem da mensagem"
+                            style={{
+                              maxWidth: "200px",
+                              maxHeight: "200px",
+                              borderRadius: 6,
+                              cursor: "pointer",
+                              display: "block",
+                            }}
+                            onClick={() =>
+                              openImageModal(
+                                getImageUrl(msg.imagem),
+                                "Imagem da mensagem"
+                              )
+                            }
+                            onError={(e) => {
+                              e.target.style.display = "none";
+                            }}
+                          />
+                        ) : (
+                          <div
+                            style={{
+                              padding: "10px",
+                              backgroundColor: "rgba(224, 225, 221, 0.1)",
+                              borderRadius: "4px",
+                              fontSize: "0.9em",
+                              color: "#e0e1dd",
+                            }}
+                          >
+                            ⚠️ Imagem não disponível (ID: {msg.imagem})
+                          </div>
+                        )}
                       </div>
                     )}
                     <div
@@ -605,6 +656,14 @@ const Reports = () => {
           </div>
         </div>
       )}
+
+      {/* Image Modal */}
+      <ImageModal
+        isOpen={isModalOpen}
+        imageUrl={modalImage}
+        imageAlt={modalAlt}
+        onClose={closeImageModal}
+      />
     </div>
   );
 };

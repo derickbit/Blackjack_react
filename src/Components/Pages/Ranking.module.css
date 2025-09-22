@@ -7,27 +7,28 @@
 }
 
 .grand_title {
+  font-family: "Lora", serif;
   font-size: 3.5rem;
   font-weight: bold;
-  color: #222;
+  color: #1b263b;
   letter-spacing: 2px;
   margin: 0;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  /* text-shadow: 0 2px 12px rgba(255, 255, 255, 0.3); */
 }
 .project_container {
-  min-height: 80vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  /* background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); */
+  background: transparent;
   padding: 3em 1em;
 }
 
 .ranking_box {
-  background: #f5f7fa;
+  background: #34495e;
   border-radius: 16px;
-  box-shadow: 0 6px 32px rgba(60, 60, 60, 0.12);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   padding: 2em 2.5em 1.5em 2.5em;
   max-width: 700px;
   min-width: 420px;
@@ -49,7 +50,7 @@
 
 .tittle_container h2 {
   font-size: 2.2rem;
-  color: #222;
+  color: #e0e1dd;
   letter-spacing: 1px;
   font-weight: bold;
   margin: 0;

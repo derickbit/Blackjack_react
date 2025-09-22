@@ -91,7 +91,7 @@ const HistoricoPartidas = () => {
             >
               Anterior
             </button>
-            <span>
+            <span className={styles.paginationText}>
               Página {page} de {totalPages}
             </span>
             <button

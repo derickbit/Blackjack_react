@@ -1,60 +1,68 @@
 import React, { useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom"; // 1. Importe o useLocation
-import toalhaVerde from "../assets/toalhaVerde.png";
+import { useLocation } from "react-router-dom";
+import backgroundClaro from "../assets/BackgroundClaro.png";
 
 const ParallaxBackground = () => {
   const imgRef = useRef(null);
   const parallaxInstance = useRef(null);
-  const location = useLocation(); // 2. Obtenha o objeto de localização atual
+  const location = useLocation();
 
   useEffect(() => {
-    // Esta função será executada toda vez que a 'location' mudar
     const initParallax = () => {
       if (imgRef.current && window.simpleParallax) {
-        // Destruímos a instância anterior ANTES de criar uma nova.
-        // O React executa a limpeza do efeito anterior antes de executar o novo.
         if (parallaxInstance.current) {
           parallaxInstance.current.destroy();
         }
 
-        // Criamos a nova instância com a opção 'overflow'
+        // Configuração muito conservadora para evitar barra branca
         parallaxInstance.current = new window.simpleParallax(imgRef.current, {
-          scale: 1.2,
-          delay: 0.4,
+          scale: 1.02, // Scale mínimo para quase nenhum movimento
+          delay: 0.02, // Delay mínimo
           transition: "cubic-bezier(0,0,0,1)",
           orientation: "up",
-          overflow: true, // 3. FORÇA a ativação do efeito
+          overflow: true,
         });
       }
     };
 
     initParallax();
 
-    // A função de limpeza continua crucial
     return () => {
       if (parallaxInstance.current) {
         parallaxInstance.current.destroy();
       }
     };
-  }, [location]); // 4. O segredo: O array de dependência com 'location'
+  }, [location]);
 
   return (
-    <img
-      ref={imgRef}
-      src={toalhaVerde}
-      alt="Fundo Parallax"
+    <div
       style={{
         position: "fixed",
         top: 0,
         left: 0,
         width: "100vw",
         height: "100vh",
-        objectFit: "cover",
+        overflow: "hidden",
         zIndex: -1,
         pointerEvents: "none",
       }}
-      className="parallax-bg"
-    />
+    >
+      <div
+        ref={imgRef}
+        style={{
+          position: "absolute",
+          top: "-30vh",
+          left: "-15vw",
+          width: "130vw",
+          height: "180vh",
+          backgroundImage: `url(${backgroundClaro})`,
+          backgroundRepeat: "repeat",
+          backgroundSize: "450px 450px", // Tamanho equilibrado para boa visibilidade mantendo proporção quadrada
+          backgroundPosition: "0 0",
+        }}
+        className="parallax-bg"
+      />
+    </div>
   );
 };
 

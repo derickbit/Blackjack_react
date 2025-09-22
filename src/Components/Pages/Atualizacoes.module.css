@@ -34,7 +34,7 @@
 
 .formContainer {
   width: 100%;
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0 auto 3rem auto;
   background: white;
   border-radius: 16px;
@@ -148,7 +148,7 @@
 
 .updatesContainer {
   width: 100%;
-  max-width: 900px;
+  max-width: 1200px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -403,6 +403,8 @@
   .formContainer {
     margin: 0 1rem 2rem 1rem;
     padding: 1.5rem;
+    max-width: 95%;
+    min-width: 300px;
   }
 
   .formRow {
@@ -432,6 +434,7 @@
 
   .updatesContainer {
     margin: 0 1rem;
+    max-width: 95%;
   }
 
   .updateContent {

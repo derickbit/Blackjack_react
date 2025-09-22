@@ -9,7 +9,9 @@ import TopicModal from "./TopicModal";
 import Input from "../Form/Input";
 import Select from "../Form/Select";
 import SubmitButton from "../Form/SubmitButton";
+import LoadingSpinner from "../Layout/LoadingSpinner";
 import styles from "./Comunidade.module.css";
+import rankingStyles from "./Ranking.module.css";
 
 const Comunidade = () => {
   const navigate = useNavigate();
@@ -21,6 +23,7 @@ const Comunidade = () => {
     deleteTopic,
     fetchUnreadMentionsCount,
     unreadMentionsCount,
+    setCurrentTopic,
   } = useForumContext();
   const { users, fetchUsers } = useUsersContext();
 
@@ -124,6 +127,8 @@ const Comunidade = () => {
 
   // Abrir tópico para visualização
   const handleOpenTopic = (topic) => {
+    // Limpar estados para mostrar loading imediatamente
+    setCurrentTopic(null);
     navigate(`/comunidade/topico/${topic.id}`);
   };
 
@@ -134,146 +139,152 @@ const Comunidade = () => {
   };
 
   const orderByOptions = [
-    { value: "recent", label: "Mais recentes" },
-    { value: "oldest", label: "Mais antigos" },
-    { value: "most_comments", label: "Mais comentados" },
-    { value: "most_likes", label: "Mais curtidos" },
+    { id: "recent", name: "Mais recentes" },
+    { id: "oldest", name: "Mais antigos" },
+    { id: "most_comments", name: "Mais comentados" },
+    { id: "most_likes", name: "Mais curtidos" },
   ];
 
   return (
-    <div className={styles.comunidadeContainer}>
-      {/* Header */}
-      <div className={styles.header}>
-        <div className={styles.headerTitle}>
-          <h1>
-            <FaComment className={styles.headerIcon} />
-            Comunidade
-          </h1>
-          <p>
-            Participe das discussões e compartilhe suas experiências com outros
-            jogadores
-          </p>
+    <div className={rankingStyles.project_container}>
+      <div className={rankingStyles.grand_title_container}>
+        <h1 className={rankingStyles.grand_title}>Comunidade</h1>
+      </div>
+      <div className={styles.comunidadeContainer}>
+        {/* Header */}
+        <div className={styles.header}>
+          <div className={styles.headerTitle}>
+            <div className={styles.headerSubtitle}>
+              <FaComment className={styles.headerIcon} />
+              <p>
+                Participe das discussões e compartilhe suas experiências com
+                outros jogadores
+              </p>
+            </div>
+          </div>
+
+          {/* Notificação de menções */}
+          {user && unreadMentionsCount > 0 && (
+            <div className={styles.mentionsNotification}>
+              <span>
+                Você tem {unreadMentionsCount} menção(ões) não lida(s)
+              </span>
+              <button
+                onClick={() => navigate("/comunidade/mencoes")}
+                className={styles.viewMentionsButton}
+              >
+                Ver menções
+              </button>
+            </div>
+          )}
+
+          {/* Botão criar tópico */}
+          <SubmitButton
+            text="Novo Tópico"
+            onClick={handleCreateTopic}
+            className={styles.createTopicButton}
+          />
         </div>
 
-        {/* Notificação de menções */}
-        {user && unreadMentionsCount > 0 && (
-          <div className={styles.mentionsNotification}>
-            <span>Você tem {unreadMentionsCount} menção(ões) não lida(s)</span>
-            <button
-              onClick={() => navigate("/comunidade/mencoes")}
-              className={styles.viewMentionsButton}
-            >
-              Ver menções
-            </button>
-          </div>
-        )}
+        {/* Filtros e busca */}
+        <div className={styles.filtersSection}>
+          <div className={styles.searchAndFilters}>
+            <div className={styles.searchBox}>
+              <FaSearch className={styles.searchIcon} />
+              <Input
+                type="text"
+                text=""
+                name="search"
+                placeholder="Buscar tópicos..."
+                value={filters.search}
+                handleOnChange={(e) =>
+                  handleFilterChange("search", e.target.value)
+                }
+              />
+            </div>
 
-        {/* Botão criar tópico */}
-        <SubmitButton
-          text="Novo Tópico"
-          onClick={handleCreateTopic}
-          className={styles.createTopicButton}
+            <div className={styles.filterButtons}>
+              <button
+                className={`${styles.filterButton} ${
+                  filters.fixados ? styles.active : ""
+                }`}
+                onClick={() => handleFilterChange("fixados", !filters.fixados)}
+              >
+                <FaThumbtack />
+                Fixados
+              </button>
+
+              <button
+                className={`${styles.filterButton} ${
+                  filters.fechados ? styles.active : ""
+                }`}
+                onClick={() =>
+                  handleFilterChange("fechados", !filters.fechados)
+                }
+              >
+                <FaFilter />
+                Fechados
+              </button>
+            </div>
+
+            <div className={styles.sortSelect}>
+              <Select
+                text=""
+                name="orderBy"
+                options={orderByOptions}
+                handleOnChange={(e) =>
+                  handleFilterChange("orderBy", e.target.value)
+                }
+                value={filters.orderBy}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Lista de tópicos */}
+        <div className={styles.topicsSection}>
+          {loading ? (
+            <LoadingSpinner message="Carregando tópicos..." size="large" />
+          ) : topics.length === 0 ? (
+            <div className={styles.emptyState}>
+              <FaComment className={styles.emptyIcon} />
+              <h3>Nenhum tópico encontrado</h3>
+              <p>
+                {filters.search || filters.fixados || filters.fechados
+                  ? "Tente ajustar os filtros de busca."
+                  : "Seja o primeiro a iniciar uma discussão!"}
+              </p>
+              {!user && (
+                <p className={styles.loginPrompt}>
+                  <a href="/login">Faça login</a> para participar das
+                  discussões.
+                </p>
+              )}
+            </div>
+          ) : (
+            <div className={styles.topicsList}>
+              {topics.map((topic) => (
+                <TopicCard
+                  key={topic.id}
+                  topic={topic}
+                  onEdit={handleEditTopic}
+                  onDelete={handleDeleteTopic}
+                  onClick={handleOpenTopic}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Modal para criar/editar tópico */}
+        <TopicModal
+          isOpen={showTopicModal}
+          onClose={handleCloseModal}
+          topic={editingTopic}
+          users={users}
+          onUserSearch={searchUsers}
         />
       </div>
-
-      {/* Filtros e busca */}
-      <div className={styles.filtersSection}>
-        <div className={styles.searchAndFilters}>
-          <div className={styles.searchBox}>
-            <FaSearch className={styles.searchIcon} />
-            <Input
-              type="text"
-              text=""
-              name="search"
-              placeholder="Buscar tópicos..."
-              value={filters.search}
-              handleOnChange={(e) =>
-                handleFilterChange("search", e.target.value)
-              }
-            />
-          </div>
-
-          <div className={styles.filterButtons}>
-            <button
-              className={`${styles.filterButton} ${
-                filters.fixados ? styles.active : ""
-              }`}
-              onClick={() => handleFilterChange("fixados", !filters.fixados)}
-            >
-              <FaThumbtack />
-              Fixados
-            </button>
-
-            <button
-              className={`${styles.filterButton} ${
-                filters.fechados ? styles.active : ""
-              }`}
-              onClick={() => handleFilterChange("fechados", !filters.fechados)}
-            >
-              <FaFilter />
-              Fechados
-            </button>
-          </div>
-
-          <div className={styles.sortSelect}>
-            <Select
-              text=""
-              name="orderBy"
-              options={orderByOptions}
-              handleOnChange={(e) =>
-                handleFilterChange("orderBy", e.target.value)
-              }
-              value={filters.orderBy}
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* Lista de tópicos */}
-      <div className={styles.topicsSection}>
-        {loading ? (
-          <div className={styles.loading}>
-            <div className={styles.spinner}></div>
-            <p>Carregando tópicos...</p>
-          </div>
-        ) : topics.length === 0 ? (
-          <div className={styles.emptyState}>
-            <FaComment className={styles.emptyIcon} />
-            <h3>Nenhum tópico encontrado</h3>
-            <p>
-              {filters.search || filters.fixados || filters.fechados
-                ? "Tente ajustar os filtros de busca."
-                : "Seja o primeiro a iniciar uma discussão!"}
-            </p>
-            {!user && (
-              <p className={styles.loginPrompt}>
-                <a href="/login">Faça login</a> para participar das discussões.
-              </p>
-            )}
-          </div>
-        ) : (
-          <div className={styles.topicsList}>
-            {topics.map((topic) => (
-              <TopicCard
-                key={topic.id}
-                topic={topic}
-                onEdit={handleEditTopic}
-                onDelete={handleDeleteTopic}
-                onClick={handleOpenTopic}
-              />
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Modal para criar/editar tópico */}
-      <TopicModal
-        isOpen={showTopicModal}
-        onClose={handleCloseModal}
-        topic={editingTopic}
-        users={users}
-        onUserSearch={searchUsers}
-      />
     </div>
   );
 };

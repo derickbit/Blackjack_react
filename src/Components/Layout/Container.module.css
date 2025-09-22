@@ -11,6 +11,25 @@
   box-shadow: none !important;
 }
 
+/* Responsividade Mobile */
+@media (max-width: 768px) {
+  .container {
+    padding-top: 60px;
+    padding-bottom: 60px;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+  }
+}
+
 .column {
   flex-direction: column; /* Configuração de coluna */
   justify-content: flex-start;
@@ -19,5 +38,3 @@
 .min_height {
   min-height: 75vh; /* Define uma altura mínima */
 }
-
-/* Removido CSS duplicado para evitar sobrescrita */

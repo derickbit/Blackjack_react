@@ -1,34 +1,45 @@
 .sobreTabsBg {
-  min-height: 100vh;
-  padding: 0;
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  /* sem background aqui */
+  /* Removido padding e min-height para evitar scroll desnecessário */
+}
+
+/* Sobrescreve o min-height do project_container para a página Sobre */
+.sobrePageContainer {
+  min-height: auto !important;
+  padding: 1.5em 1em 0.5em 1em !important; /* Reduz padding ainda mais */
+  overflow: hidden !important; /* Evita scroll desnecessário */
+}
+
+/* Reduz espaçamento do título na página Sobre */
+.sobrePageContainer .grand_title_container {
+  margin-bottom: 0.2em !important;
 }
 
 .sobreTabsGrid {
   display: grid;
   grid-template-columns: 240px 1fr;
   gap: 0;
-  max-width: 900px;
-  width: 900px;
-  min-width: 320px;
-  margin: 64px auto 0 auto;
-  background: #fff;
+  max-width: 1200px; /* Largura fixa padronizada */
+  width: 1200px;
+  min-width: 1200px; /* Largura fixa padronizada */
+  margin: 10px auto 10px auto; /* Reduzi margens ainda mais */
+  background: #2c3e50;
   border-radius: 1.2rem;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
-  min-height: 650px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  /* Removido min-height fixo para evitar scroll desnecessário */
   overflow: hidden;
+  border: 1px solid #34495e;
 }
 
 .sobreTabsMenu {
-  background: #fafafa;
-  border-right: 1.5px solid #ececec;
-  padding: 2.5rem 0.5rem 2.5rem 1.5rem;
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  border-right: 1.5px solid #34495e;
+  padding: 2rem 0.5rem 2rem 1.5rem; /* Reduzido padding vertical */
   display: flex;
   flex-direction: column;
-  min-height: 100%;
+  /* Removido min-height para permitir altura automática */
 }
 .sobreTabsMenu ul {
   list-style: none;
@@ -42,7 +53,7 @@
   border: none;
   text-align: left;
   font-size: 1.25rem;
-  color: #444;
+  color: rgba(255, 255, 255, 0.8);
   padding: 1.3rem 1.2rem;
   border-radius: 1.5rem 0 0 1.5rem;
   margin-bottom: 0.3rem;
@@ -51,25 +62,32 @@
   transition: background 0.18s, color 0.18s;
 }
 .sobreTabButton:hover {
-  background: #eafaf2;
-  color: #1e293b;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
 }
 .sobreTabButtonActive {
-  composes: sobreTabButton;
-  background: #b4e2c9;
-  color: #111;
+  background: #ffc107;
+  color: #212529;
   font-weight: 700;
+  display: block;
+  width: 100%;
+  border: none;
+  text-align: left;
+  font-size: 1.25rem;
+  padding: 1.3rem 1.2rem;
+  border-radius: 1.5rem 0 0 1.5rem;
+  margin-bottom: 0.3rem;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
 }
 
 /* Unificação e padronização das abas e conteúdo central */
 .sobreTabsContent {
-  padding: 2.2rem 2.2rem 2.2rem 1.7rem;
+  padding: 1.8rem 2rem 1.8rem 1.5rem; /* Reduzido padding para evitar altura excessiva */
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  min-height: 400px;
-  max-height: 650px;
-  overflow-y: auto;
+  /* Removido max-height e overflow-y para evitar scroll interno desnecessário */
   font-size: 1.08rem;
   box-sizing: border-box;
 }
@@ -78,7 +96,7 @@
   font-size: 1.45rem;
   font-weight: 700;
   margin-bottom: 1.1rem;
-  color: #222;
+  color: white;
   line-height: 1.1;
   font-family: inherit;
   text-align: justify;
@@ -89,7 +107,7 @@
 .sobreTabsContent li,
 .sobreTabsContent ol,
 .sobreTabsContent ul {
-  color: #444;
+  color: rgba(255, 255, 255, 0.9);
   margin-bottom: 0.55rem;
   line-height: 1.7;
   font-family: inherit;
@@ -113,7 +131,7 @@
 .sobreFuturoSubtitle {
   font-size: 1.13rem;
   font-weight: 600;
-  color: #25603b;
+  color: #ffc107;
   margin-bottom: 0.3rem;
   margin-top: 0.7rem;
   text-align: justify;
@@ -159,20 +177,20 @@
   font-size: 1.45rem;
   font-weight: 700;
   margin-bottom: 1.1rem;
-  color: #222;
+  color: white;
   text-align: justify;
 }
 .sobreHiloSectionSubtitle {
   font-size: 1.13rem;
   font-weight: 600;
-  color: #25603b;
+  color: #ffc107;
   margin-bottom: 0.3rem;
   margin-top: 0.7rem;
   text-align: justify;
 }
 .sobreHiloText {
   font-size: 1.08rem;
-  color: #444;
+  color: rgba(255, 255, 255, 0.9);
   margin-bottom: 0.55rem;
   text-align: justify;
 }
@@ -180,7 +198,7 @@
   margin: 0 0 0.7rem 1.2rem;
   padding: 0;
   font-size: 1.08rem;
-  color: #444;
+  color: rgba(255, 255, 255, 0.9);
   list-style: disc inside;
   text-align: justify;
 }
@@ -190,7 +208,7 @@
 }
 .sobreHiloDica {
   font-size: 1.02rem;
-  color: #25603b;
+  color: #ffc107;
   margin-bottom: 0.5rem;
   font-style: italic;
   text-align: justify;
@@ -200,14 +218,15 @@
     grid-template-columns: 1fr;
     border-radius: 0.8rem;
     box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.06);
-    width: 98vw;
-    min-width: 0;
-    max-width: 99vw;
+    width: 95vw; /* Melhor ajuste para mobile */
+    min-width: 300px; /* Largura mínima consistente */
+    max-width: 95vw;
+    margin: 1rem auto 0 auto; /* Melhor margem para mobile */
   }
   .sobreTabsMenu {
     flex-direction: row;
     border-right: none;
-    border-bottom: 1.5px solid #ececec;
+    border-bottom: 1.5px solid #34495e;
     padding: 1rem 0.5rem 0.5rem 0.5rem;
     overflow-x: auto;
     min-width: 0;
@@ -228,17 +247,13 @@
   .sobreTabsContent {
     padding: 1.05rem 0.5rem;
     font-size: 0.98rem;
-    max-height: 420px;
+    /* Removido max-height para evitar scroll desnecessário */
   }
   .sobreTabTitle {
     font-size: 1.05rem;
   }
   .sobreTabsContent li {
     font-size: 0.98rem;
-  }
-  .sobreFuturoContent,
-  .sobreHiloContent {
-    max-height: 420px;
   }
   .sobreHiloHeroRow {
     flex-direction: column;
@@ -262,7 +277,7 @@
 }
 
 .sobreBg {
-  background: #eafaf2;
+  background: #e8edf5;
   min-height: 100vh;
   padding: 0;
 }
@@ -321,7 +336,7 @@
   top: 0;
   bottom: 0;
   width: 4px;
-  background: #b4e2c9;
+  background: #c5d4e6;
   border-radius: 2px;
 }
 .timelineItem {

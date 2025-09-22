@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./forms.module.css";
-import logo from "../../assets/blackjack_logo.jpg";
 import { useUsersContext } from "../../contexts/UsersContext";
 import SubmitButton from "../Form/SubmitButton";
 import eyeSprite from "../../assets/eye-sprite.png";
@@ -123,122 +122,131 @@ function EditarPerfil() {
   };
 
   return (
-    <div className={`${styles.loginContainer} ${styles.centerBelowNavbar}`}>
+    <div className={styles.project_container}>
       <ToastContainer toasts={toasts} onRemoveToast={removeToast} />
-      <main className={styles.main}>
-        <div className={styles.container}>
-          <h1 className={styles.title}>Editar Perfil</h1>
-          {mensagemErro && <p className={styles.prompt}>{mensagemErro}</p>}
-          <form className={styles.form} onSubmit={onSubmit} method="POST">
-            <div className={styles.inputGroup}>
-              <label htmlFor="nome" className={styles.label}>
-                Nome:
-              </label>
-              <input
-                type="text"
-                name="nome"
-                id="nome"
-                value={name}
-                onChange={handleName}
-                required
-                className={styles.input}
-              />
-            </div>
-            <div className={styles.inputGroup}>
-              <label htmlFor="email" className={styles.label}>
-                Email:
-              </label>
-              <input
-                type="email"
-                name="email"
-                id="email"
-                value={email}
-                onChange={handleEmail}
-                required
-                className={styles.input}
-              />
-            </div>
-            <div className={styles.inputGroup} style={{ position: "relative" }}>
-              <label htmlFor="senha" className={styles.label}>
-                Senha:
-              </label>
-              <div className={styles.passwordWrapper}>
+      <div className={styles.editarperfil_title_container}>
+        <h1 className={styles.editarperfil_grand_title}>Editar Perfil</h1>
+      </div>
+      <div className={styles.loginContainer}>
+        <main className={styles.main}>
+          <div className={styles.container}>
+            {mensagemErro && <p className={styles.prompt}>{mensagemErro}</p>}
+            <form className={styles.form} onSubmit={onSubmit} method="POST">
+              <div className={styles.inputGroup}>
+                <label htmlFor="nome" className={styles.label}>
+                  Nome:
+                </label>
                 <input
-                  type={showPassword ? "text" : "password"}
-                  name="senha"
-                  id="senha"
-                  value={senha}
-                  onChange={handleSenha}
-                  onFocus={() => setShowPasswordRules(true)}
-                  onBlur={() => setShowPasswordRules(false)}
+                  type="text"
+                  name="nome"
+                  id="nome"
+                  value={name}
+                  onChange={handleName}
                   required
                   className={styles.input}
-                  autoComplete="new-password"
                 />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword((prev) => !prev)}
-                  className={styles.passwordToggleBtn}
-                  tabIndex={-1}
-                  aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
-                >
-                  <span className={styles.eyeSpriteWrapper}>
-                    <img
-                      src={eyeSprite}
-                      alt={showPassword ? "Ocultar senha" : "Mostrar senha"}
-                      className={
-                        showPassword ? styles.eyeImgClosed : styles.eyeImgOpen
-                      }
-                    />
-                  </span>
-                </button>
               </div>
-              {showPasswordRules && (
-                <div className={styles.passwordPopover}>
-                  <div className={styles.passwordPopoverTitle}>
-                    A senha deve possuir:
-                  </div>
-                  <ul className={styles.passwordRules}>
-                    {passwordRules.map((rule, idx) => (
-                      <li
-                        key={idx}
-                        style={{
-                          color: rule.test(senha) ? "green" : "red",
-                          listStyle: "none",
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "0.5em",
-                          fontWeight: rule.test(senha) ? "bold" : "normal",
-                        }}
-                      >
-                        <span>{rule.test(senha) ? "✔️" : "❌"}</span>
-                        {rule.label}
-                      </li>
-                    ))}
-                  </ul>
+              <div className={styles.inputGroup}>
+                <label htmlFor="email" className={styles.label}>
+                  Email:
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  value={email}
+                  onChange={handleEmail}
+                  required
+                  className={styles.input}
+                />
+              </div>
+              <div
+                className={styles.inputGroup}
+                style={{ position: "relative" }}
+              >
+                <label htmlFor="senha" className={styles.label}>
+                  Senha:
+                </label>
+                <div className={styles.passwordWrapper}>
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    name="senha"
+                    id="senha"
+                    value={senha}
+                    onChange={handleSenha}
+                    onFocus={() => setShowPasswordRules(true)}
+                    onBlur={() => setShowPasswordRules(false)}
+                    required
+                    className={styles.input}
+                    autoComplete="new-password"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    className={styles.passwordToggleBtn}
+                    tabIndex={-1}
+                    aria-label={
+                      showPassword ? "Ocultar senha" : "Mostrar senha"
+                    }
+                  >
+                    <span className={styles.eyeSpriteWrapper}>
+                      <img
+                        src={eyeSprite}
+                        alt={showPassword ? "Ocultar senha" : "Mostrar senha"}
+                        className={
+                          showPassword ? styles.eyeImgClosed : styles.eyeImgOpen
+                        }
+                      />
+                    </span>
+                  </button>
                 </div>
-              )}
-            </div>
-            <SubmitButton
-              text={loading ? "Salvando..." : "Salvar Alterações"}
-              type="submit"
-              disabled={loading}
-              className={styles.button}
-            />
-          </form>
-          <form
-            className={styles.form}
-            onSubmit={onDelete}
-            style={{ marginTop: "1.5rem" }}
-          >
-            <SubmitButton
-              text="Excluir conta"
-              type="submit"
-              className={styles.button}
-            />
-          </form>
-        </div>
-      </main>
+                {showPasswordRules && (
+                  <div className={styles.passwordPopover}>
+                    <div className={styles.passwordPopoverTitle}>
+                      A senha deve possuir:
+                    </div>
+                    <ul className={styles.passwordRules}>
+                      {passwordRules.map((rule, idx) => (
+                        <li
+                          key={idx}
+                          style={{
+                            color: rule.test(senha) ? "green" : "red",
+                            listStyle: "none",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "0.5em",
+                            fontWeight: rule.test(senha) ? "bold" : "normal",
+                          }}
+                        >
+                          <span>{rule.test(senha) ? "✔️" : "❌"}</span>
+                          {rule.label}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+              <SubmitButton
+                text={loading ? "Salvando..." : "Salvar Alterações"}
+                type="submit"
+                disabled={loading}
+                className={styles.button}
+              />
+            </form>
+            <form
+              className={styles.form}
+              onSubmit={onDelete}
+              style={{ marginTop: "1.5rem" }}
+            >
+              <SubmitButton
+                text="Excluir conta"
+                type="submit"
+                className={styles.button}
+              />
+            </form>
+          </div>
+        </main>
+      </div>
     </div>
   );
 }

@@ -14,8 +14,9 @@
 
 .home_container h1,
 .home_container h2 {
-  color: #fff;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  font-family: "Lora", serif;
+  color: #e0e1dd;
+  /* text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5); */
 }
 
 .home_container h1 {
@@ -29,9 +30,10 @@
 }
 
 .home_container p {
+  font-family: "Lora", serif;
   margin-bottom: 1.5em;
-  color: #fff;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  color: #e0e1dd;
+  /* text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5); */
 }
 
 .home_container img {
@@ -45,8 +47,8 @@
   appearance: none;
   border: none;
   outline: none;
-  background: linear-gradient(90deg, #232526 0%, #414345 100%);
-  color: #fff;
+  background: linear-gradient(90deg, #1b263b 0%, #2c3e50 100%);
+  color: #e0e1dd;
   font-size: 1.15em;
   font-family: inherit;
   font-weight: 500;
@@ -71,9 +73,9 @@
   box-sizing: border-box;
 }
 .nav_button:hover {
-  color: #fff;
-  background: linear-gradient(90deg, #434343 0%, #232526 100%);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+  color: #e0e1dd;
+  background: linear-gradient(90deg, #2c3e50 0%, #1b263b 100%);
+  box-shadow: 0 6px 18px rgba(27, 38, 59, 0.3);
   transform: translateY(-2px) scale(1.045);
 }
 
@@ -88,7 +90,7 @@
   height: calc(
     100vh - 80px - 64px
   ); /* 64px = altura do footer, ajuste se necessário */
-  background: #232526;
+  background: #1b263b;
   border-radius: 1em;
   box-shadow: 0 2px 32px rgba(0, 0, 0, 0.28);
   padding: 1.5em 1em 3.5em 1em; /* espaço extra para botão mobile */

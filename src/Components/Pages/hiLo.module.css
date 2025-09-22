@@ -4,8 +4,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(90deg, #232526 0%, #414345 100%);
-  color: #fff;
+  background: linear-gradient(90deg, #1b263b 0%, #2c3e50 100%);
+  color: #e0e1dd;
   font-weight: 600;
   font-size: 1.08em;
   padding: 0.7em 1.6em;
@@ -13,24 +13,54 @@
   border-radius: 2em;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  transition: background 0.3s, color 0.2s, box-shadow 0.3s;
+  transition: background 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   outline: none;
   min-width: 120px;
   min-height: 44px;
   margin-top: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.start_button::after {
+  content: "";
+  position: absolute;
+  left: -75%;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    rgba(224, 225, 221, 0.18) 0%,
+    rgba(224, 225, 221, 0.01) 100%
+  );
+  transform: skewX(-20deg);
+  transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+}
+
+.start_button:hover::after {
+  left: 110%;
+  opacity: 1;
 }
 
 .start_button:hover,
 .start_button:focus {
-  background: linear-gradient(90deg, #434343 0%, #232526 100%);
-  color: #fff;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  background: linear-gradient(90deg, #2c3e50 0%, #1b263b 100%);
+  color: #e0e1dd;
+  box-shadow: 0 6px 18px rgba(27, 38, 59, 0.3);
+  transform: translateY(-2px) scale(1.045);
 }
 
 .start_button:active {
-  background: #232526;
-  color: #fff;
+  background: #1b263b;
+  color: #e0e1dd;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(0) scale(1);
 }
 .game_container {
   position: relative;

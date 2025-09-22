@@ -1,99 +1,144 @@
 .comunidadeContainer {
-  max-width: 1200px;
+  max-width: 1200px; /* Largura fixa padronizada */
+  min-width: 1200px; /* Largura fixa padronizada */
   margin: 0 auto;
-  padding: 20px;
-  background-color: #f8f9fa;
-  min-height: 100vh;
+  padding: 0 20px 20px 20px; /* Remove padding top para evitar espaço extra */
+  /* Removido background-color para deixar transparente */
+  min-height: calc(100vh - 100px); /* Aumentado para cobrir mais área */
 }
 
 .header {
-  background: white;
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
   padding: 24px;
-  border-radius: 12px;
+  border-radius: 16px;
   margin-bottom: 24px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   gap: 20px;
+  color: white;
+  border: 1px solid #34495e;
 }
 
 .headerTitle h1 {
   margin: 0 0 8px 0;
   font-size: 28px;
   font-weight: 700;
-  color: #333;
+  color: white;
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
-.headerIcon {
-  color: #007bff;
-  font-size: 24px;
+.headerSubtitle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.headerTitle p {
+.headerSubtitle p {
   margin: 0;
-  color: #6c757d;
+  color: rgba(255, 255, 255, 0.8);
   font-size: 16px;
   line-height: 1.5;
 }
 
+.headerIcon {
+  color: #ffc107;
+  font-size: 18px;
+}
+
 .mentionsNotification {
-  background-color: #e3f2fd;
-  border: 1px solid #007bff;
-  border-radius: 8px;
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  border: 1px solid #34495e;
+  border-radius: 12px;
   padding: 12px 16px;
   display: flex;
   align-items: center;
   gap: 12px;
-  color: #0056b3;
+  color: white;
   font-size: 14px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .viewMentionsButton {
-  background-color: #007bff;
-  color: white;
+  background-color: #ffc107;
+  color: #212529;
   border: none;
   padding: 6px 12px;
-  border-radius: 4px;
+  border-radius: 6px;
   font-size: 12px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.viewMentionsButton:hover {
-  background-color: #0056b3;
-}
-
-.createTopicButton {
-  background-color: #28a745;
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
+}
+
+.viewMentionsButton:hover {
+  background-color: #e6b800;
+  transform: translateY(-1px);
+}
+
+.createTopicButton {
+  background: linear-gradient(90deg, #1b263b 0%, #2c3e50 100%);
+  color: #e0e1dd;
+  border: none;
+  padding: 0.7em 1.6em;
+  border-radius: 2em;
+  font-size: 1.08em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   white-space: nowrap;
   display: flex;
   align-items: center;
   gap: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+  min-width: 120px;
+  min-height: 44px;
+}
+
+.createTopicButton::after {
+  content: "";
+  position: absolute;
+  left: -75%;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    rgba(224, 225, 221, 0.18) 0%,
+    rgba(224, 225, 221, 0.01) 100%
+  );
+  transform: skewX(-20deg);
+  transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+}
+
+.createTopicButton:hover::after {
+  left: 110%;
+  opacity: 1;
 }
 
 .createTopicButton:hover {
-  background-color: #218838;
-  transform: translateY(-1px);
+  background: linear-gradient(90deg, #34495e 0%, #1b263b 100%);
+  box-shadow: 0 6px 18px rgba(27, 38, 59, 0.3);
+  transform: translateY(-2px) scale(1.045);
 }
 
 .filtersSection {
-  background: white;
+  background: #34495e;
   padding: 20px;
-  border-radius: 12px;
+  border-radius: 16px;
   margin-bottom: 24px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  border: 1px solid #34495e;
 }
 
 .searchAndFilters {
@@ -114,7 +159,7 @@
   top: 50%;
   left: 12px;
   transform: translateY(-50%);
-  color: #6c757d;
+  color: rgba(255, 255, 255, 0.7);
   font-size: 14px;
   z-index: 1;
 }
@@ -129,11 +174,11 @@
 }
 
 .filterButton {
-  background: white;
-  border: 1px solid #dee2e6;
-  color: #6c757d;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.8);
   padding: 8px 16px;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 14px;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -143,14 +188,15 @@
 }
 
 .filterButton:hover {
-  border-color: #007bff;
-  color: #007bff;
+  border-color: #ffc107;
+  color: #ffc107;
+  background: rgba(255, 193, 7, 0.1);
 }
 
 .filterButton.active {
-  background-color: #007bff;
-  border-color: #007bff;
-  color: white;
+  background-color: #ffc107;
+  border-color: #ffc107;
+  color: #212529;
 }
 
 .sortSelect {
@@ -158,10 +204,11 @@
 }
 
 .topicsSection {
-  background: white;
-  border-radius: 12px;
+  background: #34495e;
+  border-radius: 16px;
   padding: 24px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  border: 1px solid #34495e;
 }
 
 .loading {
@@ -170,14 +217,14 @@
   align-items: center;
   justify-content: center;
   padding: 60px 20px;
-  color: #6c757d;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .spinner {
   width: 40px;
   height: 40px;
-  border: 4px solid #f3f3f3;
-  border-top: 4px solid #007bff;
+  border: 4px solid rgba(255, 255, 255, 0.2);
+  border-top: 4px solid #ffc107;
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin-bottom: 16px;
@@ -195,19 +242,19 @@
 .emptyState {
   text-align: center;
   padding: 60px 20px;
-  color: #6c757d;
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .emptyIcon {
   font-size: 48px;
-  color: #dee2e6;
+  color: rgba(255, 255, 255, 0.3);
   margin-bottom: 16px;
 }
 
 .emptyState h3 {
   margin: 0 0 8px 0;
   font-size: 20px;
-  color: #333;
+  color: white;
 }
 
 .emptyState p {
@@ -218,11 +265,11 @@
 
 .loginPrompt {
   font-size: 14px;
-  color: #6c757d;
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .loginPrompt a {
-  color: #007bff;
+  color: #ffc107;
   text-decoration: none;
   font-weight: 500;
 }
@@ -241,6 +288,8 @@
 @media (max-width: 1024px) {
   .comunidadeContainer {
     padding: 16px;
+    max-width: 95%;
+    min-width: 300px;
   }
 
   .header {

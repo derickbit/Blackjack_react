@@ -10,6 +10,12 @@ export default function ForumProvider({ children }) {
   const [mentions, setMentions] = useState([]);
   const [unreadMentionsCount, setUnreadMentionsCount] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [topicLoading, setTopicLoading] = useState(false);
+  const [commentsLoading, setCommentsLoading] = useState(false);
+
+  // Cache para evitar requests desnecessários
+  const [topicsCache, setTopicsCache] = useState(new Map());
+  const [commentsCache, setCommentsCache] = useState(new Map());
 
   // ===== TOPICS =====
 
@@ -47,46 +53,74 @@ export default function ForumProvider({ children }) {
   }, []); // Removendo dependências para evitar loops
 
   // Buscar um tópico específico
-  const fetchTopic = useCallback(async (topicId) => {
-    const currentToken = localStorage.getItem("ACCESS_TOKEN");
-    if (!currentToken || !topicId) return null;
-
-    setLoading(true);
-    try {
-      const response = await axiosClient.get(`/forum/topics/${topicId}`, {
-        headers: { Authorization: `Bearer ${currentToken}` },
-      });
-      const topic = response.data.data || response.data;
-      setCurrentTopic(topic);
-      return topic;
-    } catch (error) {
-      console.error(`Erro ao buscar tópico ${topicId}:`, error);
-      return null;
-    } finally {
-      setLoading(false);
-    }
-  }, []); // Removendo token das dependências
-
-  // Criar novo tópico
-  const createTopic = useCallback(
-    async (formData) => {
+  const fetchTopic = useCallback(
+    async (topicId) => {
       const currentToken = localStorage.getItem("ACCESS_TOKEN");
-      if (!currentToken)
-        throw new Error("Autenticação necessária para criar tópico.");
+      if (!currentToken || !topicId) return null;
 
+      // Verificar cache primeiro (válido por 5 minutos)
+      const cacheKey = `topic-${topicId}`;
+      const cached = topicsCache.get(cacheKey);
+      const now = Date.now();
+
+      if (cached && now - cached.timestamp < 5 * 60 * 1000) {
+        console.log("Usando tópico do cache:", topicId);
+        setCurrentTopic(cached.data);
+        return cached.data;
+      }
+
+      setTopicLoading(true);
+      setCurrentTopic(null); // Limpar tópico anterior imediatamente
       try {
-        const response = await axiosClient.post("/forum/topics", formData, {
+        const response = await axiosClient.get(`/forum/topics/${topicId}`, {
           headers: { Authorization: `Bearer ${currentToken}` },
         });
-        await fetchTopics(); // Atualiza a lista
-        return response.data.topic || response.data;
+        const topic = response.data.data || response.data;
+
+        // Salvar no cache
+        setTopicsCache(
+          (prev) =>
+            new Map(
+              prev.set(cacheKey, {
+                data: topic,
+                timestamp: now,
+              })
+            )
+        );
+
+        setCurrentTopic(topic);
+        return topic;
       } catch (error) {
-        console.error("Erro ao criar tópico:", error);
-        throw error;
+        console.error(`Erro ao buscar tópico ${topicId}:`, error);
+        return null;
+      } finally {
+        setTopicLoading(false);
       }
     },
-    [fetchTopics]
-  );
+    [topicsCache]
+  ); // Removendo token das dependências
+
+  // Criar novo tópico
+  const createTopic = useCallback(async (formData) => {
+    const currentToken = localStorage.getItem("ACCESS_TOKEN");
+    if (!currentToken)
+      throw new Error("Autenticação necessária para criar tópico.");
+
+    try {
+      const response = await axiosClient.post("/forum/topics", formData, {
+        headers: { Authorization: `Bearer ${currentToken}` },
+      });
+      const newTopic = response.data.topic || response.data;
+
+      // Adicionar o novo tópico ao início da lista sem refetch
+      setTopics((prevTopics) => [newTopic, ...prevTopics]);
+
+      return newTopic;
+    } catch (error) {
+      console.error("Erro ao criar tópico:", error);
+      throw error;
+    }
+  }, []);
 
   // Editar tópico
   const updateTopic = useCallback(
@@ -103,17 +137,27 @@ export default function ForumProvider({ children }) {
             headers: { Authorization: `Bearer ${currentToken}` },
           }
         );
-        await fetchTopics(); // Atualiza a lista
+        const updatedTopic = response.data.topic || response.data;
+
+        // Atualizar o tópico na lista sem refetch
+        setTopics((prevTopics) =>
+          prevTopics.map((topic) =>
+            topic.id === topicId ? updatedTopic : topic
+          )
+        );
+
+        // Atualizar tópico atual se for o mesmo
         if (currentTopic?.id === topicId) {
-          await fetchTopic(topicId); // Atualiza o tópico atual
+          setCurrentTopic(updatedTopic);
         }
-        return response.data.topic || response.data;
+
+        return updatedTopic;
       } catch (error) {
         console.error("Erro ao editar tópico:", error);
         throw error;
       }
     },
-    [fetchTopics, currentTopic, fetchTopic]
+    [currentTopic]
   );
 
   // Deletar tópico
@@ -127,7 +171,12 @@ export default function ForumProvider({ children }) {
         await axiosClient.delete(`/forum/topics/${topicId}`, {
           headers: { Authorization: `Bearer ${currentToken}` },
         });
-        await fetchTopics(); // Atualiza a lista
+
+        // Remover tópico da lista sem refetch
+        setTopics((prevTopics) =>
+          prevTopics.filter((topic) => topic.id !== topicId)
+        );
+
         if (currentTopic?.id === topicId) {
           setCurrentTopic(null);
         }
@@ -136,7 +185,7 @@ export default function ForumProvider({ children }) {
         throw error;
       }
     },
-    [fetchTopics, currentTopic]
+    [currentTopic]
   );
 
   // Toggle like em tópico
@@ -191,75 +240,73 @@ export default function ForumProvider({ children }) {
   // ===== COMMENTS =====
 
   // Buscar comentários de um tópico
-  const fetchComments = useCallback(async (topicId) => {
-    if (!topicId) return [];
+  const fetchComments = useCallback(
+    async (topicId) => {
+      if (!topicId) return [];
 
-    try {
-      let allComments = [];
+      // Verificar cache primeiro (válido por 2 minutos)
+      const cacheKey = `comments-${topicId}`;
+      const cached = commentsCache.get(cacheKey);
+      const now = Date.now();
 
-      // Primeira tentativa: endpoint genérico (que sabemos que funciona)
+      if (cached && now - cached.timestamp < 2 * 60 * 1000) {
+        console.log("Usando comentários do cache:", topicId);
+        setComments(cached.data);
+        return cached.data;
+      }
+
+      setCommentsLoading(true);
+      setComments([]); // Limpar comentários anteriores imediatamente
       try {
+        // Buscar comentários do tópico específico
         const response = await axiosClient.get(
           `/forum/comments?topic_id=${topicId}`
         );
-        allComments = response.data.data || response.data || [];
-      } catch (error) {
-        console.log("Erro ao buscar comentários:", error.message);
-        return [];
-      }
+        const allComments = response.data.data || response.data || [];
 
-      // Se não retornou respostas, buscar TODOS os comentários globalmente
-      // (Isso é necessário porque o backend não está incluindo respostas na busca por tópico)
-      if (!allComments.some((comment) => comment.parent_id)) {
-        try {
-          const globalResponse = await axiosClient.get(`/forum/comments`);
-          const globalComments =
-            globalResponse.data.data || globalResponse.data || [];
+        // Organizar comentários hierarquicamente
+        const organizeComments = (comments) => {
+          const mainComments = comments.filter((comment) => !comment.parent_id);
+          const replies = comments.filter((comment) => comment.parent_id);
 
-          // Filtrar para incluir TODOS os comentários deste tópico (principais + respostas)
-          allComments = globalComments.filter(
-            (comment) => comment.forum_topic_id == topicId
-          );
+          const organizedComments = mainComments.map((comment) => {
+            const commentReplies = replies.filter(
+              (reply) => reply.parent_id === comment.id
+            );
+            return {
+              ...comment,
+              replies: commentReplies,
+            };
+          });
 
-          console.log(
-            `📝 Busca global encontrou ${allComments.length} comentários para o tópico ${topicId}`
-          );
-        } catch (error) {
-          console.log("Erro na busca global:", error.message);
-        }
-      }
+          return organizedComments;
+        };
 
-      // Organizar comentários hierarquicamente
-      const organizeComments = (comments) => {
-        const mainComments = comments.filter((comment) => !comment.parent_id);
-        const replies = comments.filter((comment) => comment.parent_id);
+        const organizedComments = organizeComments(allComments);
 
-        console.log(
-          `📝 Organizando: ${mainComments.length} principais + ${replies.length} respostas`
+        // Salvar no cache
+        setCommentsCache(
+          (prev) =>
+            new Map(
+              prev.set(cacheKey, {
+                data: organizedComments,
+                timestamp: now,
+              })
+            )
         );
 
-        const organizedComments = mainComments.map((comment) => {
-          const commentReplies = replies.filter(
-            (reply) => reply.parent_id === comment.id
-          );
-          return {
-            ...comment,
-            replies: commentReplies,
-          };
-        });
-
+        setComments(organizedComments);
         return organizedComments;
-      };
-
-      const organizedComments = organizeComments(allComments);
-      setComments(organizedComments);
-      return organizedComments;
-    } catch (error) {
-      console.error("Erro geral ao buscar comentários:", error);
-      setComments([]);
-      return [];
-    }
-  }, []);
+      } catch (error) {
+        console.error("Erro ao buscar comentários:", error);
+        setComments([]);
+        return [];
+      } finally {
+        setCommentsLoading(false);
+      }
+    },
+    [commentsCache]
+  );
 
   // Criar comentário
   const createComment = useCallback(
@@ -273,19 +320,55 @@ export default function ForumProvider({ children }) {
           headers: { Authorization: `Bearer ${currentToken}` },
         });
 
+        const newComment = response.data.comment || response.data;
         const topicId = formData.get("forum_topic_id");
+
         if (topicId) {
-          await fetchComments(topicId); // Recarrega comentários
-          await fetchTopics(); // Atualiza contadores na lista de tópicos
+          // Invalidar cache de comentários
+          const cacheKey = `comments-${topicId}`;
+          setCommentsCache((prev) => {
+            const newCache = new Map(prev);
+            newCache.delete(cacheKey);
+            return newCache;
+          });
+
+          // Adicionar o novo comentário à lista sem refetch
+          setComments((prevComments) => [
+            ...prevComments,
+            {
+              ...newComment,
+              replies: [],
+            },
+          ]);
+
+          // Atualizar contador de comentários no tópico atual
+          if (currentTopic?.id === parseInt(topicId)) {
+            setCurrentTopic((prev) => ({
+              ...prev,
+              total_comentarios: (prev.total_comentarios || 0) + 1,
+            }));
+          }
+
+          // Atualizar contador na lista de tópicos
+          setTopics((prevTopics) =>
+            prevTopics.map((topic) =>
+              topic.id === parseInt(topicId)
+                ? {
+                    ...topic,
+                    total_comentarios: (topic.total_comentarios || 0) + 1,
+                  }
+                : topic
+            )
+          );
         }
 
-        return response.data.comment || response.data;
+        return newComment;
       } catch (error) {
         console.error("Erro ao criar comentário:", error);
         throw error;
       }
     },
-    [fetchComments, fetchTopics]
+    [currentTopic]
   );
 
   // Editar comentário
@@ -506,6 +589,8 @@ export default function ForumProvider({ children }) {
     setComments([]);
     setMentions([]);
     setUnreadMentionsCount(0);
+    setTopicsCache(new Map());
+    setCommentsCache(new Map());
   }, []);
 
   return (
@@ -518,6 +603,8 @@ export default function ForumProvider({ children }) {
         mentions,
         unreadMentionsCount,
         loading,
+        topicLoading,
+        commentsLoading,
 
         // Tópicos
         fetchTopics,

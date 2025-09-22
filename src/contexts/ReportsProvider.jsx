@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useCallback } from "react";
 import axiosClient from "../utils/axios_client"; // Seu cliente axios configurado
 import { useAuthContext } from "./AuthProvider";
+import { debugReportMessages } from "../utils/imageUtils";
 import PropTypes from "prop-types";
 
 const ReportsContext = createContext();
@@ -69,15 +70,19 @@ export default function ReportsProvider({ children }) {
       const response = await axiosClient.get(`/reports/${reportId}/messages`, {
         headers: { Authorization: `Bearer ${token}` },
       });
+
       // Ajustado para ser mais flexível e esperar 'imagem_url' do backend
-      return response.data.data || response.data || [];
+      const messages = response.data.data || response.data || [];
+
+      // Debug: Log apenas se encontrar problemas com imagens usando função especializada
+      debugReportMessages(messages, reportId);
+
+      return messages;
     } catch (error) {
       console.error(`Erro ao buscar mensagens do report ${reportId}:`, error);
       return [];
     }
-  };
-
-  // Enviar mensagem em um report
+  }; // Enviar mensagem em um report
   const sendReportMessage = async (reportId, formData) => {
     if (!token || !reportId)
       throw new Error("Autenticação ou ID do Report ausente.");

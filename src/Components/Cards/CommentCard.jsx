@@ -13,6 +13,8 @@ import { useForumContext } from "../../contexts/ForumContext";
 import TextWithMentions from "../Form/TextWithMentions";
 import MentionInput from "../Form/MentionInput";
 import SubmitButton from "../Form/SubmitButton";
+import ImageModal from "../Layout/ImageModal";
+import { useImageModal } from "../../utils/useImageModal";
 import styles from "./CommentCard.module.css";
 
 const CommentCard = ({
@@ -35,14 +37,18 @@ const CommentCard = ({
   const [replyContent, setReplyContent] = useState("");
   const [isReplying, setIsReplying] = useState(false);
 
+  // Image modal hook
+  const { modalImage, modalAlt, isModalOpen, openImageModal, closeImageModal } =
+    useImageModal();
+
   const handleLike = async () => {
     if (isLiking || !user) return;
 
     setIsLiking(true);
     try {
       await toggleCommentLike(comment.id);
-    } catch (error) {
-      console.error("Erro ao dar like:", error);
+    } catch {
+      // Erro será tratado pelo contexto
     } finally {
       setIsLiking(false);
     }
@@ -69,8 +75,8 @@ const CommentCard = ({
 
       await updateComment(comment.id, formData);
       setIsEditing(false);
-    } catch (error) {
-      console.error("Erro ao editar comentário:", error);
+    } catch {
+      // Erro será tratado pelo contexto
     } finally {
       setIsUpdating(false);
     }
@@ -80,8 +86,8 @@ const CommentCard = ({
     if (window.confirm("Tem certeza que deseja excluir este comentário?")) {
       try {
         await deleteComment(comment.id, topicId);
-      } catch (error) {
-        console.error("Erro ao excluir comentário:", error);
+      } catch {
+        // Erro será tratado pelo contexto
       }
     }
   };
@@ -113,8 +119,8 @@ const CommentCard = ({
       if (onReply) {
         onReply(comment.id);
       }
-    } catch (error) {
-      console.error("Erro ao responder comentário:", error);
+    } catch {
+      // Erro será tratado pelo contexto
     } finally {
       setIsReplying(false);
     }
@@ -208,7 +214,14 @@ const CommentCard = ({
 
             {comment.imagem_url && (
               <div className={styles.commentImage}>
-                <img src={comment.imagem_url} alt="Imagem do comentário" />
+                <img
+                  src={comment.imagem_url}
+                  alt="Imagem do comentário"
+                  onClick={() =>
+                    openImageModal(comment.imagem_url, "Imagem do comentário")
+                  }
+                  style={{ cursor: "pointer" }}
+                />
               </div>
             )}
           </>
@@ -290,6 +303,14 @@ const CommentCard = ({
           ))}
         </div>
       )}
+
+      {/* Image Modal */}
+      <ImageModal
+        isOpen={isModalOpen}
+        imageUrl={modalImage}
+        imageAlt={modalAlt}
+        onClose={closeImageModal}
+      />
     </div>
   );
 };

@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./Sobre.module.css";
+import rankingStyles from "./Ranking.module.css";
 
 import hiloCover from "../../assets/hilo-cover.jpg";
 
@@ -226,33 +227,53 @@ const tabs = [
 const Sobre = () => {
   const [activeTab, setActiveTab] = useState("ideia");
 
+  // Controla o overflow da página para evitar scroll desnecessário
+  useEffect(() => {
+    const root = document.getElementById("root");
+    if (root) {
+      const originalOverflow = root.style.overflow;
+      root.style.overflow = "hidden";
+
+      return () => {
+        root.style.overflow = originalOverflow;
+      };
+    }
+  }, []);
+
   return (
-    <div className={styles.sobreTabsBg}>
-      <div className={styles.sobreTabsGrid}>
-        {/* Menu lateral de abas */}
-        <nav className={styles.sobreTabsMenu} aria-label="Sobre">
-          <ul>
-            {tabs.map((tab) => (
-              <li key={tab.key}>
-                <button
-                  className={
-                    activeTab === tab.key
-                      ? styles.sobreTabButtonActive
-                      : styles.sobreTabButton
-                  }
-                  onClick={() => setActiveTab(tab.key)}
-                  type="button"
-                >
-                  {tab.label}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </nav>
-        {/* Conteúdo da aba */}
-        <section className={styles.sobreTabsContent}>
-          {tabs.find((tab) => tab.key === activeTab)?.content}
-        </section>
+    <div
+      className={`${rankingStyles.project_container} ${styles.sobrePageContainer}`}
+    >
+      <div className={rankingStyles.grand_title_container}>
+        <h1 className={rankingStyles.grand_title}>Sobre</h1>
+      </div>
+      <div className={styles.sobreTabsBg}>
+        <div className={styles.sobreTabsGrid}>
+          {/* Menu lateral de abas */}
+          <nav className={styles.sobreTabsMenu} aria-label="Sobre">
+            <ul>
+              {tabs.map((tab) => (
+                <li key={tab.key}>
+                  <button
+                    className={
+                      activeTab === tab.key
+                        ? styles.sobreTabButtonActive
+                        : styles.sobreTabButton
+                    }
+                    onClick={() => setActiveTab(tab.key)}
+                    type="button"
+                  >
+                    {tab.label}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </nav>
+          {/* Conteúdo da aba */}
+          <section className={styles.sobreTabsContent}>
+            {tabs.find((tab) => tab.key === activeTab)?.content}
+          </section>
+        </div>
       </div>
     </div>
   );

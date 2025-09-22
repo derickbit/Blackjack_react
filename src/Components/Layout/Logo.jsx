@@ -1,8 +1,8 @@
-import SVGatorLogo from "/src/assets/logoVerde.svg";
+import SVGatorLogo from "/src/assets/MedalhãoCN.svg";
 import PropTypes from "prop-types";
 import styles from "./Logo.module.css"; // Importe os estilos como um objeto
 
-const Logo = ({ className, size = 50 }) => (
+const Logo = ({ className, size = 75 }) => (
   <div className={styles.logoContainer}>
     <img
       src={SVGatorLogo}

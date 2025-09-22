@@ -1,15 +1,17 @@
 .commentCard {
-  background: white;
-  border: 1px solid #e1e5e9;
-  border-radius: 8px;
+  background: #2c3e50;
+  border: 1px solid #34495e;
+  border-radius: 12px;
   padding: 16px;
   margin-bottom: 12px;
+  color: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .commentCard.reply {
   margin-left: 32px;
-  border-left: 3px solid #007bff;
-  background-color: #f8f9fa;
+  border-left: 3px solid #ffc107;
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
 }
 
 .commentHeader {
@@ -28,15 +30,15 @@
 
 .author {
   font-weight: 600;
-  color: #333;
+  color: white;
 }
 
 .date {
-  color: #6c757d;
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .edited {
-  color: #6c757d;
+  color: rgba(255, 255, 255, 0.6);
   font-style: italic;
   font-size: 12px;
 }
@@ -66,7 +68,7 @@
 }
 
 .deleteButton:hover {
-  color: #dc3545;
+  color: #e76f51;
   background-color: #fee;
 }
 
@@ -185,7 +187,7 @@
 }
 
 .likeButton.liked {
-  color: #dc3545;
+  color: #e76f51;
 }
 
 .likeButton:disabled {

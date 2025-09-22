@@ -17,7 +17,10 @@ import MentionInput from "../Form/MentionInput";
 import SubmitButton from "../Form/SubmitButton";
 import TextWithMentions from "../Form/TextWithMentions";
 import ToastContainer from "../Layout/ToastContainer";
+import LoadingSpinner from "../Layout/LoadingSpinner";
+import ImageModal from "../Layout/ImageModal";
 import { useToast } from "../../utils/useToast";
+import { useImageModal } from "../../utils/useImageModal";
 import styles from "./TopicDetail.module.css";
 
 const TopicDetail = () => {
@@ -28,6 +31,8 @@ const TopicDetail = () => {
     currentTopic,
     comments,
     loading,
+    topicLoading,
+    commentsLoading,
     fetchTopic,
     fetchComments,
     createComment,
@@ -39,6 +44,10 @@ const TopicDetail = () => {
   // Toast hook
   const { toasts, showSuccess, showError, removeToast } = useToast();
 
+  // Image modal hook
+  const { modalImage, modalAlt, isModalOpen, openImageModal, closeImageModal } =
+    useImageModal();
+
   const [showEditModal, setShowEditModal] = useState(false);
   const [commentContent, setCommentContent] = useState("");
   const [isCommenting, setIsCommenting] = useState(false);
@@ -49,9 +58,10 @@ const TopicDetail = () => {
   // Buscar dados do tópico
   useEffect(() => {
     if (id && !initialLoadDone) {
-      console.log("Carregando tópico:", id);
-      fetchTopic(id);
-      fetchComments(id);
+      // Carregar tópico e comentários em paralelo, mas sem aguardar users
+      Promise.all([fetchTopic(id), fetchComments(id)]);
+
+      // Carregar usuários em background (não bloqueia o carregamento)
       fetchUsers();
       setInitialLoadDone(true);
     }
@@ -165,23 +175,24 @@ const TopicDetail = () => {
     });
   };
 
-  if (loading && !currentTopic) {
+  if (topicLoading || (loading && !currentTopic)) {
     return (
-      <div className={styles.loading}>
-        <div className={styles.spinner}></div>
-        <p>Carregando tópico...</p>
+      <div className={styles.topicDetailContainer}>
+        <LoadingSpinner message="Carregando tópico..." size="large" />
       </div>
     );
   }
 
   if (!currentTopic && !loading) {
     return (
-      <div className={styles.notFound}>
-        <h2>Tópico não encontrado</h2>
-        <p>O tópico que você está procurando não existe ou foi removido.</p>
-        <button onClick={handleGoBack} className={styles.backButton}>
-          <FaArrowLeft /> Voltar para comunidade
-        </button>
+      <div className={styles.topicDetailContainer}>
+        <div className={styles.notFound}>
+          <h2>Tópico não encontrado</h2>
+          <p>O tópico que você está procurando não existe ou foi removido.</p>
+          <button onClick={handleGoBack} className={styles.backButton}>
+            <FaArrowLeft /> Voltar para comunidade
+          </button>
+        </div>
       </div>
     );
   }
@@ -253,7 +264,17 @@ const TopicDetail = () => {
 
               {currentTopic.imagem_url && (
                 <div className={styles.topicImage}>
-                  <img src={currentTopic.imagem_url} alt="Imagem do tópico" />
+                  <img
+                    src={currentTopic.imagem_url}
+                    alt="Imagem do tópico"
+                    onClick={() =>
+                      openImageModal(
+                        currentTopic.imagem_url,
+                        "Imagem do tópico"
+                      )
+                    }
+                    style={{ cursor: "pointer" }}
+                  />
                 </div>
               )}
             </div>
@@ -314,7 +335,12 @@ const TopicDetail = () => {
 
             {/* Lista de comentários */}
             <div className={styles.commentsList}>
-              {comments.length === 0 ? (
+              {commentsLoading ? (
+                <LoadingSpinner
+                  message="Carregando comentários..."
+                  size="medium"
+                />
+              ) : comments.length === 0 ? (
                 <div className={styles.noComments}>
                   <p>Seja o primeiro a comentar neste tópico!</p>
                 </div>
@@ -370,6 +396,14 @@ const TopicDetail = () => {
 
       {/* Toast Container */}
       <ToastContainer toasts={toasts} onRemoveToast={removeToast} />
+
+      {/* Image Modal */}
+      <ImageModal
+        isOpen={isModalOpen}
+        imageUrl={modalImage}
+        imageAlt={modalAlt}
+        onClose={closeImageModal}
+      />
     </div>
   );
 };
