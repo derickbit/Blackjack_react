@@ -17,12 +17,30 @@ export const getImageUrl = (imagePath) => {
     return imagePath;
   }
 
-  // Para desenvolvimento local, usa a URL do Laravel
-  const isDevelopment =
-    window.location.hostname === "localhost" ||
-    window.location.hostname === "127.0.0.1";
+  // Detecta automaticamente o ambiente baseado na mesma lógica do axios_client
+  const isProduction =
+    window.location.hostname !== "localhost" &&
+    window.location.hostname !== "127.0.0.1";
 
-  if (isDevelopment) {
+  // Obtém a URL base do backend de forma consistente
+  const getBackendBaseUrl = () => {
+    const apiUrl = import.meta.env.VITE_API_URL || "";
+    if (isProduction) {
+      // Em produção, usa a URL configurada ou fallback
+      return (
+        apiUrl.replace("/api", "") ||
+        "https://blackjack2-tcc-6d5e11e9ec29.herokuapp.com"
+      );
+    } else {
+      // Em desenvolvimento, usa localhost
+      return "http://localhost:8000";
+    }
+  };
+
+  const backendBaseUrl = getBackendBaseUrl();
+
+  if (!isProduction) {
+    // DESENVOLVIMENTO LOCAL - usa a URL do Laravel
     // Se imagePath é apenas um número (ID da imagem), isso indica um problema no backend
     if (/^\d+$/.test(imagePath.toString())) {
       // Só loga uma vez por ID para evitar spam
@@ -39,19 +57,33 @@ export const getImageUrl = (imagePath) => {
     const cleanPath = imagePath.startsWith("/")
       ? imagePath.slice(1)
       : imagePath;
-    return `http://localhost:8000/storage/${cleanPath}`;
+    return `${backendBaseUrl}/storage/${cleanPath}`;
   }
 
-  // Para produção, assumindo que as imagens vêm com URL completa do S3
-  // Se for apenas um ID numérico em produção, também indica problema
+  // PRODUÇÃO - as imagens devem vir com URL completa do S3
+  // Se for apenas um ID numérico em produção, tentamos construir a URL
   if (/^\d+$/.test(imagePath.toString())) {
     if (!loggedIds.has(imagePath)) {
-      console.error(
-        `❌ PROBLEMA BACKEND (PRODUÇÃO): Campo 'imagem' retornou apenas ID (${imagePath}) em vez da URL do S3. Verifique a configuração do backend.`
+      console.warn(
+        `⚠️ PRODUÇÃO: Recebido ID (${imagePath}) em vez de URL do S3. Tentando construir URL baseada no storage do backend.`
       );
+      console.log(`🔧 Backend URL detectada: ${backendBaseUrl}`);
       loggedIds.add(imagePath);
     }
-    return null;
+
+    // Em produção, construímos a URL baseada no storage do backend
+    // O backend deve estar servindo as imagens através do endpoint /storage
+    return `${backendBaseUrl}/storage/reports/${imagePath}`;
+  }
+
+  // Se não for um ID, mas for um caminho relativo, completamos com a URL base
+  if (!imagePath.startsWith("http") && !imagePath.startsWith("/")) {
+    return `${backendBaseUrl}/storage/${imagePath}`;
+  }
+
+  // Se começar com /, remove para evitar URLs duplas e adiciona a base
+  if (imagePath.startsWith("/")) {
+    return `${backendBaseUrl}${imagePath}`;
   }
 
   return imagePath;
