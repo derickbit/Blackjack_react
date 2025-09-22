@@ -1,8 +1,14 @@
 import axios from "axios";
 
+// Detecta automaticamente o ambiente
+const isProduction =
+  window.location.hostname !== "localhost" &&
+  window.location.hostname !== "127.0.0.1";
+
 const axiosClient = axios.create({
-  //baseURL: "https://blackjack2-tcc-6d5e11e9ec29.herokuapp.com/api", //produção
-  baseURL: "http://localhost:8000/api", // desenvolvimento local
+  baseURL: isProduction
+    ? "https://blackjack2-tcc-6d5e11e9ec29.herokuapp.com/api" // produção
+    : "http://localhost:8000/api", // desenvolvimento local
 });
 
 // Interceptor para adicionar o token de autorização e tratar a resposta
