@@ -22,15 +22,11 @@ export const getImageUrl = (imagePath) => {
     window.location.hostname !== "localhost" &&
     window.location.hostname !== "127.0.0.1";
 
-  // Obtém a URL base do backend de forma consistente
+  // Obtém a URL base do backend/storage de forma consistente
   const getBackendBaseUrl = () => {
-    const apiUrl = import.meta.env.VITE_API_URL || "";
     if (isProduction) {
-      // Em produção, usa a URL configurada ou fallback
-      return (
-        apiUrl.replace("/api", "") ||
-        "https://blackjack2-tcc-6d5e11e9ec29.herokuapp.com"
-      );
+      // Em produção, as imagens são servidas diretamente do S3
+      return "https://cardnest-tcc.s3.sa-east-1.amazonaws.com";
     } else {
       // Em desenvolvimento, usa localhost
       return "http://localhost:8000";
@@ -65,25 +61,36 @@ export const getImageUrl = (imagePath) => {
   if (/^\d+$/.test(imagePath.toString())) {
     if (!loggedIds.has(imagePath)) {
       console.warn(
-        `⚠️ PRODUÇÃO: Recebido ID (${imagePath}) em vez de URL do S3. Tentando construir URL baseada no storage do backend.`
+        `⚠️ PRODUÇÃO: Recebido ID (${imagePath}) em vez de URL do S3. Tentando construir URL baseada no S3.`
       );
-      console.log(`🔧 Backend URL detectada: ${backendBaseUrl}`);
+      console.log(`🔧 S3 URL base: ${backendBaseUrl}`);
       loggedIds.add(imagePath);
     }
 
-    // Em produção, construímos a URL baseada no storage do backend
-    // O backend deve estar servindo as imagens através do endpoint /storage
-    return `${backendBaseUrl}/storage/reports/${imagePath}`;
+    // Em produção, as imagens estão no S3 no padrão reports/
+    // Mas como só temos o ID, tentamos construir baseado no padrão observado
+    return `${backendBaseUrl}/reports/${imagePath}`;
   }
 
-  // Se não for um ID, mas for um caminho relativo, completamos com a URL base
+  // Se não for um ID, mas for um caminho relativo, completamos com a URL base do S3
   if (!imagePath.startsWith("http") && !imagePath.startsWith("/")) {
-    return `${backendBaseUrl}/storage/${imagePath}`;
+    // Se já tem um padrão como "reports/arquivo.png", usa direto
+    if (imagePath.includes("/")) {
+      return `${backendBaseUrl}/${imagePath}`;
+    }
+    // Se é só o nome do arquivo, assume que está na pasta reports
+    return `${backendBaseUrl}/reports/${imagePath}`;
   }
 
-  // Se começar com /, remove para evitar URLs duplas e adiciona a base
+  // Se começar com /, construimos a URL completa
   if (imagePath.startsWith("/")) {
-    return `${backendBaseUrl}${imagePath}`;
+    if (isProduction) {
+      // Em produção, remove a barra inicial e usa o S3
+      return `${backendBaseUrl}${imagePath}`;
+    } else {
+      // Em desenvolvimento, usa o storage local
+      return `${backendBaseUrl}${imagePath}`;
+    }
   }
 
   return imagePath;
