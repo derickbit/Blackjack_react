@@ -13,9 +13,7 @@ export const getImageUrl = (imagePath) => {
   if (!imagePath) return null;
 
   // Debug: Log do que está sendo recebido
-  if (typeof imagePath === "string" && imagePath.length > 0) {
-    console.log(`🖼️ DEBUG getImageUrl: Recebido "${imagePath}"`);
-  }
+  console.log(`🖼️ DEBUG getImageUrl: Recebido "${imagePath}"`);
 
   // Se já é uma URL completa (S3 ou outro CDN), retorna como está
   if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
@@ -28,123 +26,55 @@ export const getImageUrl = (imagePath) => {
     window.location.hostname !== "localhost" &&
     window.location.hostname !== "127.0.0.1";
 
-  // Obtém a URL base do backend/storage de forma consistente
-  const getBackendBaseUrl = () => {
-    if (isProduction) {
-      // Em produção, as imagens são servidas diretamente do S3
-      return "https://cardnest-tcc.s3.sa-east-1.amazonaws.com";
-    } else {
-      // Em desenvolvimento, usa localhost
-      return "http://localhost:8000";
-    }
-  };
-
-  const backendBaseUrl = getBackendBaseUrl();
-
   console.log(`🌍 Ambiente: ${isProduction ? "PRODUÇÃO" : "DESENVOLVIMENTO"}`);
-  console.log(`🔗 Base URL: ${backendBaseUrl}`);
 
+  // DESENVOLVIMENTO LOCAL - usa o Laravel
   if (!isProduction) {
-    // DESENVOLVIMENTO LOCAL - usa a URL do Laravel
     // Se imagePath é apenas um número (ID da imagem), isso indica um problema no backend
     if (/^\d+$/.test(imagePath.toString())) {
-      // Só loga uma vez por ID para evitar spam
       if (!loggedIds.has(imagePath)) {
         console.error(
-          `❌ PROBLEMA BACKEND: Campo 'imagem' retornou apenas ID (${imagePath}) em vez do caminho do arquivo. Verifique o controller/model da API.`
+          `❌ PROBLEMA BACKEND: Campo 'imagem' retornou apenas ID (${imagePath}) em vez do caminho do arquivo.`
         );
         loggedIds.add(imagePath);
       }
-      return null; // Retorna null para evitar URLs inválidas
+      return null;
     }
 
-    // Remove a barra inicial se existir para evitar URLs duplas
+    // Remove a barra inicial se existir
     const cleanPath = imagePath.startsWith("/")
       ? imagePath.slice(1)
       : imagePath;
-    return `${backendBaseUrl}/storage/${cleanPath}`;
+    const devUrl = `http://localhost:8000/storage/${cleanPath}`;
+    console.log(`🔧 DEV URL: ${devUrl}`);
+    return devUrl;
   }
 
-  // PRODUÇÃO - as imagens devem vir com URL completa do S3
-  // Se for apenas um ID numérico em produção, tentamos construir a URL
-  if (/^\d+$/.test(imagePath.toString())) {
-    if (!loggedIds.has(imagePath)) {
-      console.warn(
-        `⚠️ PRODUÇÃO: Recebido ID (${imagePath}) em vez de URL do S3. Tentando construir URL baseada no S3.`
-      );
-      console.log(`🔧 S3 URL base: ${backendBaseUrl}`);
-      loggedIds.add(imagePath);
-    }
+  // PRODUÇÃO - SEMPRE usa S3, não importa o formato do input
+  const s3BaseUrl = "https://cardnest-tcc.s3.sa-east-1.amazonaws.com";
 
-    // Em produção, as imagens estão no S3 no padrão reports/messages/
-    // Mas como só temos o ID, tentamos construir baseado no padrão observado
-    return `${backendBaseUrl}/reports/messages/${imagePath}`;
+  // Remove prefixos desnecessários
+  let cleanPath = imagePath;
+
+  // Remove /storage/ ou storage/ do início
+  if (cleanPath.startsWith("/storage/")) {
+    cleanPath = cleanPath.replace("/storage/", "");
+  } else if (cleanPath.startsWith("storage/")) {
+    cleanPath = cleanPath.replace("storage/", "");
   }
 
-  // Se não for um ID, mas for um caminho relativo, completamos com a URL base do S3
-  if (!imagePath.startsWith("http") && !imagePath.startsWith("/")) {
-    // Se começa com "storage/", é um caminho do Laravel - em produção deve ir para o S3
-    if (imagePath.startsWith("storage/")) {
-      if (isProduction) {
-        // Em produção, remove "storage/" e mapeia para o padrão correto do S3
-        const s3Path = imagePath.replace("storage/", "");
-        // Para reports, o padrão no S3 mantém a estrutura: reports/messages/arquivo.png
-        if (s3Path.startsWith("reports/messages/")) {
-          const finalUrl = `${backendBaseUrl}/${s3Path}`;
-          console.log(
-            `🔄 Convertendo storage para S3: ${imagePath} -> ${finalUrl}`
-          );
-          return finalUrl;
-        }
-        const finalUrl = `${backendBaseUrl}/${s3Path}`;
-        console.log(
-          `🔄 Convertendo storage para S3: ${imagePath} -> ${finalUrl}`
-        );
-        return finalUrl;
-      } else {
-        // Em desenvolvimento, mantém o padrão storage/
-        return `${backendBaseUrl}/${imagePath}`;
-      }
-    }
-
-    // Se já tem um padrão como "reports/arquivo.png", usa direto
-    if (imagePath.includes("/")) {
-      return `${backendBaseUrl}/${imagePath}`;
-    }
-    // Se é só o nome do arquivo, assume que está na pasta reports/messages (padrão dos reports)
-    return `${backendBaseUrl}/reports/messages/${imagePath}`;
+  // Remove barra inicial se existir
+  if (cleanPath.startsWith("/")) {
+    cleanPath = cleanPath.slice(1);
   }
 
-  // Se começar com /, construimos a URL completa
-  if (imagePath.startsWith("/")) {
-    // Se é /storage/ em produção, mapeia para S3
-    if (imagePath.startsWith("/storage/") && isProduction) {
-      const s3Path = imagePath.replace("/storage/", "");
-      // Para reports, o padrão no S3 mantém a estrutura: reports/messages/arquivo.png
-      if (s3Path.startsWith("reports/messages/")) {
-        const finalUrl = `${backendBaseUrl}/${s3Path}`;
-        console.log(
-          `🔄 Convertendo /storage para S3: ${imagePath} -> ${finalUrl}`
-        );
-        return finalUrl;
-      }
-      const finalUrl = `${backendBaseUrl}/${s3Path}`;
-      console.log(
-        `🔄 Convertendo /storage para S3: ${imagePath} -> ${finalUrl}`
-      );
-      return finalUrl;
-    }
+  // Constrói a URL final do S3
+  const finalUrl = `${s3BaseUrl}/${cleanPath}`;
+  console.log(
+    `🔄 PRODUÇÃO - Convertendo para S3: "${imagePath}" -> "${finalUrl}"`
+  );
 
-    if (isProduction) {
-      // Em produção, remove a barra inicial e usa o S3
-      return `${backendBaseUrl}${imagePath}`;
-    } else {
-      // Em desenvolvimento, usa o storage local
-      return `${backendBaseUrl}${imagePath}`;
-    }
-  }
-
-  return imagePath;
+  return finalUrl;
 };
 
 /**
