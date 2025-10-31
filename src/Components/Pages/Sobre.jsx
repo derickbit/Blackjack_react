@@ -3,6 +3,7 @@ import styles from "./Sobre.module.css";
 import rankingStyles from "./Ranking.module.css";
 
 import hiloCover from "../../assets/hilo-cover.jpg";
+import blackjackCover from "../../assets/blackjack-cover.jpg";
 
 const tabs = [
   {
@@ -162,10 +163,95 @@ const tabs = [
     key: "blackjack",
     label: "BlackJack",
     content: (
-      <>
-        <h2 className={styles.sobreTabTitle}>Como Jogar BlackJack</h2>
-        <p className={styles.sobreTabText}>Em desenvolvimento...</p>
-      </>
+      <div className={styles.sobreHiloContent}>
+        <h2 className={styles.sobreHiloSectionTitle}>
+          Como Jogar: BlackJack do Nest
+        </h2>
+        <div className={styles.sobreHiloHeroRow}>
+          <img
+            src={blackjackCover} // << IMAGEM QUE VOCÊ IMPORTOU
+            alt="BlackJack Game CardNest"
+            className={styles.sobreHiloHeroImage}
+          />
+          <div className={styles.sobreHiloText}>
+            Seu objetivo é levar a balança ao seu favor! Em cada rodada, tente
+            chegar mais perto de 21 pontos do que a Mesa, sem estourar. Vencer
+            rodadas adiciona fichas à balança, e o primeiro a conseguir uma
+            vantagem de 3 fichas vence a partida!
+          </div>
+        </div>
+        <div className={styles.sobreHiloSectionSubtitle}>
+          As Regras da Rodada
+        </div>
+        <ul className={styles.sobreHiloList}>
+          <li>
+            O jogo é disputado em turnos. Na "Sua Vez", você tem duas opções:
+          </li>
+          <li>
+            <strong>Pedir (clique no baralho):</strong> Recebe mais uma carta.
+            Cuidado para não passar de 21!
+          </li>
+          <li>
+            <strong>Parar:</strong> Encerra sua vez na rodada, mantendo sua mão
+            atual.
+          </li>
+          <li>
+            A Mesa (computador) então joga a vez dela, decidindo entre "Pedir" e
+            "Parar" com base na sua "personalidade" da rodada.
+          </li>
+          <li>
+            A rodada termina quando ambos ("Você" e "Mesa") decidem Parar, ou
+            quando alguém "Estoura" (passa de 21).
+          </li>
+        </ul>
+        <div className={styles.sobreHiloDica}>
+          Valores das Cartas: 2-10 valem o número da face. Valete (J), Dama (Q)
+          e Rei (K) valem 10. O Ás (A) vale 11 ou 1 (o que for melhor para sua
+          mão).
+        </div>
+        <div className={styles.sobreHiloSectionSubtitle}>
+          A Personalidade da Mesa (O LED)
+        </div>
+        <div className={styles.sobreHiloText}>
+          A Mesa muda de estratégia a cada nova rodada! Fique de olho no LED
+          para saber como ela vai se comportar:
+        </div>
+        <ul className={styles.sobreHiloList} style={{ marginTop: "1em" }}>
+          <li>
+            <strong>LED Verde (Cautelosa):</strong> A Mesa vai parar de pedir
+            cartas ao atingir <strong>15 pontos</strong> ou mais.
+          </li>
+          <li>
+            <strong>LED Amarelo (Padrão):</strong> A Mesa vai parar ao atingir{" "}
+            <strong>17 pontos</strong> ou mais.
+          </li>
+          <li>
+            <strong>LED Vermelho (Agressiva):</strong> A Mesa vai arriscar mais
+            e só parar ao atingir <strong>19 pontos</strong> ou mais.
+          </li>
+        </ul>
+        <div className={styles.sobreHiloSectionSubtitle}>
+          Pontuação e Fim da Partida
+        </div>
+        <ul className={styles.sobreHiloList}>
+          <li>
+            <strong>A Balança:</strong> Vencer uma rodada adiciona uma ficha ao
+            seu prato. Perder uma rodada adiciona uma ficha ao prato da Mesa.
+          </li>
+          <li>
+            <strong>Vitória na Partida:</strong> A partida termina
+            instantaneamente quando um dos lados conseguir uma{" "}
+            <strong>vantagem de 3 fichas</strong> (ex: 3-0, 4-1, 5-2).
+          </li>
+          <li>
+            <strong>Pontuação Final (Ranking):</strong> Sua pontuação registrada
+            no ranking é o <strong>número total de fichas na balança</strong> no
+            momento em que a partida acaba. Se você vencer por 5-2, sua
+            pontuação será 7!
+          </li>
+        </ul>
+        <div className={styles.sobreHiloDica}>Boa sorte, e quebre a banca!</div>
+      </div>
     ),
   },
   {
