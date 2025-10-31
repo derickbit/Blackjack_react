@@ -3,7 +3,7 @@ import styles from "./Sobre.module.css";
 import rankingStyles from "./Ranking.module.css";
 
 import hiloCover from "../../assets/hilo-cover.jpg";
-import blackjackCover from "../../assets/blackjack-cover.jpg";
+import blackjackCover from "../../assets/blackjack-cover.png";
 
 const tabs = [
   {
