@@ -51,15 +51,26 @@ function HiLo() {
       const payload = {
         jogador: user.id,
         jogo: "HiLo",
-        pontuacao: score,
+        pontuacao: parseInt(score), // Garantir que é inteiro
       };
+      console.log("React: Payload completo:", payload);
+      console.log("React: Tipo do user.id:", typeof user.id, "Valor:", user.id);
+      console.log(
+        "React: Tipo da pontuacao:",
+        typeof payload.pontuacao,
+        "Valor:",
+        payload.pontuacao
+      );
+
       axiosClient
         .post("/partidas", payload)
         .then((response) => {
           console.log("React: Partida salva com sucesso!", response.data);
         })
         .catch((error) => {
-          console.error("React: Erro ao salvar a partida.", error.response);
+          console.error("React: Erro ao salvar a partida.", error);
+          console.error("React: Detalhes do erro:", error.response?.data);
+          console.error("React: Status do erro:", error.response?.status);
         });
     };
     return () => {
