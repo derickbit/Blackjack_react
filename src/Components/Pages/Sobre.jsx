@@ -302,7 +302,7 @@ const tabs = [
             seção &quot;Atualizações&quot; funcionará como um diário de
             desenvolvimento. Neste espaço, serão publicadas de forma regular as
             notas sobre todas as novidades, melhorias e correções implementadas
-            na plataforma e em seus jogos.
+            na plataforma e em seus jogos..
           </p>
         </div>
       </div>
