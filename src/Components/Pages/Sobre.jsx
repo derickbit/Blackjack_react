@@ -7,7 +7,7 @@ import blackjackCover from "../../assets/blackjack-cover.png";
 import FichaAzul from "../../assets/Ficha_azul.png";
 import FichaLaranja from "../../assets/Ficha_laranja.png";
 import backCard from "../../assets/backCard.png";
-import cores from "../../assets/cores.png";
+import cores from "../../assets/Cores.png";
 
 const tabs = [
   {
