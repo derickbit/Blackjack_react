@@ -25,6 +25,7 @@ const Atualizacoes = () => {
     imagem: null,
     ativo: true,
   });
+  const [imagePreview, setImagePreview] = useState(null);
 
   const isAdmin = user?.role === "admin";
 
@@ -59,6 +60,46 @@ const Atualizacoes = () => {
     fetchAtualizacoes();
   }, [fetchAtualizacoes]);
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+
+    if (!file) {
+      setFormData({ ...formData, imagem: null });
+      setImagePreview(null);
+      return;
+    }
+
+    // Validar tipo de arquivo
+    if (!file.type.startsWith("image/")) {
+      showError("Por favor, selecione apenas arquivos de imagem.");
+      e.target.value = ""; // Limpa o input
+      return;
+    }
+
+    // Validar tamanho (máximo 5MB)
+    const maxSize = 5 * 1024 * 1024; // 5MB
+    if (file.size > maxSize) {
+      showError("A imagem deve ter no máximo 5MB.");
+      e.target.value = ""; // Limpa o input
+      return;
+    }
+
+    console.log("📸 Imagem selecionada:", {
+      name: file.name,
+      size: `${(file.size / 1024 / 1024).toFixed(2)}MB`,
+      type: file.type,
+    });
+
+    setFormData({ ...formData, imagem: file });
+
+    // Criar preview da imagem
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      setImagePreview(e.target.result);
+    };
+    reader.readAsDataURL(file);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -71,11 +112,21 @@ const Atualizacoes = () => {
       formDataToSend.append("ativo", formData.ativo ? "1" : "0");
 
       if (formData.imagem) {
+        console.log("📤 Enviando imagem:", {
+          name: formData.imagem.name,
+          size: `${(formData.imagem.size / 1024 / 1024).toFixed(2)}MB`,
+          type: formData.imagem.type,
+        });
         formDataToSend.append("imagem", formData.imagem);
+      } else {
+        console.log("⚠️ Nenhuma imagem selecionada");
       }
 
       let response;
       if (editingId) {
+        // Ao editar, precisa adicionar _method: PUT para o Laravel processar como PUT
+        formDataToSend.append("_method", "PUT");
+        console.log("✏️ Editando atualização ID:", editingId);
         response = await axiosClient.post(
           `/atualizacoes/${editingId}`,
           formDataToSend
@@ -83,17 +134,21 @@ const Atualizacoes = () => {
         );
         showSuccess("Atualização editada com sucesso!");
       } else {
+        console.log("➕ Criando nova atualização");
         response = await axiosClient.post("/atualizacoes", formDataToSend);
         // Não define Content-Type - deixa o navegador adicionar automaticamente com boundary
         showSuccess("Atualização criada com sucesso!");
       }
+
+      console.log("✅ Resposta do servidor:", response.data);
 
       if (response.data.success) {
         resetForm();
         fetchAtualizacoes();
       }
     } catch (error) {
-      console.error("Erro ao salvar atualização:", error);
+      console.error("❌ Erro ao salvar atualização:", error);
+      console.error("❌ Detalhes do erro:", error.response?.data);
       showError(error.response?.data?.message || "Erro ao salvar atualização");
     }
   };
@@ -104,9 +159,10 @@ const Atualizacoes = () => {
       conteudo: atualizacao.conteudo,
       versao: atualizacao.versao || "",
       tipo: atualizacao.tipo,
-      imagem: null,
+      imagem: null, // Não carrega a imagem antiga
       ativo: atualizacao.ativo,
     });
+    setImagePreview(null); // Limpa preview ao editar
     setEditingId(atualizacao.id);
     setShowForm(true);
   };
@@ -147,8 +203,15 @@ const Atualizacoes = () => {
       imagem: null,
       ativo: true,
     });
+    setImagePreview(null); // Limpa o preview
     setEditingId(null);
     setShowForm(false);
+
+    // Limpa o input file
+    const fileInput = document.querySelector('input[type="file"]');
+    if (fileInput) {
+      fileInput.value = "";
+    }
   };
 
   const formatDate = (dateString) => {
@@ -250,10 +313,22 @@ const Atualizacoes = () => {
               <input
                 type="file"
                 accept="image/*"
-                onChange={(e) =>
-                  setFormData({ ...formData, imagem: e.target.files[0] })
-                }
+                onChange={handleImageChange}
               />
+              {imagePreview && (
+                <div style={{ marginTop: "10px" }}>
+                  <img
+                    src={imagePreview}
+                    alt="Preview"
+                    style={{
+                      maxWidth: "200px",
+                      maxHeight: "200px",
+                      borderRadius: "8px",
+                      objectFit: "contain",
+                    }}
+                  />
+                </div>
+              )}
             </div>
 
             <div className={styles.formGroup}>
