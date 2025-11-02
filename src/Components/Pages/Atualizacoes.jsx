@@ -78,16 +78,13 @@ const Atualizacoes = () => {
       if (editingId) {
         response = await axiosClient.post(
           `/atualizacoes/${editingId}`,
-          formDataToSend,
-          {
-            headers: { "Content-Type": "multipart/form-data" },
-          }
+          formDataToSend
+          // Não define Content-Type - deixa o navegador adicionar automaticamente com boundary
         );
         showSuccess("Atualização editada com sucesso!");
       } else {
-        response = await axiosClient.post("/atualizacoes", formDataToSend, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
+        response = await axiosClient.post("/atualizacoes", formDataToSend);
+        // Não define Content-Type - deixa o navegador adicionar automaticamente com boundary
         showSuccess("Atualização criada com sucesso!");
       }
 
