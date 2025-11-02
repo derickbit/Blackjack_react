@@ -205,6 +205,19 @@
   align-items: center;
 }
 
+.chatModalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .chatbox {
   position: fixed;
   bottom: 88px; /* Altura do footer (64px) + espaçamento extra */
@@ -525,6 +538,72 @@
   .form {
     padding: 0;
   }
+
+  .reports_flex {
+    flex-direction: column;
+    gap: 1.5em;
+    padding: 1em 0;
+  }
+
+  .reports_box {
+    min-width: unset;
+    max-width: 100%;
+    padding: 1.5em 1em;
+    margin: 0 0.5em;
+    max-height: 60vh;
+  }
+
+  .reportsTable {
+    font-size: 0.85rem;
+  }
+
+  .reportsTable th,
+  .reportsTable td {
+    padding: 8px 10px;
+    font-size: 0.85em;
+  }
+
+  .reportsTable .smallBtn {
+    padding: 6px 12px;
+    font-size: 0.85em;
+  }
+
+  .chatModalOverlay {
+    padding: 1em;
+  }
+
+  .chatbox {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    right: auto;
+    left: auto;
+    bottom: auto;
+    max-height: 80vh;
+    min-height: 300px;
+  }
+
+  .chatMessagesArea {
+    max-height: 300px;
+  }
+
+  .chatInput {
+    font-size: 0.9em;
+    padding: 8px 10px;
+  }
+
+  .attachmentLabel {
+    width: 32px;
+    height: 32px;
+  }
+
+  .attachmentIcon {
+    font-size: 1.3em;
+  }
+
+  .reportsTableWrapper {
+    max-height: 400px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -545,5 +624,74 @@
   .input,
   .button {
     font-size: 0.9rem;
+  }
+
+  .reports_box {
+    padding: 1em 0.5em;
+    max-height: 50vh;
+  }
+
+  .reports_flex {
+    gap: 1em;
+  }
+
+  .reportsTable {
+    font-size: 0.75rem;
+  }
+
+  .reportsTable th,
+  .reportsTable td {
+    padding: 6px 8px;
+    font-size: 0.75em;
+  }
+
+  .reportsTable .smallBtn {
+    padding: 4px 8px;
+    font-size: 0.75em;
+  }
+
+  .chatModalOverlay {
+    padding: 0.5em;
+  }
+
+  .chatbox {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    right: auto;
+    left: auto;
+    bottom: auto;
+    padding: 12px;
+    max-height: 75vh;
+    min-height: 250px;
+  }
+
+  .chatMessagesArea {
+    max-height: 250px;
+    padding: 8px;
+  }
+
+  .chatInput {
+    font-size: 0.85em;
+    padding: 6px 8px;
+  }
+
+  .attachmentLabel {
+    width: 28px;
+    height: 28px;
+  }
+
+  .attachmentIcon {
+    font-size: 1.2em;
+  }
+
+  .closeBtn {
+    width: 28px;
+    height: 28px;
+    font-size: 1.1em;
+  }
+
+  .reportsTableWrapper {
+    max-height: 300px;
   }
 }

@@ -4,6 +4,10 @@ import rankingStyles from "./Ranking.module.css";
 
 import hiloCover from "../../assets/hilo-cover.jpg";
 import blackjackCover from "../../assets/blackjack-cover.png";
+import FichaAzul from "../../assets/Ficha_azul.png";
+import FichaLaranja from "../../assets/Ficha_laranja.png";
+import backCard from "../../assets/backCard.png";
+import cores from "../../assets/cores.png";
 
 const tabs = [
   {
@@ -42,55 +46,121 @@ const tabs = [
     label: "Design",
     content: (
       <>
-        <h2 className={styles.sobreTabTitle}>Escolhas de Design</h2>
+        <h2 className={styles.sobreTabTitle}>
+          Filosofia de Design do CardNest
+        </h2>
+
+        {/* Nova seção para a imagem da paleta de cores */}
+        <div style={{ textAlign: "center", margin: "2rem 0" }}>
+          <img
+            src={cores} // Imagem da paleta de cores
+            alt="Paleta de Cores do CardNest"
+            style={{
+              width: "100%",
+              maxWidth: "200px",
+              height: "auto",
+              marginBottom: "1rem",
+            }}
+          />
+        </div>
+
+        {/* Esta é a linha principal que organiza o texto e as imagens */}
         <div className={styles.sobreDesignRow}>
+          {/* Coluna de Texto: Justificativa da paleta de cores */}
+          <div className={styles.sobreDesignText}>
+            <p style={{ textAlign: "justify" }}>
+              A concepção visual do CardNest foi redefinida para harmonizar a
+              elegância clássica dos jogos de cartas com a funcionalidade e a
+              estética "Dark Mode" de uma aplicação web moderna.
+            </p>
+            <p style={{ textAlign: "justify", marginTop: "1rem" }}>
+              A paleta de cores, exibida acima, foi o pilar dessa mudança,
+              abandonando o tradicional verde para criar uma hierarquia visual
+              clara:
+            </p>
+
+            {/* Lista de cores para justificar para a banca */}
+            <ul
+              style={{
+                paddingLeft: "20px",
+                marginTop: "1rem",
+                textAlign: "left",
+              }}
+            >
+              <li style={{ marginBottom: "0.5rem" }}>
+                <strong>
+                  Tons de Azul (<code>#1B263B</code>, <code>#3A506B</code>):
+                </strong>
+                Estabelecem o tom sofisticado e calmo, criando profundidade e
+                direcionando o foco do usuário para o conteúdo.
+              </li>
+              <li style={{ marginBottom: "0.5rem" }}>
+                <strong>
+                  Off-White (<code>#F0F0F0</code>):
+                </strong>
+                Usado para textos principais, garante legibilidade máxima e um
+                contraste limpo contra o fundo escuro, essencial para uma
+                experiência sem fadiga visual.
+              </li>
+              <li>
+                <strong>
+                  Laranja de Ação (<code>#FF7F00</code>):
+                </strong>
+                Empregado estrategicamente como cor de destaque. Sua vivacidade
+                (vista nas fichas) serve para chamar a atenção para ações
+                cruciais, como botões e notificações, guiando a interação.
+              </li>
+            </ul>
+          </div>
+
+          {/* Coluna de Imagens: Usando os assets importados */}
           <div className={styles.sobreDesignImgs}>
             <img
-              src={"/Logo%20Principal.svg"}
-              alt="Logo Principal"
+              src={FichaAzul} // Variável importada
+              alt="Ficha de Jogo Azul"
               style={{
-                maxHeight: 80,
-                background: "#fff",
-                borderRadius: 8,
-                padding: 4,
+                width: "100%",
+                maxWidth: "120px",
+                height: "auto",
+                marginBottom: "1rem",
+                borderRadius: "50%", // Fichas são redondas
               }}
             />
             <img
-              src={"/Logo%20ambiente.svg"}
-              alt="Logo Ambiente"
+              src={FichaLaranja} // Variável importada
+              alt="Ficha de Jogo Laranja"
               style={{
-                maxHeight: 80,
-                background: "#fff",
-                borderRadius: 8,
-                padding: 4,
+                width: "100%",
+                maxWidth: "120px",
+                height: "auto",
+                marginBottom: "1rem",
+                borderRadius: "50%", // Fichas são redondas
+              }}
+            />
+            <img
+              src={backCard} // Variável importada
+              alt="Verso da Carta Personalizado"
+              style={{
+                width: "100%",
+                maxWidth: "120px",
+                height: "auto",
+                borderRadius: "8px", // Cartas são retangulares
               }}
             />
           </div>
-          <div className={styles.sobreDesignText}>
-            <p>
-              O visual do CardNest foi pensado com uma ideia em mente: misturar
-              o charme dos jogos de cartas clássicos com a fluidez de um site
-              moderno e fácil de usar.
-            </p>
-          </div>
         </div>
+
+        {/* Texto de conclusão, usando a classe de parágrafo padrão */}
         <div
           className={styles.sobreTabText}
           style={{ textAlign: "justify", marginTop: "1.2rem" }}
         >
           <p>
-            Por isso, escolhemos uma paleta de cores mais sóbria, como o
-            cinza-escuro e o verde tradicional da mesa de jogo, para criar um
-            clima focado e elegante. As fontes também seguem essa linha, com uma
-            super legível para garantir que tudo funcione bem, e outra mais
-            estilosa para dar personalidade ao nosso baralho personalizado.
-          </p>
-          <p>
-            Desde o logo minimalista até cada detalhe das cartas, tudo foi
-            criado com carinho para que você sinta que está em um lugar especial
-            para jogar — um verdadeiro &#39;ninho&#39; para os amantes de
-            cartas, que combina o melhor do tradicional com a praticidade da
-            web.
+            Elementos como o logo minimalista, os ícones de naipes incorporados
+            sutilmente no fundo e o design detalhado de fichas e versos de
+            cartas (como os apresentados ao lado) foram desenvolvidos para
+            reforçar a identidade do CardNest como um verdadeiro "ninho" para os
+            amantes de cartas, onde a tradição encontra a inovação.
           </p>
         </div>
       </>
@@ -177,7 +247,8 @@ const tabs = [
             Seu objetivo é levar a balança ao seu favor! Em cada rodada, tente
             chegar mais perto de 21 pontos do que a Mesa, sem estourar. Vencer
             rodadas adiciona fichas à balança, e o primeiro a conseguir uma
-            vantagem de 3 fichas vence a partida!
+            vantagem de 3 fichas e encostar a sua bandeja na base da balança
+            vence a partida!
           </div>
         </div>
         <div className={styles.sobreHiloSectionSubtitle}>
@@ -209,27 +280,32 @@ const tabs = [
           e Rei (K) valem 10. O Ás (A) vale 11 ou 1 (o que for melhor para sua
           mão).
         </div>
+
+        {/* --- SEÇÃO DO LED CORRIGIDA --- */}
         <div className={styles.sobreHiloSectionSubtitle}>
           A Personalidade da Mesa (O LED)
         </div>
         <div className={styles.sobreHiloText}>
-          A Mesa muda de estratégia a cada nova rodada! Fique de olho no LED
-          para saber como ela vai se comportar:
+          A Mesa muda de estratégia a cada nova rodada! O LED indica a{" "}
+          <strong>estratégia</strong> da Mesa, mas o limite exato é um mistério
+          para manter o jogo imprevisível:
         </div>
         <ul className={styles.sobreHiloList} style={{ marginTop: "1em" }}>
           <li>
             <strong>LED Verde (Cautelosa):</strong> A Mesa vai parar de pedir
-            cartas ao atingir <strong>15 pontos</strong> ou mais.
+            cartas ao atingir <strong>14 ou 15 pontos</strong>.
           </li>
           <li>
             <strong>LED Amarelo (Padrão):</strong> A Mesa vai parar ao atingir{" "}
-            <strong>17 pontos</strong> ou mais.
+            <strong>16, 17 ou 18 pontos</strong>.
           </li>
           <li>
             <strong>LED Vermelho (Agressiva):</strong> A Mesa vai arriscar mais
-            e só parar ao atingir <strong>19 pontos</strong> ou mais.
+            e só parar ao atingir <strong>19 ou 20 pontos</strong>.
           </li>
         </ul>
+
+        {/* --- SEÇÃO DE PONTUAÇÃO CORRIGIDA --- */}
         <div className={styles.sobreHiloSectionSubtitle}>
           Pontuação e Fim da Partida
         </div>
@@ -239,15 +315,34 @@ const tabs = [
             seu prato. Perder uma rodada adiciona uma ficha ao prato da Mesa.
           </li>
           <li>
+            <strong>Empate:</strong> Se a rodada empatar,{" "}
+            <strong>ambos os lados ganham uma ficha!</strong>
+          </li>
+          <li>
             <strong>Vitória na Partida:</strong> A partida termina
             instantaneamente quando um dos lados conseguir uma{" "}
             <strong>vantagem de 3 fichas</strong> (ex: 3-0, 4-1, 5-2).
           </li>
           <li>
-            <strong>Pontuação Final (Ranking):</strong> Sua pontuação registrada
-            no ranking é o <strong>número total de fichas na balança</strong> no
-            momento em que a partida acaba. Se você vencer por 5-2, sua
-            pontuação será 7!
+            <strong>Pontuação Final (Ranking):</strong> Sua pontuação{" "}
+            <strong>nunca é zero!</strong> No final da partida,{" "}
+            <strong>metade das fichas do perdedor</strong> (arredondado para
+            baixo) são transferidas para o vencedor.
+          </li>
+          <li>
+            <strong>Se você Vencer:</strong> Sua pontuação é o seu total de
+            fichas + a metade que você recebeu da Mesa.
+          </li>
+          <li>
+            <strong>Se você Perder:</strong> Sua pontuação é a metade de fichas
+            que <strong>restaram</strong> com você.
+          </li>
+          <li>
+            <strong>Exemplo:</strong> Você vence por <strong>8-6</strong>.
+            Metade das 6 fichas da Mesa (3) vêm para você. Sua pontuação final:{" "}
+            <strong>11</strong> (8+3). Se você perdesse por <strong>8-6</strong>
+            , perderia 4 das suas 8 fichas, mas ainda pontuaria{" "}
+            <strong>4</strong>!
           </li>
         </ul>
         <div className={styles.sobreHiloDica}>Boa sorte, e quebre a banca!</div>

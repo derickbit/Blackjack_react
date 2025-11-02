@@ -134,3 +134,80 @@ select:focus {
   background-color: #f4f4f4;
   font-weight: bold;
 }
+
+/* Responsividade para telas de celular */
+@media (max-width: 768px) {
+  .denuncia_container {
+    flex-direction: column;
+    padding: 1em;
+    gap: 1.5em;
+  }
+
+  .form_section {
+    width: 100%;
+    max-width: 100%;
+    padding: 1.5em;
+  }
+
+  .denuncias_section {
+    width: 100%;
+  }
+
+  .form_title,
+  .denuncias_title {
+    font-size: 1.5em;
+  }
+
+  .denunciasSection {
+    max-height: 400px;
+    padding: 0.8rem;
+  }
+
+  .table th,
+  .table td {
+    padding: 6px;
+    font-size: 0.9em;
+  }
+}
+
+@media (max-width: 480px) {
+  .denuncia_container {
+    padding: 0.5em;
+    gap: 1em;
+  }
+
+  .form_section {
+    padding: 1em;
+  }
+
+  .form_title,
+  .denuncias_title {
+    font-size: 1.3em;
+  }
+
+  input,
+  select {
+    padding: 0.6em;
+    font-size: 0.9em;
+  }
+
+  label {
+    font-size: 0.85em;
+  }
+
+  .denunciasSection {
+    max-height: 300px;
+    padding: 0.5rem;
+  }
+
+  .table th,
+  .table td {
+    padding: 4px;
+    font-size: 0.8em;
+  }
+
+  .submitButton {
+    font-size: 0.9em;
+    padding: 0.6em;
+  }
+}
