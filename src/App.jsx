@@ -13,7 +13,6 @@ import Ranking from "./Components/Pages/Ranking";
 import Historico from "./Components/Pages/Historico";
 import Login from "./Components/Pages/Login";
 import Cadastro from "./Components/Pages/Cadastro";
-import EditarPerfil from "./Components/Pages/EditarPerfil";
 import { AuthProvider } from "./contexts/AuthProvider";
 import UsersProvider from "./contexts/UsersProvider";
 import ReportsProvider from "./contexts/ReportsProvider";
@@ -110,14 +109,6 @@ function AppContent() {
             element={
               <ProtectedRoute>
                 <TopicDetail />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/perfil"
-            element={
-              <ProtectedRoute>
-                <EditarPerfil />
               </ProtectedRoute>
             }
           />

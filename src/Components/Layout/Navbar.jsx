@@ -5,16 +5,18 @@ import logo from "../../assets/blackjack_logo.jpg";
 import "animate.css";
 import Logo from "./Logo";
 import Hamburger from "../Cards/Hamburger";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useToast } from "../../utils/useToast";
 import ToastContainer from "./ToastContainer";
+import UserProfileDropdown from "./UserProfileDropdown";
 
 function Navbar() {
-  const { setToken, setUser } = useAuthContext();
+  const { setToken, setUser, user } = useAuthContext();
   const navigate = useNavigate();
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const menuContainerRef = useRef(null);
+  const profileDropdownRef = useRef(null);
   const { toasts, showSuccess, removeToast } = useToast();
 
   const handleLogout = () => {
@@ -35,13 +37,39 @@ function Navbar() {
 
   const handleHamburgerClick = () => {
     setIsMobileMenuOpen((prev) => !prev);
-    setIsDropdownOpen(false);
   };
 
   const handleMobileLinkClick = () => {
     setIsMobileMenuOpen(false);
-    setIsDropdownOpen(false);
   };
+
+  const toggleProfileDropdown = () => {
+    setIsProfileDropdownOpen((prev) => !prev);
+  };
+
+  const closeProfileDropdown = () => {
+    setIsProfileDropdownOpen(false);
+  };
+
+  // Fecha o dropdown quando clicar fora dele
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        profileDropdownRef.current &&
+        !profileDropdownRef.current.contains(event.target)
+      ) {
+        setIsProfileDropdownOpen(false);
+      }
+    };
+
+    if (isProfileDropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isProfileDropdownOpen]);
 
   return (
     <nav className={styles.navbar}>
@@ -78,9 +106,6 @@ function Navbar() {
             <Link to="/">Home</Link>
           </li>
           <li className={styles.item} onClick={handleMobileLinkClick}>
-            <Link to="/perfil">Editar Perfil</Link>
-          </li>
-          <li className={styles.item} onClick={handleMobileLinkClick}>
             <Link to="/ranking">Ranking</Link>
           </li>
           <li className={styles.item} onClick={handleMobileLinkClick}>
@@ -102,9 +127,47 @@ function Navbar() {
           {/* Sociais removido */}
         </ul>
       </div>
-      <button className={styles.logout} onClick={handleLogout}>
-        Sair
-      </button>
+      <div className={styles.navRight}>
+        <div className={styles.userProfile} ref={profileDropdownRef}>
+          <button
+            className={styles.userButton}
+            onClick={toggleProfileDropdown}
+            aria-label="Menu de perfil"
+          >
+            <svg
+              className={styles.userIcon}
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle
+                cx="12"
+                cy="8"
+                r="4"
+                stroke="currentColor"
+                strokeWidth="2"
+              />
+              <path
+                d="M4 20C4 16.6863 6.68629 14 10 14H14C17.3137 14 20 16.6863 20 20"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+            </svg>
+            <span className={styles.userName}>
+              Olá, {user?.name?.split(" ")[0] || "Usuário"}
+            </span>
+          </button>
+
+          {isProfileDropdownOpen && (
+            <UserProfileDropdown onClose={closeProfileDropdown} />
+          )}
+        </div>
+
+        <button className={styles.logout} onClick={handleLogout}>
+          Sair
+        </button>
+      </div>
     </nav>
   );
 }
