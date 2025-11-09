@@ -18,6 +18,8 @@
   margin-bottom: 1em;
   text-align: center;
   color: #e0e1dd;
+  padding-bottom: 0.5em;
+  border-bottom: 2px solid rgba(231, 111, 81, 0.2); /* Linha divisória laranja */
 }
 
 /* Conteúdo principal */
@@ -31,6 +33,19 @@
   border-radius: 12px;
   padding: 2em;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  position: relative; /* Para o ::before funcionar */
+}
+
+/* Borda laranja superior */
+.mainEditarPerfil::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #e76f51 0%, #f4a261 50%, #e76f51 100%);
+  border-radius: 12px 12px 0 0;
 }
 
 /* Seção do formulário */
@@ -109,4 +124,49 @@ footer {
   color: #fff;
   text-align: center;
   padding: 1em;
+}
+
+/* Responsividade para mobile */
+@media (max-width: 768px) {
+  .bodyEditarPerfil {
+    padding: 1em;
+  }
+
+  .tituloEditarPerfil {
+    font-size: 1.5em;
+    margin-bottom: 0.8em;
+  }
+
+  .mainEditarPerfil {
+    width: 95%;
+    padding: 1.5em;
+  }
+
+  .sectionEditarPerfil {
+    gap: 1em;
+  }
+
+  label {
+    font-size: 0.85em;
+  }
+
+  input {
+    padding: 0.7em;
+    font-size: 0.95em;
+  }
+}
+
+@media (max-width: 480px) {
+  .bodyEditarPerfil {
+    padding: 0.5em;
+  }
+
+  .tituloEditarPerfil {
+    font-size: 1.3em;
+  }
+
+  .mainEditarPerfil {
+    width: 98%;
+    padding: 1em;
+  }
 }

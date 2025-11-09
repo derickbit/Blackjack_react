@@ -54,6 +54,39 @@
   flex: 1 1 600px;
   max-height: 65vh; /* Limita a altura máxima da caixa */
   overflow-y: auto;
+  position: relative; /* Para o ::before funcionar */
+}
+
+/* Borda laranja superior */
+.ranking_box::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #e76f51 0%, #f4a261 50%, #e76f51 100%);
+  border-radius: 16px 16px 0 0;
+}
+
+/* Scrollbar laranja personalizada */
+.ranking_box::-webkit-scrollbar {
+  width: 8px;
+}
+
+.ranking_box::-webkit-scrollbar-track {
+  background: rgba(27, 38, 59, 0.3);
+  border-radius: 10px;
+}
+
+.ranking_box::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #e76f51 0%, #d65a3c 100%);
+  border-radius: 10px;
+  transition: background 0.3s ease;
+}
+
+.ranking_box::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #f4a261 0%, #e76f51 100%);
 }
 
 /* Responsividade para celulares */
@@ -72,6 +105,8 @@
   display: flex;
   justify-content: center;
   margin-bottom: 1.5em;
+  padding-bottom: 0.8rem;
+  border-bottom: 2px solid rgba(231, 111, 81, 0.2); /* Linha divisória laranja */
 }
 
 .tittle_container h2 {
@@ -102,6 +137,26 @@
   border: none;
 }
 
+/* Scrollbar laranja na lista */
+.ranking_list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.ranking_list::-webkit-scrollbar-track {
+  background: rgba(27, 38, 59, 0.3);
+  border-radius: 10px;
+}
+
+.ranking_list::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #e76f51 0%, #d65a3c 100%);
+  border-radius: 10px;
+  transition: background 0.3s ease;
+}
+
+.ranking_list::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #f4a261 0%, #e76f51 100%);
+}
+
 .ranking_flex {
   display: flex;
   gap: 3em;
@@ -117,5 +172,10 @@
     flex-direction: column;
     gap: 1.5em;
     align-items: center;
+  }
+
+  .ranking_list {
+    max-height: 45vh; /* Reduz um pouco para acomodar cards expandidos */
+    gap: 0.3em;
   }
 }

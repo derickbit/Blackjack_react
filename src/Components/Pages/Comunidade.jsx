@@ -6,8 +6,6 @@ import { useForumContext } from "../../contexts/ForumContext";
 import { useUsersContext } from "../../contexts/UsersContext";
 import TopicCard from "../Cards/TopicCard";
 import TopicModal from "./TopicModal";
-import Input from "../Form/Input";
-import Select from "../Form/Select";
 import SubmitButton from "../Form/SubmitButton";
 import LoadingSpinner from "../Layout/LoadingSpinner";
 import styles from "./Comunidade.module.css";
@@ -191,15 +189,12 @@ const Comunidade = () => {
           <div className={styles.searchAndFilters}>
             <div className={styles.searchBox}>
               <FaSearch className={styles.searchIcon} />
-              <Input
+              <input
                 type="text"
-                text=""
                 name="search"
                 placeholder="Buscar tópicos..."
                 value={filters.search}
-                handleOnChange={(e) =>
-                  handleFilterChange("search", e.target.value)
-                }
+                onChange={(e) => handleFilterChange("search", e.target.value)}
               />
             </div>
 
@@ -228,15 +223,17 @@ const Comunidade = () => {
             </div>
 
             <div className={styles.sortSelect}>
-              <Select
-                text=""
+              <select
                 name="orderBy"
-                options={orderByOptions}
-                handleOnChange={(e) =>
-                  handleFilterChange("orderBy", e.target.value)
-                }
                 value={filters.orderBy}
-              />
+                onChange={(e) => handleFilterChange("orderBy", e.target.value)}
+              >
+                {orderByOptions.map((option) => (
+                  <option key={option.id} value={option.id}>
+                    {option.name}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
         </div>

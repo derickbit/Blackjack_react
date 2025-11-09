@@ -81,13 +81,16 @@ const TopicCard = ({ topic, onEdit, onDelete, onClick }) => {
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString("pt-BR", {
+    const formattedDate = date.toLocaleDateString("pt-BR", {
       day: "2-digit",
       month: "2-digit",
       year: "numeric",
+    });
+    const formattedTime = date.toLocaleTimeString("pt-BR", {
       hour: "2-digit",
       minute: "2-digit",
     });
+    return { date: formattedDate, time: formattedTime };
   };
 
   return (
@@ -107,7 +110,20 @@ const TopicCard = ({ topic, onEdit, onDelete, onClick }) => {
           </div>
           <div className={styles.topicMeta}>
             <span className={styles.author}>Por {topic.user?.name}</span>
-            <span className={styles.date}>{formatDate(topic.created_at)}</span>
+            <div className={styles.dateTimeContainer}>
+              <div className={styles.dateInfo}>
+                <span className={styles.dateIcon}>📅</span>
+                <span className={styles.dateText}>
+                  {formatDate(topic.created_at).date}
+                </span>
+              </div>
+              <div className={styles.timeInfo}>
+                <span className={styles.timeIcon}>🕐</span>
+                <span className={styles.timeText}>
+                  {formatDate(topic.created_at).time}
+                </span>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -191,9 +207,16 @@ const TopicCard = ({ topic, onEdit, onDelete, onClick }) => {
               Última resposta por{" "}
               <strong>{topic.ultimo_comentario.user?.name}</strong>
             </span>
-            <span className={styles.lastCommentDate}>
-              {formatDate(topic.ultimo_comentario.created_at)}
-            </span>
+            <div className={styles.lastCommentDateContainer}>
+              <span className={styles.dateIcon}>📅</span>
+              <span className={styles.lastCommentDate}>
+                {formatDate(topic.ultimo_comentario.created_at).date}
+              </span>
+              <span className={styles.timeIcon}>🕐</span>
+              <span className={styles.lastCommentDate}>
+                {formatDate(topic.ultimo_comentario.created_at).time}
+              </span>
+            </div>
           </div>
         )}
       </div>

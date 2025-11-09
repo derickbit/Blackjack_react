@@ -41,8 +41,10 @@
 }
 
 .author {
-  font-weight: 600;
-  color: white;
+  font-weight: 700;
+  font-size: 16px;
+  color: #a9b4c2;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .date {
@@ -173,7 +175,7 @@
 
 .commentFooter {
   padding-top: 12px;
-  border-top: 1px solid #f0f0f0;
+  border-top: 2px solid rgba(231, 111, 81, 0.2); /* Linha laranja consistente */
 }
 
 .commentStats {
@@ -274,7 +276,7 @@
 
 .replies {
   margin-top: 16px;
-  border-top: 1px solid #f0f0f0;
+  border-top: 2px solid rgba(231, 111, 81, 0.2); /* Linha laranja consistente */
   padding-top: 16px;
 }
 

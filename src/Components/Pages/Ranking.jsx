@@ -31,6 +31,8 @@ const RankingJogadores = () => {
                 name={user.name}
                 pontuacao={Number(user.total_pontuacao)}
                 position={index + 1}
+                userId={user.id}
+                gameType="HiLo"
               />
             ))}
           </div>
@@ -46,6 +48,8 @@ const RankingJogadores = () => {
                 name={user.name}
                 pontuacao={Number(user.total_pontuacao)}
                 position={index + 1}
+                userId={user.id}
+                gameType="BlackJack"
               />
             ))}
           </div>

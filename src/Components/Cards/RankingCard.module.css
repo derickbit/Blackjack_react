@@ -8,9 +8,44 @@
   color: white; /* Cor padrão para texto */
   font-size: 0.95em;
   min-height: 60px;
+  height: auto; /* Permite que o card expanda */
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start; /* Alinha no topo quando expandido */
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: visible; /* Permite que o conteúdo seja visível */
+  width: 100%; /* Garante que o card ocupe toda a largura disponível */
+  box-sizing: border-box;
+  z-index: 1; /* Base z-index */
+}
+
+/* Quando expandido, aumenta o z-index para ficar acima dos outros */
+.ranking_card.expanded {
+  z-index: 100; /* Z-index bem alto para garantir que fique acima */
+  margin-bottom: 1em; /* Espaço extra para não sobrepor o próximo card */
+}
+
+.ranking_card::after {
+  content: "▼";
+  position: absolute;
+  right: 0.5em;
+  top: 0.5em; /* Ajustado para ficar no topo */
+  font-size: 0.7em;
+  opacity: 0.5;
+  transition: all 0.3s ease;
+  pointer-events: none; /* Não bloqueia o clique */
+  z-index: 1;
+}
+
+.ranking_card:hover::after {
+  opacity: 1;
+}
+
+.ranking_card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(30, 60, 114, 0.3);
 }
 
 /* Estilo para o 1º lugar */
@@ -22,6 +57,12 @@
   box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2); /* Sombra mais forte para destaque */
   margin-top: 8px;
   margin-bottom: 8px;
+  min-height: auto; /* Remove altura fixa */
+  z-index: 2; /* Um pouco acima dos default */
+}
+
+.gold:hover {
+  box-shadow: 0 6px 20px rgba(184, 134, 11, 0.5);
 }
 
 /* Estilo para o 2º lugar */
@@ -37,6 +78,12 @@
   box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2); /* Sombra mais forte para destaque */
   margin-top: 8px;
   margin-bottom: 8px;
+  min-height: auto; /* Remove altura fixa */
+  z-index: 2; /* Um pouco acima dos default */
+}
+
+.silver:hover {
+  box-shadow: 0 6px 20px rgba(128, 128, 128, 0.5);
 }
 
 /* Estilo para o 3º lugar */
@@ -48,25 +95,39 @@
   box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2); /* Sombra mais forte para destaque */
   margin-top: 8px;
   margin-bottom: 8px;
+  min-height: auto; /* Remove altura fixa */
+  z-index: 2; /* Um pouco acima dos default */
+}
+
+.bronze:hover {
+  box-shadow: 0 6px 20px rgba(205, 127, 50, 0.5);
 }
 
 /* Estilo para os demais */
 .default {
   background-color: lightgray;
   color: black;
+  pointer-events: auto; /* Garante que é clicável */
+  min-height: auto; /* Permite expansão como os outros */
+  height: auto; /* Garante que expande */
 }
 
 /* Mantendo estilos do título */
 .ranking_card h4 {
   color: #222;
   padding: 0.2em 0.1em;
+  padding-right: 1.5em; /* Espaço para a setinha */
   margin-bottom: 0.5em;
   font-size: 1.05em;
+  word-wrap: break-word; /* Quebra palavras longas */
+  overflow-wrap: break-word;
 }
 
 /* Pontuação */
 .ranking_card p {
   margin-bottom: 0.4em;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .ranking_card p span {
@@ -79,6 +140,15 @@
     padding: 0.4em 0.6em;
     font-size: 0.9em;
     min-height: 55px;
+    height: auto; /* Garante que o card pode expandir no mobile */
+    overflow: visible; /* Garante que o conteúdo expandido seja visível */
+  }
+
+  .ranking_card.expanded {
+    min-height: auto; /* Remove altura mínima quando expandido */
+    height: auto; /* Altura automática para conteúdo expandido */
+    overflow: visible; /* Mantém visível quando expandido */
+    z-index: 100; /* Garante que fique sobre outros elementos */
   }
 
   .ranking_card h4 {
@@ -89,4 +159,142 @@
   .ranking_card p {
     margin-bottom: 0.3em;
   }
+
+  /* Ajustes específicos para o histórico no mobile */
+  .history_dropdown {
+    margin-top: 0.6em;
+    padding-top: 0.6em;
+    padding-bottom: 0.4em;
+    width: 100%; /* Garante largura total disponível */
+    overflow: visible; /* Garante visibilidade */
+  }
+
+  .history_list {
+    max-height: 200px; /* Reduz um pouco a altura no mobile */
+    width: 100%; /* Garante largura total */
+  }
+
+  .history_item {
+    padding: 0.4em 0.5em;
+    font-size: 0.75em;
+  }
+
+  .history_item_date {
+    font-size: 0.9em;
+  }
+
+  .history_item_score {
+    font-size: 0.95em;
+  }
+}
+
+/* Dropdown de histórico */
+.history_dropdown {
+  margin-top: 0.8em;
+  padding-top: 0.8em;
+  padding-bottom: 0.5em;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  width: 100%;
+  box-sizing: border-box;
+  animation: fadeIn 0.3s ease;
+  position: relative;
+  z-index: 101; /* Acima do card */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.history_title {
+  font-size: 0.85em;
+  font-weight: bold;
+  margin-bottom: 0.5em;
+  color: #222;
+  word-wrap: break-word;
+}
+
+.history_list {
+  max-height: 250px; /* Aumentado para dar mais espaço */
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+  width: 100%;
+  padding-bottom: 0.3em; /* Espaço no final */
+}
+
+.history_list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.history_list::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.history_list::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+
+.history_list::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.history_item {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.3em 0.5em;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column; /* Mudado para coluna para evitar overflow horizontal */
+  gap: 0.2em;
+  font-size: 0.8em;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.history_item_date {
+  color: #333;
+  font-size: 0.85em;
+  word-wrap: break-word;
+}
+
+.history_item_score {
+  font-weight: bold;
+  color: #222;
+  font-size: 0.9em;
+}
+
+.loading_text {
+  text-align: center;
+  color: #555;
+  font-size: 0.75em;
+  padding: 0.5em;
+  word-wrap: break-word;
+}
+
+.error_text {
+  text-align: center;
+  color: #c0392b;
+  font-size: 0.75em;
+  padding: 0.5em;
+  word-wrap: break-word;
+}
+
+.no_matches_text {
+  text-align: center;
+  color: #555;
+  font-size: 0.75em;
+  padding: 0.5em;
+  font-style: italic;
+  word-wrap: break-word;
+}
+
+.expand_indicator {
+  display: none; /* Removido pois agora temos a setinha visual */
 }

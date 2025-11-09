@@ -1,8 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import PropTypes from "prop-types";
 import { useReportsContext } from "../../contexts/ReportsProvider";
 import { getImageUrl } from "../../utils/imageUtils";
-import styles from "./forms.module.css";
+import styles from "./Reports.module.css";
 import SubmitButton from "../Form/SubmitButton";
 import { useAuthContext } from "../../contexts/AuthProvider";
 import imageCompression from "browser-image-compression";
@@ -10,37 +9,7 @@ import { useToast } from "../../utils/useToast";
 import ToastContainer from "../Layout/ToastContainer";
 import ImageModal from "../Layout/ImageModal";
 import { useImageModal } from "../../utils/useImageModal";
-
-// Ícone de atualização simples (SVG)
-const RefreshIcon = ({ onClick, style, title = "Atualizar" }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="20"
-    height="20"
-    fill="currentColor"
-    viewBox="0 0 16 16"
-    style={{
-      cursor: "pointer",
-      marginLeft: "10px",
-      verticalAlign: "middle",
-      ...style,
-    }}
-    onClick={onClick}
-    title={title}
-  >
-    <path
-      fillRule="evenodd"
-      d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"
-    />
-    <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466" />
-  </svg>
-);
-
-RefreshIcon.propTypes = {
-  onClick: PropTypes.func.isRequired,
-  style: PropTypes.object,
-  title: PropTypes.string,
-};
+import { FaPaperPlane, FaImage, FaSync, FaInbox } from "react-icons/fa";
 
 const getBackendBaseUrl = () => {
   const apiUrl = import.meta.env.VITE_API_URL || "";
@@ -330,33 +299,22 @@ const Reports = () => {
         {/* Formulário de novo report */}
 
         <div className={styles.reports_box}>
-          <h2
-            className={styles.title}
-            style={{
-              fontSize: "1.3rem",
-              marginTop: 0,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              width: "100%",
-            }}
-          >
-            Enviar novo relato
-          </h2>
-          <form
-            className={styles.form}
-            onSubmit={handleCreateReport}
-            style={{ marginBottom: "20px", width: "100%" }}
-          >
-            <div className={styles.inputGroup}>
-              <label className={styles.label} htmlFor="titulo">
-                Título:
+          <div className={styles.formHeader}>
+            <h2 className={styles.formTitle}>Enviar novo relato</h2>
+            <p className={styles.formSubtitle}>
+              Compartilhe suas sugestões, dúvidas ou relate problemas
+            </p>
+          </div>
+          <form className={styles.reportForm} onSubmit={handleCreateReport}>
+            <div className={styles.formField}>
+              <label className={styles.fieldLabel} htmlFor="titulo">
+                Título do relato
               </label>
               <input
-                className={styles.input}
+                className={styles.fieldInput}
                 type="text"
                 id="titulo"
-                placeholder="Título"
+                placeholder="Ex: Problema no carregamento do jogo"
                 value={newReport.titulo}
                 onChange={(e) =>
                   setNewReport({ ...newReport, titulo: e.target.value })
@@ -364,159 +322,195 @@ const Reports = () => {
                 required
               />
             </div>
-            <div className={styles.inputGroup}>
-              <label className={styles.label} htmlFor="mensagem">
-                Descreva seu relato:
+
+            <div className={styles.formField}>
+              <label className={styles.fieldLabel} htmlFor="mensagem">
+                Descrição detalhada
               </label>
               <textarea
-                className={styles.input}
+                className={styles.fieldTextarea}
                 id="mensagem"
-                placeholder="Descreva seu relato"
+                placeholder="Descreva detalhadamente seu relato para que possamos te ajudar melhor..."
                 value={newReport.mensagem}
                 onChange={(e) =>
                   setNewReport({ ...newReport, mensagem: e.target.value })
                 }
                 required
-                rows={3}
+                rows={5}
               />
             </div>
-            <div
-              className={styles.inputGroup}
-              style={{ flexDirection: "row", alignItems: "center", gap: 12 }}
-            >
-              <label
-                className={styles.customFileUploadButton}
-                title="Anexar imagem"
-              >
+
+            <div className={styles.formField}>
+              <label className={styles.fieldLabel}>
+                Anexar imagem (opcional)
+              </label>
+              {newReport.imagem && (
+                <div className={styles.filePreview}>
+                  {newReportImagePreview && (
+                    <img
+                      src={newReportImagePreview}
+                      alt="Preview"
+                      className={styles.previewImage}
+                    />
+                  )}
+                  <span className={styles.fileName}>
+                    {newReport.imagem.name}
+                  </span>
+                </div>
+              )}
+            </div>
+
+            <div className={styles.submitButtonWrapper}>
+              <label className={styles.fileUploadButton}>
+                <FaImage className={styles.uploadIcon} />
                 <input
                   ref={fileInputRefNewReport}
                   type="file"
                   accept="image/*"
                   onChange={handleNewReportImageChange}
-                  style={{ display: "none" }}
+                  className={styles.fileInput}
                 />
-                <span className={styles.attachmentIcon}>📎</span>
-                <span className={styles.attachmentText}>
-                  {newReport.imagem ? newReport.imagem.name : ""}
+                <span className={styles.uploadText}>
+                  {newReport.imagem ? "Alterar" : "Escolher imagem"}
                 </span>
               </label>
-              {newReportImagePreview && (
-                <img
-                  src={newReportImagePreview}
-                  alt="preview novo report"
-                  style={{
-                    width: 32,
-                    height: 32,
-                    borderRadius: 4,
-                    objectFit: "cover",
-                    marginLeft: 8,
-                  }}
-                />
-              )}
-              <span style={{ color: "#e0e1dd", fontSize: "0.95em" }}>
-                {newReport.imagem ? newReport.imagem.name : "Anexar imagem"}
-              </span>
+              <SubmitButton
+                text="Enviar Relato"
+                type="submit"
+                icon={<FaPaperPlane />}
+              />
             </div>
-            <SubmitButton text="Enviar Relato" type="submit" />
           </form>
         </div>
 
         {/* Lista de relatos enviados */}
         <div className={styles.reports_box}>
-          <h2
-            className={styles.title}
-            style={{
-              fontSize: "1.3rem",
-              marginTop: 0,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              width: "100%",
-            }}
-          >
-            Relatos enviados
+          <div className={styles.listHeader}>
+            <div>
+              <h2 className={styles.listTitle}>Seus relatos</h2>
+              <p className={styles.listSubtitle}>
+                Acompanhe o status dos seus relatos enviados
+              </p>
+            </div>
             {!loading && user && (
-              <RefreshIcon
+              <button
+                className={styles.refreshButton}
                 onClick={loadReportsList}
-                title="Atualizar lista de relatos"
-              />
+                title="Atualizar lista"
+              >
+                <FaSync />
+              </button>
             )}
-          </h2>
+          </div>
+
           {loading ? (
-            <p>Carregando...</p>
+            <div className={styles.loadingState}>
+              <div className={styles.loadingSpinner}></div>
+              <p>Carregando relatos...</p>
+            </div>
           ) : reports.length === 0 ? (
-            <p>Nenhum relato encontrado.</p>
+            <div className={styles.emptyState}>
+              <FaInbox className={styles.emptyIcon} />
+              <h3>Nenhum relato encontrado</h3>
+              <p>Você ainda não enviou nenhum relato.</p>
+            </div>
           ) : (
-            <div className={styles.reportsTableWrapper}>
-              <table className={styles.reportsTable}>
-                <thead>
-                  <tr>
-                    <th>Título</th>
-                    <th>Status</th>
-                    <th>Data</th>
-                    <th>Ações</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {[...reports].reverse().map((report) => (
-                    <tr key={report.id}>
-                      <td>{report.titulo}</td>
-                      <td>
-                        {user?.role === "admin" ? (
-                          <select
-                            value={report.status}
-                            onChange={(e) =>
-                              handleStatusChange(report.id, e.target.value)
-                            }
-                          >
-                            <option value="aberto">Aberto</option>
-                            <option value="em_análise">Em análise</option>
-                            <option value="concluído">Concluído</option>
-                          </select>
-                        ) : (
-                          report.status?.replace("_", " ") || "N/A"
-                        )}
-                      </td>
-                      <td>{new Date(report.created_at).toLocaleString()}</td>
-                      <td>
-                        {(user?.role === "admin" ||
-                          (user?.id === report.user_id &&
-                            report.status !== "concluído")) && (
-                          <SubmitButton
-                            text="Abrir Chat"
-                            onClick={() => openChat(report)}
-                          />
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            <div className={styles.reportsList}>
+              {[...reports].reverse().map((report) => (
+                <div key={report.id} className={styles.reportCard}>
+                  {/* Top Bar */}
+                  <div className={styles.cardTopBar}>
+                    <div className={styles.cardIdBadge}>
+                      <span className={styles.idHash}>#</span>
+                      <span className={styles.idNumber}>{report.id}</span>
+                    </div>
+                    <div className={styles.cardStatusWrapper}>
+                      {user?.role === "admin" ? (
+                        <select
+                          className={styles.statusSelect}
+                          value={report.status}
+                          onChange={(e) =>
+                            handleStatusChange(report.id, e.target.value)
+                          }
+                        >
+                          <option value="aberto">Aberto</option>
+                          <option value="em_análise">Em análise</option>
+                          <option value="concluído">Concluído</option>
+                        </select>
+                      ) : (
+                        <span
+                          className={`${styles.statusBadge} ${
+                            styles["status_" + report.status]
+                          }`}
+                        >
+                          <span className={styles.statusDot}>●</span>
+                          {report.status?.replace("_", " ")}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Content */}
+                  <div className={styles.cardContent}>
+                    <h3 className={styles.cardTitle}>{report.titulo}</h3>
+                    <p className={styles.cardMessage}>{report.mensagem}</p>
+                  </div>
+
+                  {/* Footer */}
+                  <div className={styles.cardFooter}>
+                    <div className={styles.cardMeta}>
+                      <div className={styles.dateInfo}>
+                        <span className={styles.dateIcon}>📅</span>
+                        <span className={styles.dateText}>
+                          {new Date(report.created_at).toLocaleDateString(
+                            "pt-BR"
+                          )}
+                        </span>
+                      </div>
+                      <div className={styles.timeInfo}>
+                        <span className={styles.timeIcon}>🕐</span>
+                        <span className={styles.timeText}>
+                          {new Date(report.created_at).toLocaleTimeString(
+                            "pt-BR",
+                            { hour: "2-digit", minute: "2-digit" }
+                          )}
+                        </span>
+                      </div>
+                    </div>
+
+                    {(user?.role === "admin" ||
+                      (user?.id === report.user_id &&
+                        report.status !== "concluído")) && (
+                      <div className={styles.cardActions}>
+                        <SubmitButton
+                          text="Abrir Chat"
+                          onClick={() => openChat(report)}
+                        />
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
             </div>
           )}
         </div>
       </div>
 
       {showChat && selectedReport && (
-        <div className={styles.chatModalOverlay} onClick={handleCloseChat}>
-          <div className={styles.chatbox} onClick={(e) => e.stopPropagation()}>
-            <div
-              className={styles.chatHeader}
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                paddingBottom: "10px",
-                borderBottom: "1px solid #eee",
-              }}
-            >
+        <div className={styles.chatModalOverlay}>
+          <div className={styles.chatbox}>
+            <div className={styles.chatHeader}>
               <span>Chat: {selectedReport.titulo}</span>
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <RefreshIcon
+              <div
+                style={{ display: "flex", alignItems: "center", gap: "10px" }}
+              >
+                <button
+                  className={styles.refreshButton}
                   onClick={() => loadChatMessages(selectedReport.id)}
-                  style={{ marginRight: "10px" }}
                   title="Atualizar mensagens"
-                />
+                >
+                  <FaSync />
+                </button>
                 <button
                   className={styles.closeBtn}
                   onClick={handleCloseChat}

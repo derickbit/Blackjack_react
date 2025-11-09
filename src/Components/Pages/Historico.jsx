@@ -39,7 +39,7 @@ const HistoricoPartidas = () => {
     fetchAll();
   }, [user]);
 
-  const renderTable = (partidas, page, setPage) => {
+  const renderCards = (partidas, page, setPage) => {
     const totalPages = Math.ceil(partidas.length / PAGE_SIZE);
     const start = (page - 1) * PAGE_SIZE;
     const end = start + PAGE_SIZE;
@@ -48,30 +48,47 @@ const HistoricoPartidas = () => {
     return (
       <>
         {partidasPagina.length > 0 ? (
-          <table className={styles.table}>
-            <thead>
-              <tr>
-                <th>ID da Partida</th>
-                <th>Pontuação</th>
-                <th>Data</th>
-              </tr>
-            </thead>
-            <tbody>
-              {partidasPagina.map((partida) => (
-                <tr key={partida.codpartida}>
-                  <td data-label="ID da Partida">{partida.codpartida}</td>
-                  <td data-label="Pontuação">{partida.pontuacao}</td>
-                  <td data-label="Data">
-                    {new Date(partida.created_at).toLocaleDateString()}{" "}
-                    {new Date(partida.created_at).toLocaleTimeString([], {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div className={styles.cardsContainer}>
+            {partidasPagina.map((partida, index) => (
+              <div key={partida.codpartida} className={styles.matchCard}>
+                <div className={styles.cardHeader}>
+                  <div className={styles.matchNumber}>
+                    <span className={styles.hashIcon}>#</span>
+                    {partida.codpartida}
+                  </div>
+                  <div className={styles.scoreContainer}>
+                    <span className={styles.scoreLabel}>Pontuação</span>
+                    <span className={styles.scoreValue}>
+                      {partida.pontuacao}
+                    </span>
+                  </div>
+                </div>
+                <div className={styles.cardFooter}>
+                  <div className={styles.dateInfo}>
+                    <span className={styles.dateIcon}>📅</span>
+                    <span className={styles.dateText}>
+                      {new Date(partida.created_at).toLocaleDateString("pt-BR")}
+                    </span>
+                  </div>
+                  <div className={styles.timeInfo}>
+                    <span className={styles.timeIcon}>🕐</span>
+                    <span className={styles.timeText}>
+                      {new Date(partida.created_at).toLocaleTimeString(
+                        "pt-BR",
+                        {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        }
+                      )}
+                    </span>
+                  </div>
+                </div>
+                {index === 0 && (
+                  <div className={styles.recentBadge}>Mais recente</div>
+                )}
+              </div>
+            ))}
+          </div>
         ) : (
           <p className={styles.message}>Nenhuma partida encontrada.</p>
         )}
@@ -116,7 +133,7 @@ const HistoricoPartidas = () => {
               <h2>HiLo</h2>
             </div>
             <div className={rankingStyles.ranking_list}>
-              {renderTable(hilo, pageHiLo, setPageHiLo)}
+              {renderCards(hilo, pageHiLo, setPageHiLo)}
             </div>
           </div>
           <div className={rankingStyles.ranking_box}>
@@ -124,7 +141,7 @@ const HistoricoPartidas = () => {
               <h2>BlackJack</h2>
             </div>
             <div className={rankingStyles.ranking_list}>
-              {renderTable(blackjack, pageBlackjack, setPageBlackjack)}
+              {renderCards(blackjack, pageBlackjack, setPageBlackjack)}
             </div>
           </div>
         </div>

@@ -215,11 +215,17 @@ const Atualizacoes = () => {
   };
 
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString("pt-BR", {
+    const date = new Date(dateString);
+    const formattedDate = date.toLocaleDateString("pt-BR", {
       day: "2-digit",
-      month: "long",
+      month: "2-digit",
       year: "numeric",
     });
+    const formattedTime = date.toLocaleTimeString("pt-BR", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+    return { date: formattedDate, time: formattedTime };
   };
 
   if (loading) {
@@ -386,9 +392,20 @@ const Atualizacoes = () => {
                 </div>
 
                 <div className={styles.updateMeta}>
-                  <span className={styles.updateDate}>
-                    {formatDate(update.created_at)}
-                  </span>
+                  <div className={styles.dateTimeContainer}>
+                    <div className={styles.dateInfo}>
+                      <span className={styles.dateIcon}>📅</span>
+                      <span className={styles.dateText}>
+                        {formatDate(update.created_at).date}
+                      </span>
+                    </div>
+                    <div className={styles.timeInfo}>
+                      <span className={styles.timeIcon}>🕐</span>
+                      <span className={styles.timeText}>
+                        {formatDate(update.created_at).time}
+                      </span>
+                    </div>
+                  </div>
                   <span
                     className={styles.updateType}
                     style={{ backgroundColor: tiposUpdate[update.tipo]?.color }}

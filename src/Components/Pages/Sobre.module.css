@@ -8,13 +8,13 @@
 /* Sobrescreve o min-height do project_container para a página Sobre */
 .sobrePageContainer {
   min-height: auto !important;
-  padding: 1.5em 1em 0.5em 1em !important; /* Reduz padding ainda mais */
-  overflow: hidden !important; /* Evita scroll desnecessário */
+  padding: 3em 1em 0.5em 1em !important;
+  overflow: hidden !important;
 }
 
-/* Reduz espaçamento do título na página Sobre */
+/* Mantém o espaçamento padrão do título na página Sobre */
 .sobrePageContainer .grand_title_container {
-  margin-bottom: 0.2em !important;
+  margin-bottom: 0.5em !important;
 }
 
 .sobreTabsGrid {
@@ -25,17 +25,31 @@
   width: 1200px;
   min-width: 1200px; /* Largura fixa padronizada */
   margin: 10px auto 10px auto; /* Reduzi margens ainda mais */
-  background: #2c3e50;
+  background: #1b263b;
   border-radius: 1.2rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  /* Removido min-height fixo para evitar scroll desnecessário */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  height: 600px; /* Altura fixa para o container */
   overflow: hidden;
-  border: 1px solid #34495e;
+  border: 1px solid #3a506b;
+  position: relative; /* Para o ::before funcionar */
+}
+
+/* Borda laranja superior */
+.sobreTabsGrid::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #ff7f00 0%, #ff9933 50%, #ff7f00 100%);
+  border-radius: 1.2rem 1.2rem 0 0;
+  z-index: 1;
 }
 
 .sobreTabsMenu {
-  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-  border-right: 1.5px solid #34495e;
+  background: linear-gradient(135deg, #1b263b 0%, #3a506b 100%);
+  border-right: 1.5px solid #3a506b;
   padding: 2rem 0.5rem 2rem 1.5rem; /* Reduzido padding vertical */
   display: flex;
   flex-direction: column;
@@ -53,21 +67,23 @@
   border: none;
   text-align: left;
   font-size: 1.25rem;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(240, 240, 240, 0.8);
   padding: 1.3rem 1.2rem;
   border-radius: 1.5rem 0 0 1.5rem;
   margin-bottom: 0.3rem;
   cursor: pointer;
   font-weight: 500;
-  transition: background 0.18s, color 0.18s;
+  transition: all 0.25s ease;
+  position: relative;
 }
 .sobreTabButton:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
+  background: rgba(255, 127, 0, 0.15);
+  color: #f0f0f0;
+  transform: translateX(2px);
 }
 .sobreTabButtonActive {
-  background: #e76f51; /* Cor laranja solicitada */
-  color: #212529;
+  background: #ff7f00;
+  color: #1b263b;
   font-weight: 700;
   display: block;
   width: 100%;
@@ -78,28 +94,73 @@
   border-radius: 1.5rem 0 0 1.5rem;
   margin-bottom: 0.3rem;
   cursor: pointer;
-  transition: background 0.18s, color 0.18s;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 8px rgba(255, 127, 0, 0.3);
 }
 
-/* Unificação e padronização das abas e conteúdo central */
 .sobreTabsContent {
-  padding: 1.8rem 2rem 1.8rem 1.5rem; /* Reduzido padding para evitar altura excessiva */
+  padding: 1.8rem 2rem 1.8rem 1.5rem;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  /* Removido max-height e overflow-y para evitar scroll interno desnecessário */
   font-size: 1.08rem;
   box-sizing: border-box;
+  background: linear-gradient(
+    135deg,
+    rgba(27, 38, 59, 0.4) 0%,
+    rgba(58, 80, 107, 0.2) 100%
+  );
+  animation: fadeIn 0.3s ease-in;
+  max-height: 600px; /* Altura máxima igual ao container */
+  overflow-y: auto; /* Scroll interno vertical */
+  overflow-x: hidden;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scrollbar laranja no conteúdo das abas */
+.sobreTabsContent::-webkit-scrollbar {
+  width: 10px;
+}
+
+.sobreTabsContent::-webkit-scrollbar-track {
+  background: rgba(27, 38, 59, 0.5);
+  border-radius: 10px;
+  margin: 5px 0;
+}
+
+.sobreTabsContent::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #ff7f00 0%, #cc6600 100%);
+  border-radius: 10px;
+  border: 2px solid rgba(27, 38, 59, 0.3);
+  transition: background 0.3s ease;
+}
+
+.sobreTabsContent::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #ff9933 0%, #ff7f00 100%);
+  border: 2px solid rgba(27, 38, 59, 0.5);
 }
 
 .sobreTabTitle {
   font-size: 1.45rem;
   font-weight: 700;
   margin-bottom: 1.1rem;
-  color: white;
+  color: #f0f0f0;
   line-height: 1.1;
   font-family: inherit;
   text-align: justify;
+  padding-bottom: 0.6rem;
+  border-bottom: 2px solid rgba(255, 127, 0, 0.3);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .sobreTabText,
@@ -107,7 +168,7 @@
 .sobreTabsContent li,
 .sobreTabsContent ol,
 .sobreTabsContent ul {
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(240, 240, 240, 0.9);
   margin-bottom: 0.55rem;
   line-height: 1.7;
   font-family: inherit;
@@ -131,10 +192,11 @@
 .sobreFuturoSubtitle {
   font-size: 1.13rem;
   font-weight: 600;
-  color: #e76f51; /* Cor laranja solicitada */
+  color: #ff7f00;
   margin-bottom: 0.3rem;
   margin-top: 0.7rem;
   text-align: justify;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 /* Ajuste para conteúdo futuro (scroll interno) */
@@ -175,20 +237,21 @@
   font-size: 1.45rem;
   font-weight: 700;
   margin-bottom: 1.1rem;
-  color: white;
+  color: #f0f0f0;
   text-align: justify;
 }
 .sobreHiloSectionSubtitle {
   font-size: 1.13rem;
   font-weight: 600;
-  color: #e76f51; /* Cor laranja solicitada */
+  color: #ff7f00;
   margin-bottom: 0.3rem;
   margin-top: 0.7rem;
   text-align: justify;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 .sobreHiloText {
   font-size: 1.08rem;
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(240, 240, 240, 0.9);
   margin-bottom: 0.55rem;
   text-align: justify;
 }
@@ -196,7 +259,7 @@
   margin: 0 0 0.7rem 1.2rem;
   padding: 0;
   font-size: 1.08rem;
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(240, 240, 240, 0.9);
   list-style: disc inside;
   text-align: justify;
 }
@@ -206,7 +269,7 @@
 }
 .sobreHiloDica {
   font-size: 1.02rem;
-  color: #e76f51; /* Cor laranja solicitada */
+  color: #ff7f00;
   margin-bottom: 0.5rem;
   font-style: italic;
   text-align: justify;
@@ -215,16 +278,17 @@
   .sobreTabsGrid {
     grid-template-columns: 1fr;
     border-radius: 0.8rem;
-    box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.06);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     width: 95vw; /* Melhor ajuste para mobile */
     min-width: 300px; /* Largura mínima consistente */
     max-width: 95vw;
     margin: 1rem auto 0 auto; /* Melhor margem para mobile */
+    height: 500px; /* Altura menor no mobile */
   }
   .sobreTabsMenu {
     flex-direction: row;
     border-right: none;
-    border-bottom: 1.5px solid #34495e;
+    border-bottom: 1.5px solid #3a506b;
     padding: 1rem 0.5rem 0.5rem 0.5rem;
     overflow-x: auto;
     min-width: 0;
@@ -245,7 +309,7 @@
   .sobreTabsContent {
     padding: 1.05rem 0.5rem;
     font-size: 0.98rem;
-    /* Removido max-height para evitar scroll desnecessário */
+    max-height: 500px; /* Altura menor no mobile */
   }
   .sobreTabTitle {
     font-size: 1.05rem;
@@ -319,7 +383,7 @@
 }
 
 .sobreButton {
-  composes: mainButton from "../../styles/Button.css";
+  /* composes: mainButton from "../../styles/Button.css"; */
   margin-top: 1.5rem;
 }
 
