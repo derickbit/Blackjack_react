@@ -91,15 +91,15 @@ function HiLo() {
     };
 
     let script = document.createElement("script");
-    script.src = "/game/Build/build HILO.loader.js"; // Verifique se o nome do build está correto
+    script.src = "/build HILO/Build/build HILO.loader.js"; // Verifique se o nome do build está correto
     script.onload = () => {
       window
         .createUnityInstance(
           canvasRef.current,
           {
-            dataUrl: "/game/Build/build HILO.data",
-            frameworkUrl: "/game/Build/build HILO.framework.js",
-            codeUrl: "/game/Build/build HILO.wasm",
+            dataUrl: "/build HILO/Build/build HILO.data",
+            frameworkUrl: "/build HILO/Build/build HILO.framework.js",
+            codeUrl: "/build HILO/Build/build HILO.wasm",
             companyName: "Blackjack 2025",
             productName: "HiLo Game",
             productVersion: "2.0",
