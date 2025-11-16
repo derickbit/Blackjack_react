@@ -10,7 +10,7 @@
   font-family: "Lora", serif;
   font-size: 3.5rem;
   font-weight: bold;
-  color: #1b263b;
+  color: var(--text-primary);
   letter-spacing: 2px;
   margin: 0;
   /* text-shadow: 0 2px 12px rgba(255, 255, 255, 0.3); */
@@ -24,13 +24,14 @@
   }
 }
 .project_container {
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   background: transparent;
   padding: 3em 1em;
+  height: 100%; /* Usa 100% ao invés de 100vh */
+  overflow: hidden; /* Evita scroll desnecessário */
 }
 
 /* Responsividade para celulares */
@@ -41,9 +42,9 @@
 }
 
 .ranking_box {
-  background: #34495e;
+  background: var(--bg-elevated);
   border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-lg);
   padding: 2em 2.5em 1.5em 2.5em;
   max-width: 700px;
   min-width: 420px;
@@ -52,12 +53,13 @@
   flex-direction: column;
   align-items: center;
   flex: 1 1 600px;
-  max-height: 65vh; /* Limita a altura máxima da caixa */
+  max-height: 65vh;
   overflow-y: auto;
-  position: relative; /* Para o ::before funcionar */
+  position: relative;
+  border: 1px solid var(--border-light);
 }
 
-/* Borda laranja superior */
+/* Borda de acento superior */
 .ranking_box::before {
   content: "";
   position: absolute;
@@ -65,28 +67,28 @@
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, #e76f51 0%, #f4a261 50%, #e76f51 100%);
+  background: var(--action-primary);
   border-radius: 16px 16px 0 0;
 }
 
-/* Scrollbar laranja personalizada */
+/* Scrollbar personalizada */
 .ranking_box::-webkit-scrollbar {
   width: 8px;
 }
 
 .ranking_box::-webkit-scrollbar-track {
-  background: rgba(27, 38, 59, 0.3);
+  background: var(--scrollbar-track);
   border-radius: 10px;
 }
 
 .ranking_box::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #e76f51 0%, #d65a3c 100%);
+  background: var(--scrollbar-thumb);
   border-radius: 10px;
   transition: background 0.3s ease;
 }
 
 .ranking_box::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #f4a261 0%, #e76f51 100%);
+  background: var(--scrollbar-thumb-hover);
 }
 
 /* Responsividade para celulares */
@@ -106,12 +108,12 @@
   justify-content: center;
   margin-bottom: 1.5em;
   padding-bottom: 0.8rem;
-  border-bottom: 2px solid rgba(231, 111, 81, 0.2); /* Linha divisória laranja */
+  border-bottom: 2px solid var(--border-light);
 }
 
 .tittle_container h2 {
   font-size: 2.2rem;
-  color: #e0e1dd;
+  color: var(--text-primary);
   letter-spacing: 1px;
   font-weight: bold;
   margin: 0;
@@ -137,24 +139,24 @@
   border: none;
 }
 
-/* Scrollbar laranja na lista */
+/* Scrollbar na lista */
 .ranking_list::-webkit-scrollbar {
   width: 8px;
 }
 
 .ranking_list::-webkit-scrollbar-track {
-  background: rgba(27, 38, 59, 0.3);
+  background: var(--scrollbar-track);
   border-radius: 10px;
 }
 
 .ranking_list::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #e76f51 0%, #d65a3c 100%);
+  background: var(--scrollbar-thumb);
   border-radius: 10px;
   transition: background 0.3s ease;
 }
 
 .ranking_list::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #f4a261 0%, #e76f51 100%);
+  background: var(--scrollbar-thumb-hover);
 }
 
 .ranking_flex {

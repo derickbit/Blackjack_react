@@ -13,36 +13,36 @@
 }
 
 .cardsContainer::-webkit-scrollbar-track {
-  background: rgba(27, 38, 59, 0.3);
+  background: var(--scrollbar-track);
   border-radius: 10px;
 }
 
 .cardsContainer::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #e76f51 0%, #d65a3c 100%);
+  background: var(--scrollbar-thumb);
   border-radius: 10px;
   transition: background 0.3s ease;
 }
 
 .cardsContainer::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #f4a261 0%, #e76f51 100%);
+  background: var(--scrollbar-thumb-hover);
 }
 
 /* Match Card Styling */
 .matchCard {
   position: relative;
-  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-light);
   border-radius: 12px;
   padding: 0.8rem 1rem;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-sm);
   overflow: hidden;
 }
 
 .matchCard:hover {
   transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(30, 60, 114, 0.3);
-  border-color: rgba(30, 60, 114, 0.5);
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-accent);
 }
 
 .matchCard::before {
@@ -52,7 +52,7 @@
   left: 0;
   width: 4px;
   height: 100%;
-  background: #e76f51;
+  background: var(--action-primary);
   opacity: 0.8;
 }
 
@@ -63,7 +63,7 @@
   align-items: center;
   margin-bottom: 0.6rem;
   padding-bottom: 0.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--border-light);
 }
 
 .matchNumber {
@@ -72,11 +72,11 @@
   gap: 0.4rem;
   font-size: 1rem;
   font-weight: 600;
-  color: #e0e1dd;
+  color: var(--text-primary);
 }
 
 .hashIcon {
-  color: #e76f51;
+  color: var(--action-primary);
   font-size: 1.2rem;
   font-weight: bold;
 }
@@ -89,7 +89,7 @@
 
 .scoreLabel {
   font-size: 0.7rem;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-tertiary);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-bottom: 0.15rem;
@@ -98,8 +98,8 @@
 .scoreValue {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #e76f51;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  color: var(--action-primary);
+  text-shadow: var(--shadow-text);
 }
 
 /* Card Footer */
@@ -116,7 +116,7 @@
   align-items: center;
   gap: 0.4rem;
   font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--text-secondary);
 }
 
 .dateIcon,
@@ -134,15 +134,15 @@
   position: absolute;
   top: 0.6rem;
   right: 0.6rem;
-  background: #e76f51;
-  color: white;
+  background: var(--action-primary);
+  color: var(--text-on-action);
   padding: 0.25rem 0.7rem;
   border-radius: 20px;
   font-size: 0.65rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  box-shadow: 0 2px 8px rgba(231, 111, 81, 0.4);
+  box-shadow: var(--shadow-md);
 }
 
 /* Responsividade para cards */
@@ -176,22 +176,22 @@
 
 /* Old table styles - kept for backward compatibility but not used */
 button:hover {
-  background-color: #1e3c72;
+  background-color: var(--action-hover);
 }
 
 /* Removed old table styles - now using cards */
 
 .paginationButton {
-  background: #1b263b;
-  border: none;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-medium);
   border-radius: 8px;
   padding: 0.6em 1.2em;
   font-size: 1rem;
-  color: #e0e1dd;
+  color: var(--text-primary);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm);
 }
 
 /* Responsividade para celulares */
@@ -210,13 +210,13 @@ button:hover {
 }
 
 .paginationButton:hover:not(:disabled) {
-  background: #e76f51;
+  background: var(--action-primary);
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(231, 111, 81, 0.3);
+  box-shadow: var(--shadow-md);
 }
 
 .paginationButton:disabled {
-  background: #6c757d;
+  background: var(--bg-disabled);
   cursor: not-allowed;
   opacity: 0.6;
   transform: none;
@@ -225,15 +225,15 @@ button:hover {
 .message {
   text-align: center;
   padding: 2rem;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--text-secondary);
   font-size: 1.1rem;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--bg-secondary);
   border-radius: 12px;
   margin: 1rem 0;
 }
 
 .paginationText {
-  color: #e0e1dd;
+  color: var(--text-primary);
   font-weight: 500;
   margin: 0 1rem;
 }

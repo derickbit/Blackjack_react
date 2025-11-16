@@ -9,13 +9,14 @@
   margin: 0;
   text-align: center;
   background: transparent; /* Remove qualquer cor de fundo */
-  min-height: 100vh;
+  height: 100%; /* Usa 100% ao invés de 100vh */
+  overflow: hidden; /* Evita scroll desnecessário */
 }
 
 .home_container h1,
 .home_container h2 {
   font-family: "Lora", serif;
-  color: #1b263b; /* Mesma cor dos títulos das outras páginas */
+  color: var(--text-primary); /* Mesma cor dos títulos das outras páginas */
   /* text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5); */
 }
 
@@ -32,7 +33,7 @@
 .home_container p {
   font-family: "Lora", serif;
   margin-bottom: 1.5em;
-  color: #1b263b; /* Mesma cor dos títulos das outras páginas */
+  color: var(--text-primary); /* Mesma cor dos títulos das outras páginas */
   /* text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5); */
 }
 
@@ -45,27 +46,22 @@
 /* Botão estilo navbar */
 .nav_button {
   appearance: none;
-  border: none;
+  border: 1px solid var(--action-primary);
   outline: none;
-  background: linear-gradient(90deg, #1b263b 0%, #2c3e50 100%);
-  color: #e0e1dd;
+  background: var(--action-primary);
+  color: var(--text-on-action);
   font-size: 1.15em;
   font-family: inherit;
   font-weight: 500;
   border-radius: 2em;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm);
   padding: 0.7em 1.7em;
   margin: 0 0.05em;
   display: flex;
   align-items: center;
   gap: 0.5em;
   cursor: pointer;
-  transition: background 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-    color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-    transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
+  transition: all 0.3s ease;
   text-align: left;
   height: auto;
   line-height: 1.2;
@@ -73,10 +69,10 @@
   box-sizing: border-box;
 }
 .nav_button:hover {
-  color: #e0e1dd;
-  background: linear-gradient(90deg, #2c3e50 0%, #1b263b 100%);
-  box-shadow: 0 6px 18px rgba(27, 38, 59, 0.3);
-  transform: translateY(-2px) scale(1.045);
+  color: var(--text-on-action);
+  background: var(--action-hover);
+  border-color: var(--action-hover);
+  box-shadow: var(--shadow-md);
 }
 
 /* Modal de jogo: sobrepõe conteúdo, mas não navbar/footer */
@@ -90,9 +86,9 @@
   height: calc(
     100vh - 80px - 64px
   ); /* 64px = altura do footer, ajuste se necessário */
-  background: #1b263b;
+  background: var(--bg-elevated);
   border-radius: 1em;
-  box-shadow: 0 2px 32px rgba(0, 0, 0, 0.28);
+  box-shadow: var(--shadow-xl);
   padding: 1.5em 1em 3.5em 1em; /* espaço extra para botão mobile */
   display: flex;
   flex-direction: column;
@@ -164,13 +160,13 @@
 .loadingBox {
   width: 200px;
   height: 200px;
-  background: #fff;
+  background: var(--bg-primary);
   border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 2em auto;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  box-shadow: var(--shadow-sm);
 }
 
 .loadingAnimation {

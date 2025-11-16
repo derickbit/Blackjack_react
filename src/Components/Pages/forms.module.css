@@ -42,18 +42,18 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-width: 800px !important; /* Largura padrão de formulários */
-  max-height: 90vh; /* Limita a altura máxima da área principal */
+  max-width: 800px !important;
+  max-height: 90vh;
 
-  background: #34495e;
+  background: var(--bg-elevated);
   padding: 2rem 2rem 1.5rem 2rem;
   border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  border: 1px solid #34495e;
-  position: relative; /* Para o ::before funcionar */
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-light);
+  position: relative;
 }
 
-/* Borda laranja superior nos containers de formulário */
+/* Borda de acento superior nos containers de formulário */
 .container::before {
   content: "";
   position: absolute;
@@ -61,28 +61,28 @@
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, #e76f51 0%, #f4a261 50%, #e76f51 100%);
+  background: var(--action-primary);
   border-radius: 12px 12px 0 0;
 }
 
-/* Scrollbar laranja nos containers de formulário */
+/* Scrollbar nos containers de formulário */
 .container::-webkit-scrollbar {
   width: 8px;
 }
 
 .container::-webkit-scrollbar-track {
-  background: rgba(27, 38, 59, 0.3);
+  background: var(--scrollbar-track);
   border-radius: 10px;
 }
 
 .container::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #e76f51 0%, #d65a3c 100%);
+  background: var(--scrollbar-thumb);
   border-radius: 10px;
   transition: background 0.3s ease;
 }
 
 .container::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #f4a261 0%, #e76f51 100%);
+  background: var(--scrollbar-thumb-hover);
 }
 
 /* Estilos específicos para Editar Perfil */
@@ -98,10 +98,9 @@
   font-family: "Lora", serif;
   font-size: 3.5rem;
   font-weight: bold;
-  color: #1b263b;
+  color: var(--text-primary);
   letter-spacing: 2px;
   margin: 0;
-  /* text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3); */
   text-align: center;
 }
 
@@ -117,10 +116,9 @@
   font-family: "Lora", serif;
   font-size: 3.5rem;
   font-weight: bold;
-  color: #1b263b;
+  color: var(--text-primary);
   letter-spacing: 2px;
   margin: 0;
-  /* text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3); */
 }
 
 .logo {
@@ -131,15 +129,15 @@
 .title {
   font-size: 1.8rem;
   margin-bottom: 0.3rem;
-  color: #e0e1dd;
+  color: var(--text-primary);
   padding-bottom: 0.5rem;
-  border-bottom: 2px solid rgba(231, 111, 81, 0.2); /* Linha divisória laranja */
+  border-bottom: 2px solid var(--border-light);
 }
 
 .subtitle {
   font-size: 1rem;
   margin-bottom: 1rem;
-  color: #e0e1dd;
+  color: var(--text-secondary);
 }
 
 .inputGroup {
@@ -150,46 +148,80 @@
   display: block;
   margin-bottom: 3px;
   font-weight: bold;
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--text-primary);
 }
 
 .input {
   width: 100%;
   padding: 10px;
-  border: 1px solid #34495e;
+  border: 1px solid var(--border-medium);
   border-radius: 8px;
   font-size: 1rem;
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
   transition: all 0.3s ease;
 }
 
 .input:focus {
-  border-color: #e76f51;
+  border-color: var(--action-primary);
   outline: none;
-  background: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 0 0 3px rgba(231, 111, 81, 0.1);
+  background: var(--bg-elevated);
+  box-shadow: 0 0 0 3px var(--state-focus);
 }
 
 .input::placeholder {
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--text-muted);
 }
 
-/* .button {
-  Removido flex, width 100% e padding para padronizar
-  Usar apenas a classe mainButton global
-  composes: mainButton from "../../styles/Button.css";
-} */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--action-primary);
+  color: var(--text-on-action);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.85rem 1.5rem;
+  border: 1px solid var(--action-primary);
+  border-radius: 2em;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+  min-width: 120px;
+  min-height: 44px;
+  width: 100%;
+  margin-top: 1em;
+}
+
+.button:hover,
+.button:focus {
+  background: var(--action-hover);
+  color: var(--text-on-action);
+  border-color: var(--action-hover);
+  box-shadow: var(--shadow-md);
+}
+
+.button:active {
+  background: var(--state-active);
+  box-shadow: var(--shadow-sm);
+}
+
+.button:disabled {
+  background: var(--bg-disabled);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
 
 .prompt {
   margin-top: 20px;
   font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--text-secondary);
   text-align: center;
 }
 
 .link {
-  color: #e76f51;
+  color: var(--action-primary);
   text-decoration: none;
   font-weight: bold;
 }
@@ -203,15 +235,15 @@
   left: 0;
   top: 110%;
   z-index: 10;
-  background: #34495e;
-  border: 1px solid #34495e;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-medium);
   border-radius: 8px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow-xl);
   padding: 12px 16px;
   min-width: 220px;
   font-size: 0.97em;
   animation: fadeIn 0.2s;
-  color: white;
+  color: var(--text-primary);
 }
 
 .passwordPopoverTitle {
@@ -260,9 +292,9 @@
   width: 400px;
   max-width: 90vw;
   z-index: 1000;
-  background: #fff;
+  background: var(--bg-elevated);
   border-radius: 12px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
+  box-shadow: var(--shadow-xl);
   padding: 16px;
   display: flex;
   flex-direction: column;
@@ -278,12 +310,12 @@
   border-collapse: separate;
   border-spacing: 0;
 
-  background: #34495e;
+  background: var(--bg-elevated);
   border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-lg);
   overflow: hidden;
   font-size: 1rem;
-  border: 1px solid #34495e;
+  border: 1px solid var(--border-medium);
 }
 
 .reportsTable th,
@@ -348,42 +380,44 @@
 .chatInput {
   flex: 1;
   padding: 10px 12px;
-  border: 1px solid #34495e;
+  border: 1px solid var(--border-medium);
   border-radius: 8px;
   font-size: 1em;
-  background: rgba(255, 255, 255, 0.1);
-  color: #1a1a1a;
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
   transition: all 0.3s ease;
 }
 
 .chatInput:focus {
-  border-color: #e76f51;
+  border-color: var(--action-primary);
   outline: none;
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--bg-elevated);
+  box-shadow: var(--state-focus);
 }
 
 .chatInput::placeholder {
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--text-tertiary);
 }
 
 .attachmentLabel {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f3f3f3;
+  background: var(--action-primary);
   border-radius: 50%;
   width: 36px;
   height: 36px;
   cursor: pointer;
-  transition: background 0.2s;
-  border: 1px solid #ddd;
+  transition: all 0.2s;
+  border: 1px solid var(--action-primary);
   margin-left: 4px;
   /* Adicione para alinhar verticalmente */
   vertical-align: middle;
 }
 
 .attachmentLabel:hover {
-  background: #e0e0e0;
+  background: var(--action-primary-hover);
+  transform: scale(1.1);
 }
 
 .attachmentInput {
@@ -392,7 +426,7 @@
 
 .attachmentIcon {
   font-size: 1.5em;
-  color: #fffbfb;
+  color: var(--text-on-action);
   font-weight: bold;
 }
 
@@ -409,24 +443,25 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: #1b263b;
-  color: #e0e1dd;
+  background: var(--action-primary);
+  color: var(--text-on-action);
   border: none;
   font-size: 1.2em;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.2s;
   margin-left: 8px;
 }
 
 .closeBtn:hover {
-  background: #34495e;
+  background: var(--action-primary-hover);
+  transform: scale(1.1);
 }
 
 .chatMessagesArea {
   flex: 1;
   overflow-y: auto;
   margin-bottom: 10px;
-  background: #f9f9f9;
+  background: var(--bg-primary);
   border-radius: 8px;
   padding: 10px;
   max-height: 450px;
@@ -508,9 +543,9 @@
 }
 
 .reports_box {
-  background: #34495e;
+  background: var(--bg-elevated);
   border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-lg);
   padding: 1.5em 2em 1em 2em;
   max-width: 950px; /* aumente aqui */
   min-width: 520px; /* aumente aqui */
@@ -521,7 +556,7 @@
   flex: 1 1 800px; /* aumente aqui para crescer mais */
   max-height: 80vh;
   overflow-y: auto;
-  border: 1px solid #34495e;
+  border: 1px solid var(--border-medium);
 }
 
 .reports_title_container {
@@ -536,7 +571,7 @@
   font-family: "Lora", serif;
   font-size: 3.5rem;
   font-weight: bold;
-  color: #1b263b;
+  color: var(--text-primary);
   letter-spacing: 1px;
   margin: 0;
   /* text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3); */
@@ -573,6 +608,12 @@
 
   .form {
     padding: 0;
+  }
+
+  .button {
+    font-size: 1em;
+    padding: 0.6em 1.4em;
+    min-height: 40px;
   }
 
   .reports_flex {

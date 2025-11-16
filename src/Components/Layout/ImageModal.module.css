@@ -55,8 +55,8 @@
 
 .openInNewTab {
   margin-top: 15px;
-  background: #667eea;
-  color: white;
+  background: var(--action-primary);
+  color: var(--text-on-action);
   border: none;
   padding: 10px 20px;
   border-radius: 6px;
@@ -66,8 +66,9 @@
 }
 
 .openInNewTab:hover {
-  background: #5a67d8;
+  background: var(--action-primary-hover);
   transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
 }
 
 /* Responsividade */

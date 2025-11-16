@@ -1,11 +1,11 @@
 .commentCard {
-  background: #2c3e50;
-  border: 1px solid #34495e;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-medium);
   border-radius: 12px;
   padding: 16px;
   margin-bottom: 12px;
-  color: white;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-sm);
   .likeButton {
     background: none;
     border: none;
@@ -16,13 +16,13 @@
     align-items: center;
     gap: 6px;
     font-size: 14px;
-    color: #ecf0f1; /* Cor clara para o botão like */
+    color: var(--text-primary); /* Cor clara para o botão like */
     transition: all 0.2s ease;
   }
   ntCard.reply {
     margin-left: 32px;
-    border-left: 3px solid #e76f51; /* Cor laranja solicitada */
-    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    border-left: 3px solid var(--action-primary); /* Cor laranja solicitada */
+    background: var(--bg-secondary);
   }
 }
 
@@ -43,16 +43,16 @@
 .author {
   font-weight: 700;
   font-size: 16px;
-  color: #a9b4c2;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  color: var(--text-secondary);
+  text-shadow: var(--shadow-text);
 }
 
 .date {
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--text-secondary);
 }
 
 .edited {
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-tertiary);
   font-style: italic;
   font-size: 12px;
 }
@@ -68,7 +68,7 @@
   cursor: pointer;
   padding: 6px;
   border-radius: 4px;
-  color: #ecf0f1; /* Cor clara para botões */
+  color: var(--text-primary); /* Cor clara para botões */
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
@@ -77,18 +77,13 @@
 }
 
 .actionButton:hover {
-  background-color: #34495e; /* Fundo escuro no hover */
-  color: white;
+  background-color: var(--bg-hover); /* Fundo escuro no hover */
+  color: var(--text-primary);
 }
 
 .deleteButton:hover {
-  color: #e76f51;
-  background-color: rgba(
-    231,
-    111,
-    81,
-    0.1
-  ); /* Fundo sutil com cor de destaque */
+  color: var(--action-danger);
+  background-color: var(--state-hover); /* Fundo sutil com cor de destaque */
 }
 
 .commentContent {
@@ -98,7 +93,7 @@
 .contentText {
   font-size: 15px;
   line-height: 1.6;
-  color: white; /* Texto branco para destaque */
+  color: var(--text-primary); /* Texto branco para destaque */
   white-space: pre-wrap;
 }
 
@@ -115,10 +110,10 @@
 }
 
 .editForm {
-  background-color: #f8f9fa;
+  background-color: var(--bg-secondary);
   padding: 16px;
   border-radius: 8px;
-  border: 1px solid #dee2e6;
+  border: 1px solid var(--border-light);
 }
 
 .editActions {
@@ -129,8 +124,8 @@
 }
 
 .saveButton {
-  background-color: #007bff;
-  color: white;
+  background-color: var(--action-secondary);
+  color: var(--text-on-action);
   border: none;
   padding: 8px 16px;
   border-radius: 6px;
@@ -140,18 +135,20 @@
 }
 
 .saveButton:hover:not(:disabled) {
-  background-color: #0056b3;
+  background-color: var(--action-hover);
 }
 
 .saveButton:disabled {
-  background-color: #34495e; /* Cor mais consistente com o tema escuro */
+  background-color: var(
+    --bg-disabled
+  ); /* Cor mais consistente com o tema escuro */
   cursor: not-allowed;
 }
 
 .cancelButton {
   background: none;
-  border: 1px solid #ecf0f1; /* Borda clara */
-  color: #ecf0f1; /* Texto claro */
+  border: 1px solid var(--border-medium); /* Borda clara */
+  color: var(--text-primary); /* Texto claro */
   padding: 6px 12px;
   border-radius: 6px;
   cursor: pointer;
@@ -163,9 +160,9 @@
 }
 
 .cancelButton:hover:not(:disabled) {
-  background-color: #34495e; /* Fundo escuro */
-  border-color: white; /* Borda branca */
-  color: white; /* Texto branco */
+  background-color: var(--bg-hover); /* Fundo escuro */
+  border-color: var(--border-medium); /* Borda branca */
+  color: var(--text-primary); /* Texto branco */
 }
 
 .cancelButton:disabled {
@@ -175,7 +172,7 @@
 
 .commentFooter {
   padding-top: 12px;
-  border-top: 2px solid rgba(231, 111, 81, 0.2); /* Linha laranja consistente */
+  border-top: 2px solid var(--border-accent); /* Linha laranja consistente */
 }
 
 .commentStats {
@@ -189,7 +186,7 @@
   align-items: center;
   gap: 6px;
   font-size: 14px;
-  color: #ecf0f1; /* Cor clara para estatísticas */
+  color: var(--text-primary); /* Cor clara para estatísticas */
 }
 
 .likeButton {
@@ -202,11 +199,11 @@
 }
 
 .likeButton:hover:not(:disabled) {
-  background-color: #f8f9fa;
+  background-color: var(--state-hover);
 }
 
 .likeButton.liked {
-  color: #e76f51;
+  color: var(--action-primary);
 }
 
 .likeButton:disabled {
@@ -224,27 +221,27 @@
   align-items: center;
   gap: 6px;
   font-size: 14px;
-  color: #6c757d;
+  color: var(--text-tertiary);
   transition: all 0.2s ease;
 }
 
 .replyButton:hover {
-  background-color: #34495e; /* Fundo escuro no hover */
-  color: #e76f51; /* Cor laranja solicitada */
+  background-color: var(--bg-hover); /* Fundo escuro no hover */
+  color: var(--action-primary); /* Cor laranja solicitada */
 }
 
 .replyForm {
   margin-top: 16px;
   padding: 16px;
-  background-color: #34495e; /* Fundo escuro */
+  background-color: var(--bg-elevated); /* Fundo escuro */
   border-radius: 8px;
-  border: 1px solid #2c3e50;
+  border: 1px solid var(--border-medium);
 }
 
 .replyForm h4 {
   margin: 0 0 12px 0;
   font-size: 14px;
-  color: white; /* Título em branco */
+  color: var(--text-primary); /* Título em branco */
 }
 
 .replyActions {

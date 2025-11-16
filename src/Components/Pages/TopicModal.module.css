@@ -1,10 +1,13 @@
+/* ====================================
+   TOPIC MODAL - ESTILO IGUAL AO REPORTS
+   ==================================== */
 .modalOverlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--state-overlay);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -13,49 +16,92 @@
 }
 
 .modalContent {
-  background: white;
-  border-radius: 12px;
+  background: var(--bg-elevated);
+  border-radius: 20px;
   width: 100%;
-  max-width: 600px;
+  max-width: 650px;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow-xl);
+  backdrop-filter: blur(10px);
+  position: relative;
 }
 
+/* Borda de acento superior */
+.modalContent::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--border-accent);
+  border-radius: 20px 20px 0 0;
+}
+
+/* Custom Scrollbar */
+.modalContent::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modalContent::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+  border-radius: 10px;
+}
+
+.modalContent::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 10px;
+  transition: background 0.3s ease;
+}
+
+.modalContent::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+/* ====================================
+   MODAL HEADER
+   ==================================== */
 .modalHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 24px;
-  border-bottom: 1px solid #e1e5e9;
-  background-color: #f8f9fa;
-  border-radius: 12px 12px 0 0;
+  text-align: center;
+  padding: 1.5rem 2rem 1rem 2rem;
+  position: relative;
 }
 
-.modalHeader h2 {
+.modalTitle {
+  font-size: 1.75rem;
+  color: var(--text-primary);
   margin: 0;
-  font-size: 20px;
-  font-weight: 600;
-  color: #333;
+  font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
 .closeButton {
-  background: none;
-  border: none;
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem;
+  background: var(--state-hover);
+  border: 2px solid var(--action-primary);
+  color: var(--action-primary);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 1.5rem;
   cursor: pointer;
-  padding: 8px;
-  border-radius: 6px;
-  color: #6c757d;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
+  line-height: 1;
+  font-weight: 700;
+  padding: 0;
 }
 
 .closeButton:hover:not(:disabled) {
-  background-color: #e9ecef;
-  color: #333;
+  background: var(--action-primary);
+  color: var(--text-on-action);
+  transform: rotate(90deg) scale(1.1);
+  box-shadow: var(--shadow-md);
 }
 
 .closeButton:disabled {
@@ -63,126 +109,212 @@
   opacity: 0.5;
 }
 
+/* ====================================
+   DIVIDER (LINHA HORIZONTAL)
+   ==================================== */
+.divider {
+  height: 2px;
+  background: var(--border-accent);
+  margin: 1.5rem 2rem;
+}
+
+/* ====================================
+   FORM
+   ==================================== */
 .modalForm {
-  padding: 24px;
+  padding: 0 2rem 2rem 2rem;
 }
 
 .formGroup {
-  margin-bottom: 20px;
+  margin-bottom: 1.5rem;
 }
 
-.formGroup label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: 500;
-  color: #333;
-  font-size: 14px;
+.fieldLabel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: 0.3px;
+  text-align: center;
+  margin-bottom: 0.6rem;
+}
+
+.fieldInput {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--border-medium);
+  border-radius: 12px;
+  font-size: 0.95rem;
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: inherit;
+  box-shadow: var(--shadow-inset);
+}
+
+.fieldInput::placeholder {
+  color: var(--text-tertiary);
+}
+
+.fieldInput:focus {
+  outline: none;
+  border-color: var(--action-primary);
+  background: var(--bg-elevated);
+  box-shadow: var(--state-focus), var(--shadow-inset);
+  transform: translateY(-1px);
 }
 
 .errorMessage {
-  background-color: #f8d7da;
-  color: #721c24;
+  background-color: var(--bg-danger);
+  color: var(--action-danger);
   padding: 12px;
-  border-radius: 6px;
-  border: 1px solid #f5c6cb;
-  margin-bottom: 20px;
+  border-radius: 12px;
+  border: 1px solid var(--action-danger);
+  margin-bottom: 1.5rem;
   font-size: 14px;
+  text-align: center;
 }
 
 .fieldError {
   display: block;
-  color: #dc3545;
+  color: var(--action-danger);
   font-size: 12px;
   margin-top: 4px;
+  text-align: center;
 }
 
-.imageUpload {
-  margin-bottom: 12px;
+/* ====================================
+   FILE UPLOAD (IGUAL AO REPORTS)
+   ==================================== */
+.imageUploadWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
 }
 
 .fileInput {
   display: none;
 }
 
-.fileLabel {
+.fileUploadButton {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 16px;
-  background-color: #f8f9fa;
-  border: 2px dashed #dee2e6;
-  border-radius: 8px;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.85rem 1.5rem;
+  background: var(--action-primary);
+  border: 1px solid var(--action-primary);
+  color: var(--text-on-action);
+  border-radius: 2em;
   cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
   transition: all 0.3s ease;
-  color: #6c757d;
-  font-size: 14px;
+  box-shadow: var(--shadow-sm);
+  min-width: auto;
+  white-space: nowrap;
 }
 
-.fileLabel:hover {
-  border-color: #007bff;
-  background-color: #e3f2fd;
-  color: #007bff;
+.fileUploadButton:hover {
+  background: var(--action-hover);
+  border-color: var(--action-hover);
+  color: var(--text-on-action);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.uploadIcon {
+  font-size: 1rem;
+  z-index: 1;
+}
+
+.uploadText {
+  font-size: 0.9rem;
+  z-index: 1;
 }
 
 .imagePreview {
   position: relative;
-  margin-top: 12px;
+  margin-bottom: 1rem;
   display: inline-block;
+  align-self: center;
 }
 
 .imagePreview img {
   max-width: 200px;
   max-height: 150px;
   object-fit: cover;
-  border-radius: 8px;
-  border: 1px solid #dee2e6;
+  border-radius: 12px;
+  border: 1px solid var(--border-medium);
+  box-shadow: var(--shadow-md);
 }
 
 .removeImageButton {
   position: absolute;
   top: -8px;
   right: -8px;
-  background-color: #dc3545;
-  color: white;
+  background-color: var(--action-danger);
+  color: var(--text-on-action);
   border: none;
   border-radius: 50%;
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
-  transition: background-color 0.2s ease;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-md);
 }
 
 .removeImageButton:hover {
-  background-color: #c82333;
+  background-color: var(--action-danger);
+  filter: brightness(0.85);
+  transform: scale(1.1);
 }
 
+/* ====================================
+   BOTÕES DE AÇÃO (IGUAL AO REPORTS)
+   ==================================== */
 .modalActions {
   display: flex;
-  gap: 12px;
-  justify-content: flex-end;
-  padding-top: 20px;
-  border-top: 1px solid #e1e5e9;
+  gap: 1rem;
+  justify-content: center;
+  align-items: stretch;
+  padding-top: 0;
+  border-top: none;
+  margin-top: 0;
 }
 
 .cancelButton {
-  background: none;
-  border: 1px solid #6c757d;
-  color: #6c757d;
-  padding: 10px 20px;
-  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-medium);
+  color: var(--text-secondary);
+  padding: 0.85rem 1.5rem;
+  border-radius: 2em;
   cursor: pointer;
-  font-size: 14px;
-  transition: all 0.2s ease;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-sm);
+  min-height: 44px;
 }
 
 .cancelButton:hover:not(:disabled) {
-  background-color: #f8f9fa;
-  border-color: #333;
-  color: #333;
+  background: var(--state-hover);
+  border-color: var(--text-primary);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
 }
 
 .cancelButton:disabled {
@@ -191,26 +323,40 @@
 }
 
 .submitButton {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  background: var(--action-primary);
+  color: var(--text-on-action);
+  border: 1px solid var(--action-primary);
+  padding: 0.85rem 1.5rem;
+  border-radius: 2em;
   cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.2s ease;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-sm);
+  min-height: 44px;
 }
 
 .submitButton:hover:not(:disabled) {
-  background-color: #0056b3;
+  background: var(--action-hover);
+  border-color: var(--action-hover);
+  color: var(--text-on-action);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
 }
 
 .submitButton:disabled {
-  background-color: #6c757d;
+  background: var(--bg-disabled);
   cursor: not-allowed;
+  opacity: 0.6;
 }
 
-/* Responsividade */
+/* ====================================
+   RESPONSIVIDADE
+   ==================================== */
 @media (max-width: 768px) {
   .modalOverlay {
     padding: 10px;
@@ -218,21 +364,71 @@
 
   .modalContent {
     max-height: 95vh;
+    border-radius: 16px;
   }
 
   .modalHeader {
-    padding: 16px 20px;
+    padding: 1.2rem 1.5rem 0.8rem 1.5rem;
+  }
+
+  .modalTitle {
+    font-size: 1.5rem;
+  }
+
+  .closeButton {
+    top: 1rem;
+    right: 1rem;
+    width: 32px;
+    height: 32px;
+    font-size: 1.3rem;
+  }
+
+  .divider {
+    margin: 1.2rem 1.5rem;
   }
 
   .modalForm {
-    padding: 20px;
+    padding: 0 1.5rem 1.5rem 1.5rem;
   }
 
   .modalActions {
     flex-direction: column-reverse;
+    gap: 0.8rem;
   }
 
   .modalActions button {
     width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .modalContent {
+    border-radius: 12px;
+  }
+
+  .modalHeader {
+    padding: 1rem 1.2rem 0.6rem 1.2rem;
+  }
+
+  .modalTitle {
+    font-size: 1.3rem;
+  }
+
+  .divider {
+    margin: 1rem 1.2rem;
+  }
+
+  .modalForm {
+    padding: 0 1.2rem 1.2rem 1.2rem;
+  }
+
+  .fieldInput {
+    padding: 0.75rem 0.9rem;
+    font-size: 0.9rem;
+  }
+
+  .fileUploadButton {
+    padding: 0.75rem 1.2rem;
+    font-size: 0.85rem;
   }
 }

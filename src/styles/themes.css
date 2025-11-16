@@ -1,0 +1,227 @@
+/* ============================================
+   SISTEMA DE TEMAS - CLARO E ESCURO
+   Paleta baseada nas cores do jogo: #1B263B, #A9B4C2, #E0E1DD
+   ============================================ */
+
+/* TEMA CLARO (Padrão) */
+:root {
+  /* Backgrounds */
+  --bg-primary: #f5f7fa; /* Fundo principal - cinza muito claro */
+  --bg-secondary: #ffffff; /* Fundo secundário - branco puro */
+  --bg-tertiary: #e8ecf1; /* Fundo terciário - cinza claro */
+  --bg-elevated: #ffffff; /* Cards/Elevados - branco */
+  --bg-overlay: rgba(27, 38, 59, 0.5); /* Overlay com navy */
+
+  /* Textos */
+  --text-primary: #1b263b; /* Texto principal - Navy Dark (cor do jogo) */
+  --text-secondary: #2c3e50; /* Texto secundário - Navy Medium */
+  --text-tertiary: #778da9; /* Texto terciário - Slate Gray */
+  --text-inverse: #e0e1dd; /* Texto em fundos escuros - Off White (cor do jogo) */
+  --text-muted: #a9b4c2; /* Texto desbotado - Steel Blue (cor do jogo) */
+
+  /* Ações Primárias (Botões principais, links importantes) */
+  --action-primary: #1b263b; /* Navy Dark - ESCURO para contraste no tema claro */
+  --action-primary-hover: #0d1b2a; /* Deep Navy no hover - ainda mais escuro */
+  --action-primary-active: #0d1b2a; /* Deep Navy no active */
+  --action-primary-text: #e0e1dd; /* Off White */
+  --action-hover: #0d1b2a; /* Alias para hover */
+  --text-on-action: #e0e1dd; /* Off White em botões de ação */
+
+  /* Ações Secundárias */
+  --action-secondary: #415a77; /* Primary Blue - médio */
+  --action-secondary-hover: #2c3e50; /* Navy Medium */
+  --action-secondary-text: #e0e1dd;
+
+  /* Ações de Sucesso */
+  --action-success: #22c55e; /* Verde acessível */
+  --action-success-hover: #16a34a;
+  --action-success-text: #ffffff;
+
+  /* Ações de Alerta/Atenção */
+  --action-warning: #fbbf24; /* Amarelo para avisos */
+  --action-warning-hover: #f59e0b;
+  --action-warning-text: #1b263b;
+
+  /* Ações Destrutivas/Perigosas */
+  --action-danger: #ef4444; /* Vermelho para ações perigosas */
+  --action-danger-hover: #dc2626;
+  --action-danger-text: #ffffff;
+
+  /* Bordas */
+  --border-light: #d4dceb; /* Light Slate */
+  --border-medium: #a9b4c2; /* Steel Blue (cor do jogo) */
+  --border-dark: #778da9; /* Slate Gray */
+  --border-accent: #1b263b; /* Navy Dark para destaque */
+
+  /* Sombras */
+  --shadow-sm: 0 1px 2px rgba(27, 38, 59, 0.05);
+  --shadow-md: 0 4px 6px rgba(27, 38, 59, 0.1);
+  --shadow-lg: 0 10px 15px rgba(27, 38, 59, 0.1);
+  --shadow-xl: 0 20px 25px rgba(27, 38, 59, 0.15);
+  --shadow-text: 0 1px 2px rgba(27, 38, 59, 0.2);
+  --shadow-inset: inset 0 2px 4px rgba(27, 38, 59, 0.06);
+
+  /* Estados */
+  --state-hover: rgba(27, 38, 59, 0.08); /* Navy Dark transparente */
+  --state-active: rgba(27, 38, 59, 0.15);
+  --state-focus: rgba(27, 38, 59, 0.3);
+  --state-disabled: #d4dceb;
+  --state-overlay: rgba(27, 38, 59, 0.5);
+  --bg-disabled: #d4dceb;
+  --bg-danger: #fee2e2;
+  --bg-hover: #e8ecf1; /* Cinza claro para hover */
+
+  /* Ranking/Gamificação */
+  --rank-gold: #fbbf24;
+  --rank-silver: #d1d5db;
+  --rank-bronze: #cd7f32;
+
+  /* Scrollbar */
+  --scrollbar-track: rgba(212, 220, 235, 0.5);
+  --scrollbar-thumb: #a9b4c2; /* Steel Blue */
+  --scrollbar-thumb-hover: #778da9; /* Slate Gray */
+
+  /* Update Badges - Cores escuras para tema claro */
+  --badge-feature-bg: #16a34a; /* Verde escuro */
+  --badge-feature-text: #ffffff;
+  --badge-bugfix-bg: #dc2626; /* Vermelho escuro */
+  --badge-bugfix-text: #ffffff;
+  --badge-improvement-bg: #0369a1; /* Azul escuro */
+  --badge-improvement-text: #ffffff;
+  --badge-breaking-bg: #c2410c; /* Laranja escuro/marrom */
+  --badge-breaking-text: #ffffff;
+}
+
+/* TEMA ESCURO */
+[data-theme="dark"] {
+  /* Backgrounds */
+  --bg-primary: #0d1b2a; /* Deep Navy - mais escuro que #1B263B */
+  --bg-secondary: #1b263b; /* Navy Dark (cor do jogo) */
+  --bg-tertiary: #2c3e50; /* Navy Medium */
+  --bg-elevated: #1b263b; /* Navy Dark para cards */
+  --bg-overlay: rgba(13, 27, 42, 0.7);
+
+  /* Textos */
+  --text-primary: #e0e1dd; /* Off White (cor do jogo) */
+  --text-secondary: #a9b4c2; /* Steel Blue (cor do jogo) */
+  --text-tertiary: #778da9; /* Slate Gray */
+  --text-inverse: #1b263b; /* Navy Dark em fundos claros */
+  --text-muted: #778da9; /* Slate Gray desbotado */
+
+  /* Ações Primárias */
+  --action-primary: #a9b4c2; /* Steel Blue - CLARO para contraste no tema escuro */
+  --action-primary-hover: #d4dceb; /* Light Slate no hover - ainda mais claro */
+  --action-primary-active: #778da9; /* Slate Gray no active */
+  --action-primary-text: #1b263b; /* Navy Dark - texto escuro em botão claro */
+  --action-hover: #d4dceb;
+  --text-on-action: #1b263b; /* Texto escuro em botão claro */
+
+  /* Ações Secundárias */
+  --action-secondary: #778da9; /* Slate Gray - médio */
+  --action-secondary-hover: #a9b4c2; /* Steel Blue */
+  --action-secondary-text: #1b263b; /* Texto escuro */
+
+  /* Ações de Sucesso */
+  --action-success: #22c55e;
+  --action-success-hover: #16a34a;
+  --action-success-text: #ffffff;
+
+  /* Ações de Alerta */
+  --action-warning: #fbbf24;
+  --action-warning-hover: #f59e0b;
+  --action-warning-text: #0d1b2a;
+
+  /* Ações Destrutivas */
+  --action-danger: #ef4444;
+  --action-danger-hover: #dc2626;
+  --action-danger-text: #ffffff;
+
+  /* Bordas */
+  --border-light: #2c3e50; /* Navy Medium */
+  --border-medium: #415a77; /* Primary Blue */
+  --border-dark: #778da9; /* Slate Gray */
+  --border-accent: #a9b4c2; /* Steel Blue para destaque */
+
+  /* Sombras - mais intensas no escuro */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.6);
+  --shadow-text: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-inset: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+
+  /* Estados */
+  --state-hover: rgba(169, 180, 194, 0.12); /* Steel Blue transparente */
+  --state-active: rgba(169, 180, 194, 0.2);
+  --state-focus: rgba(169, 180, 194, 0.4);
+  --state-disabled: #2c3e50;
+  --state-overlay: rgba(13, 27, 42, 0.7);
+  --bg-disabled: #415a77;
+  --bg-danger: #450a0a;
+  --bg-hover: #2c3e50; /* Navy Medium para hover */
+
+  /* Ranking/Gamificação */
+  --rank-gold: #fbbf24;
+  --rank-silver: #e5e7eb;
+  --rank-bronze: #ea580c;
+
+  /* Scrollbar */
+  --scrollbar-track: rgba(44, 62, 80, 0.5);
+  --scrollbar-thumb: #778da9;
+  --scrollbar-thumb-hover: #a9b4c2;
+
+  /* Update Badges - Cores mais claras para tema escuro */
+  --badge-feature-bg: #4ade80; /* Verde claro */
+  --badge-feature-text: #0d1b2a;
+  --badge-bugfix-bg: #f87171; /* Vermelho claro */
+  --badge-bugfix-text: #0d1b2a;
+  --badge-improvement-bg: #38bdf8; /* Azul claro */
+  --badge-improvement-text: #0d1b2a;
+  --badge-breaking-bg: #fb923c; /* Laranja claro */
+  --badge-breaking-text: #0d1b2a;
+}
+
+/* ============================================
+   CLASSES UTILITÁRIAS DE TEMA
+   ============================================ */
+
+.theme-bg-primary {
+  background-color: var(--bg-primary);
+}
+
+.theme-bg-secondary {
+  background-color: var(--bg-secondary);
+}
+
+.theme-bg-elevated {
+  background-color: var(--bg-elevated);
+}
+
+.theme-text-primary {
+  color: var(--text-primary);
+}
+
+.theme-text-secondary {
+  color: var(--text-secondary);
+}
+
+.theme-border {
+  border-color: var(--border-light);
+}
+
+/* ============================================
+   TRANSIÇÕES SUAVES DE TEMA
+   ============================================ */
+
+* {
+  transition: background-color 0.3s ease, color 0.3s ease,
+    border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Exceções - elementos que não devem ter transição */
+*:focus,
+*:active,
+button:active,
+a:active {
+  transition: none;
+}

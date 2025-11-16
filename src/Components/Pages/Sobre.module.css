@@ -25,12 +25,12 @@
   width: 1200px;
   min-width: 1200px; /* Largura fixa padronizada */
   margin: 10px auto 10px auto; /* Reduzi margens ainda mais */
-  background: #1b263b;
+  background: var(--bg-elevated);
   border-radius: 1.2rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow-xl);
   height: 600px; /* Altura fixa para o container */
   overflow: hidden;
-  border: 1px solid #3a506b;
+  border: 1px solid var(--border-medium);
   position: relative; /* Para o ::before funcionar */
 }
 
@@ -42,14 +42,14 @@
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, #ff7f00 0%, #ff9933 50%, #ff7f00 100%);
+  background: var(--border-accent);
   border-radius: 1.2rem 1.2rem 0 0;
   z-index: 1;
 }
 
 .sobreTabsMenu {
-  background: linear-gradient(135deg, #1b263b 0%, #3a506b 100%);
-  border-right: 1.5px solid #3a506b;
+  background: var(--bg-secondary);
+  border-right: 1.5px solid var(--border-medium);
   padding: 2rem 0.5rem 2rem 1.5rem; /* Reduzido padding vertical */
   display: flex;
   flex-direction: column;
@@ -67,7 +67,7 @@
   border: none;
   text-align: left;
   font-size: 1.25rem;
-  color: rgba(240, 240, 240, 0.8);
+  color: var(--text-secondary);
   padding: 1.3rem 1.2rem;
   border-radius: 1.5rem 0 0 1.5rem;
   margin-bottom: 0.3rem;
@@ -77,13 +77,13 @@
   position: relative;
 }
 .sobreTabButton:hover {
-  background: rgba(255, 127, 0, 0.15);
-  color: #f0f0f0;
+  background: var(--state-hover);
+  color: var(--text-primary);
   transform: translateX(2px);
 }
 .sobreTabButtonActive {
-  background: #ff7f00;
-  color: #1b263b;
+  background: var(--action-primary);
+  color: var(--text-on-action);
   font-weight: 700;
   display: block;
   width: 100%;
@@ -95,7 +95,7 @@
   margin-bottom: 0.3rem;
   cursor: pointer;
   transition: all 0.25s ease;
-  box-shadow: 0 2px 8px rgba(255, 127, 0, 0.3);
+  box-shadow: var(--shadow-md);
 }
 
 .sobreTabsContent {
@@ -105,11 +105,7 @@
   justify-content: flex-start;
   font-size: 1.08rem;
   box-sizing: border-box;
-  background: linear-gradient(
-    135deg,
-    rgba(27, 38, 59, 0.4) 0%,
-    rgba(58, 80, 107, 0.2) 100%
-  );
+  background: var(--bg-tertiary);
   animation: fadeIn 0.3s ease-in;
   max-height: 600px; /* Altura máxima igual ao container */
   overflow-y: auto; /* Scroll interno vertical */
@@ -133,34 +129,34 @@
 }
 
 .sobreTabsContent::-webkit-scrollbar-track {
-  background: rgba(27, 38, 59, 0.5);
+  background: var(--scrollbar-track);
   border-radius: 10px;
   margin: 5px 0;
 }
 
 .sobreTabsContent::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #ff7f00 0%, #cc6600 100%);
+  background: var(--scrollbar-thumb);
   border-radius: 10px;
-  border: 2px solid rgba(27, 38, 59, 0.3);
+  border: 2px solid var(--bg-tertiary);
   transition: background 0.3s ease;
 }
 
 .sobreTabsContent::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #ff9933 0%, #ff7f00 100%);
-  border: 2px solid rgba(27, 38, 59, 0.5);
+  background: var(--scrollbar-thumb-hover);
+  border: 2px solid var(--bg-tertiary);
 }
 
 .sobreTabTitle {
   font-size: 1.45rem;
   font-weight: 700;
   margin-bottom: 1.1rem;
-  color: #f0f0f0;
+  color: var(--text-primary);
   line-height: 1.1;
   font-family: inherit;
   text-align: justify;
   padding-bottom: 0.6rem;
-  border-bottom: 2px solid rgba(255, 127, 0, 0.3);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  border-bottom: 2px solid var(--border-accent);
+  text-shadow: var(--shadow-text);
 }
 
 .sobreTabText,
@@ -168,7 +164,7 @@
 .sobreTabsContent li,
 .sobreTabsContent ol,
 .sobreTabsContent ul {
-  color: rgba(240, 240, 240, 0.9);
+  color: var(--text-primary);
   margin-bottom: 0.55rem;
   line-height: 1.7;
   font-family: inherit;
@@ -192,11 +188,11 @@
 .sobreFuturoSubtitle {
   font-size: 1.13rem;
   font-weight: 600;
-  color: #ff7f00;
+  color: var(--action-primary);
   margin-bottom: 0.3rem;
   margin-top: 0.7rem;
   text-align: justify;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  text-shadow: var(--shadow-text);
 }
 
 /* Ajuste para conteúdo futuro (scroll interno) */
@@ -230,28 +226,28 @@
   max-width: 120px;
   height: auto;
   border-radius: 0.5rem;
-  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-sm);
   flex-shrink: 0;
 }
 .sobreHiloSectionTitle {
   font-size: 1.45rem;
   font-weight: 700;
   margin-bottom: 1.1rem;
-  color: #f0f0f0;
+  color: var(--text-primary);
   text-align: justify;
 }
 .sobreHiloSectionSubtitle {
   font-size: 1.13rem;
   font-weight: 600;
-  color: #ff7f00;
+  color: var(--action-primary);
   margin-bottom: 0.3rem;
   margin-top: 0.7rem;
   text-align: justify;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  text-shadow: var(--shadow-text);
 }
 .sobreHiloText {
   font-size: 1.08rem;
-  color: rgba(240, 240, 240, 0.9);
+  color: var(--text-primary);
   margin-bottom: 0.55rem;
   text-align: justify;
 }
@@ -259,7 +255,7 @@
   margin: 0 0 0.7rem 1.2rem;
   padding: 0;
   font-size: 1.08rem;
-  color: rgba(240, 240, 240, 0.9);
+  color: var(--text-primary);
   list-style: disc inside;
   text-align: justify;
 }
@@ -269,7 +265,7 @@
 }
 .sobreHiloDica {
   font-size: 1.02rem;
-  color: #ff7f00;
+  color: var(--action-primary);
   margin-bottom: 0.5rem;
   font-style: italic;
   text-align: justify;
@@ -278,7 +274,7 @@
   .sobreTabsGrid {
     grid-template-columns: 1fr;
     border-radius: 0.8rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--shadow-lg);
     width: 95vw; /* Melhor ajuste para mobile */
     min-width: 300px; /* Largura mínima consistente */
     max-width: 95vw;
@@ -288,7 +284,7 @@
   .sobreTabsMenu {
     flex-direction: row;
     border-right: none;
-    border-bottom: 1.5px solid #3a506b;
+    border-bottom: 1.5px solid var(--border-medium);
     padding: 1rem 0.5rem 0.5rem 0.5rem;
     overflow-x: auto;
     min-width: 0;
@@ -330,18 +326,20 @@
 }
 
 .sobreContainer {
-  min-height: 100vh;
-  background: #f3f4f6;
+  height: 100%; /* Usa 100% ao invés de 100vh */
+  background: var(--bg-secondary);
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 40px 16px;
+  overflow: hidden; /* Evita scroll desnecessário */
 }
 
 .sobreBg {
-  background: #e8edf5;
-  min-height: 100vh;
+  background: var(--bg-primary);
+  height: 100%; /* Usa 100% ao invés de 100vh */
   padding: 0;
+  overflow: hidden; /* Evita scroll desnecessário */
 }
 
 .sobreGrid {
@@ -364,20 +362,20 @@
   font-size: 3rem;
   font-weight: bold;
   margin-bottom: 2rem;
-  color: #111;
+  color: var(--text-primary);
   line-height: 1.1;
 }
 
 .sobreSubtitle {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #4f46e5;
+  color: var(--action-primary);
   margin-bottom: 1rem;
 }
 
 .sobreText {
   font-size: 1.15rem;
-  color: #222;
+  color: var(--text-primary);
   margin-bottom: 2.5rem;
   line-height: 1.7;
 }
@@ -398,7 +396,7 @@
   top: 0;
   bottom: 0;
   width: 4px;
-  background: #c5d4e6;
+  background: var(--border-light);
   border-radius: 2px;
 }
 .timelineItem {
@@ -409,12 +407,12 @@
 }
 .timelineYear {
   min-width: 70px;
-  background: #fff;
-  color: #222;
+  background: var(--bg-elevated);
+  color: var(--text-primary);
   font-weight: 700;
   font-size: 1.15rem;
   border-radius: 999px;
-  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-sm);
   padding: 0.7rem 1.5rem;
   text-align: center;
   position: absolute;
@@ -424,9 +422,9 @@
 }
 .timelineContent {
   margin-left: 60px;
-  background: #fff;
+  background: var(--bg-elevated);
   border-radius: 1rem;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
+  box-shadow: var(--shadow-md);
   padding: 1.2rem 1.5rem;
   min-width: 220px;
 }
@@ -434,19 +432,19 @@
   font-size: 1.25rem;
   font-weight: 600;
   margin-bottom: 0.3rem;
-  color: #1e293b;
+  color: var(--text-primary);
 }
 .timelineDesc {
-  color: #374151;
+  color: var(--text-secondary);
   font-size: 1.05rem;
 }
 
 .sobreTutorialBox {
   max-width: 900px;
   margin: 48px auto 0 auto;
-  background: #fff;
+  background: var(--bg-elevated);
   border-radius: 1.2rem;
-  box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-lg);
   padding: 2.5rem 2rem;
 }
 
@@ -461,9 +459,10 @@
 }
 
 .sobreSectionBg {
-  background: #f5f5f5;
-  min-height: 100vh;
+  background: var(--bg-primary);
+  height: 100%; /* Usa 100% ao invés de 100vh */
   padding: 0;
+  overflow: hidden; /* Evita scroll desnecessário */
 }
 
 .sobreSectionGrid {
@@ -478,9 +477,9 @@
 
 .sobreSectionLeft,
 .sobreSectionRight {
-  background: #fff;
+  background: var(--bg-elevated);
   border-radius: 1.2rem;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
+  box-shadow: var(--shadow-md);
   padding: 2.5rem 2rem;
   display: flex;
   flex-direction: column;
@@ -489,7 +488,7 @@
 
 .sobreSectionDivider {
   width: 4px;
-  background: #e0e0e0;
+  background: var(--border-light);
   border-radius: 2px;
   margin: 24px 0;
   align-self: stretch;
@@ -519,19 +518,21 @@
 
 .sobreSectionButton {
   display: inline-block;
-  background: #444;
-  color: #fff;
+  background: var(--action-primary);
+  color: var(--text-on-action);
   font-weight: 600;
   padding: 0.9rem 2.2rem;
   border-radius: 2rem;
   text-decoration: none;
   font-size: 1.1rem;
   margin-top: 1.5rem;
-  transition: background 0.2s;
-  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.08);
+  transition: all 0.2s;
+  box-shadow: var(--shadow-sm);
 }
 .sobreSectionButton:hover {
-  background: #222;
+  background: var(--action-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
 }
 
 .sobreSectionList {

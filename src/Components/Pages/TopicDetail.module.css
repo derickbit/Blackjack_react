@@ -12,9 +12,9 @@
 }
 
 .backButton {
-  background: #2c3e50; /* Container escuro */
-  border: 1px solid #34495e;
-  color: white; /* Texto branco */
+  background: var(--action-primary);
+  border: 1px solid var(--action-primary);
+  color: var(--text-on-action);
   padding: 12px 20px;
   border-radius: 8px;
   cursor: pointer;
@@ -23,24 +23,25 @@
   align-items: center;
   gap: 8px;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm);
 }
 
 .backButton:hover {
-  border-color: #e76f51; /* Cor laranja solicitada */
-  color: #e76f51; /* Cor laranja solicitada */
-  background-color: #34495e;
+  background: var(--action-primary-hover);
+  border-color: var(--action-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
 }
 
 .topicContent {
-  background: #2c3e50; /* Container escuro */
-  border: 1px solid #34495e;
-  border-top: 3px solid #e76f51; /* Borda laranja direta no topo */
+  background: var(--bg-elevated); /* Container escuro */
+  border: 1px solid var(--border-medium);
+  border-top: 3px solid var(--action-primary); /* Borda laranja direta no topo */
   border-radius: 12px;
   padding: 32px;
   margin-bottom: 24px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  color: white; /* Texto branco */
+  box-shadow: var(--shadow-sm);
+  color: var(--text-primary); /* Texto branco */
 }
 
 .topicHeader {
@@ -49,7 +50,7 @@
   align-items: flex-start;
   margin-bottom: 24px;
   padding-bottom: 20px;
-  border-bottom: 2px solid rgba(231, 111, 81, 0.2); /* Linha laranja consistente */
+  border-bottom: 2px solid var(--border-accent); /* Linha laranja consistente */
 }
 
 .topicInfo {
@@ -60,24 +61,24 @@
   margin: 0 0 12px 0;
   font-size: 28px;
   font-weight: 700;
-  color: white; /* Texto branco */
+  color: var(--text-primary); /* Texto branco */
   line-height: 1.3;
   padding-bottom: 10px;
-  border-bottom: 2px solid rgba(231, 111, 81, 0.2); /* Linha divisória laranja */
+  border-bottom: 2px solid var(--border-accent); /* Linha divisória laranja */
 }
 
 .topicMeta {
   display: flex;
   gap: 16px;
   font-size: 14px;
-  color: #ecf0f1; /* Cor clara para meta informações */
+  color: var(--text-primary); /* Cor clara para meta informações */
   flex-wrap: wrap;
 }
 
 .author {
   font-weight: 700;
   font-size: 15px;
-  color: #a9b4c2;
+  color: var(--text-secondary);
 }
 
 .date,
@@ -96,7 +97,7 @@
   cursor: pointer;
   padding: 10px;
   border-radius: 6px;
-  color: #ecf0f1; /* Cor clara para botões */
+  color: var(--text-primary); /* Cor clara para botões */
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
@@ -105,18 +106,13 @@
 }
 
 .actionButton:hover {
-  background-color: #34495e; /* Fundo escuro no hover */
-  color: white;
+  background-color: var(--bg-hover); /* Fundo escuro no hover */
+  color: var(--text-primary);
 }
 
 .deleteButton:hover {
-  color: #e76f51;
-  background-color: rgba(
-    231,
-    111,
-    81,
-    0.1
-  ); /* Fundo sutil com cor de destaque */
+  color: var(--action-danger);
+  background-color: var(--state-hover); /* Fundo sutil com cor de destaque */
 }
 
 .topicBody {
@@ -126,7 +122,7 @@
 .topicText {
   font-size: 16px;
   line-height: 1.7;
-  color: white; /* Texto branco */
+  color: var(--text-primary); /* Texto branco */
   white-space: pre-wrap;
   margin-bottom: 20px;
 }
@@ -139,18 +135,18 @@
   max-width: 100%;
   height: auto;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm);
 }
 
 .topicStats {
   padding-top: 20px;
-  border-top: 2px solid rgba(231, 111, 81, 0.2); /* Linha laranja consistente */
+  border-top: 2px solid var(--border-accent); /* Linha laranja consistente */
 }
 
 .likeButton {
-  background: none;
-  border: 1px solid #34495e; /* Borda escura */
-  color: white; /* Texto branco */
+  background: var(--action-primary);
+  border: 1px solid var(--action-primary);
+  color: var(--text-on-action);
   padding: 12px 20px;
   border-radius: 8px;
   cursor: pointer;
@@ -162,15 +158,15 @@
 }
 
 .likeButton:hover:not(:disabled) {
-  border-color: #e76f51;
-  color: #e76f51;
-  background-color: rgba(231, 111, 81, 0.05);
+  background: var(--action-primary-hover);
+  border-color: var(--action-primary-hover);
+  transform: translateY(-1px);
 }
 
 .likeButton.liked {
-  border-color: #e76f51;
-  color: #e76f51;
-  background-color: rgba(231, 111, 81, 0.1);
+  background: var(--action-success);
+  border-color: var(--action-success);
+  color: var(--action-success-text);
 }
 
 .likeButton:disabled {
@@ -179,35 +175,35 @@
 }
 
 .commentsSection {
-  background: #2c3e50; /* Container escuro */
-  border: 1px solid #34495e;
-  border-top: 3px solid #e76f51; /* Borda laranja direta no topo */
+  background: var(--bg-elevated); /* Container escuro */
+  border: 1px solid var(--border-medium);
+  border-top: 3px solid var(--action-primary); /* Borda laranja direta no topo */
   border-radius: 12px;
   padding: 32px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  color: white; /* Texto branco */
+  box-shadow: var(--shadow-sm);
+  color: var(--text-primary); /* Texto branco */
 }
 
 .commentsTitle {
   margin: 0 0 24px 0;
   font-size: 22px;
   font-weight: 600;
-  color: white; /* Título em branco */
+  color: var(--text-primary); /* Título em branco */
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
 .commentsIcon {
-  color: #e76f51; /* Ícone laranja para destaque */
+  color: var(--action-primary); /* Ícone laranja para destaque */
   font-size: 18px;
 }
 
 .newCommentForm {
-  background-color: #34495e; /* Fundo escuro */
+  background-color: var(--bg-elevated); /* Fundo escuro */
   padding: 24px;
   border-radius: 8px;
-  border: 1px solid #2c3e50;
+  border: 1px solid var(--border-medium);
   margin-bottom: 32px;
 }
 
@@ -215,7 +211,7 @@
   margin: 0 0 16px 0;
   font-size: 16px;
   font-weight: 600;
-  color: #f0f0f0;
+  color: var(--text-primary);
 }
 
 .commentActions {
@@ -225,9 +221,9 @@
 }
 
 .submitCommentButton {
-  background: linear-gradient(90deg, #1b263b 0%, #2c3e50 100%);
-  color: #e0e1dd;
-  border: none;
+  background: var(--action-primary);
+  color: var(--text-on-action);
+  border: 1px solid var(--action-primary);
   padding: 0.7em 1.6em;
   border-radius: 2em;
   cursor: pointer;
@@ -237,7 +233,7 @@
     color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
     box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1),
     transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm);
   position: relative;
   overflow: hidden;
   min-width: 120px;
@@ -251,11 +247,7 @@
   top: 0;
   width: 50%;
   height: 100%;
-  background: linear-gradient(
-    120deg,
-    rgba(224, 225, 221, 0.18) 0%,
-    rgba(224, 225, 221, 0.01) 100%
-  );
+  background: var(--state-overlay);
   transform: skewX(-20deg);
   transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1),
     opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
@@ -268,14 +260,14 @@
 }
 
 .submitCommentButton:hover:not(:disabled) {
-  background: linear-gradient(90deg, #2c3e50 0%, #1b263b 100%);
-  box-shadow: 0 6px 18px rgba(27, 38, 59, 0.3);
+  background: var(--action-primary-hover);
+  box-shadow: var(--shadow-md);
   transform: translateY(-2px) scale(1.045);
 }
 
 .submitCommentButton:disabled {
-  background: linear-gradient(90deg, #6c757d 0%, #5a6268 100%);
-  color: #e0e1dd;
+  background: var(--bg-disabled);
+  color: var(--text-on-action);
   cursor: not-allowed;
   opacity: 0.6;
   transform: none;
@@ -288,20 +280,20 @@
 .loginPrompt {
   text-align: center;
   padding: 32px;
-  background-color: #f8f9fa;
+  background-color: var(--bg-secondary);
   border-radius: 8px;
-  border: 1px solid #dee2e6;
+  border: 1px solid var(--border-light);
   margin-bottom: 32px;
 }
 
 .loginPrompt p {
   margin: 0;
   font-size: 16px;
-  color: #6c757d;
+  color: var(--text-tertiary);
 }
 
 .loginPrompt a {
-  color: #007bff;
+  color: var(--action-secondary);
   text-decoration: none;
   font-weight: 500;
 }
@@ -322,24 +314,24 @@
 }
 
 .commentsList::-webkit-scrollbar-track {
-  background: rgba(27, 38, 59, 0.3);
+  background: var(--scrollbar-track);
   border-radius: 10px;
 }
 
 .commentsList::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #e76f51 0%, #d65a3c 100%);
+  background: var(--scrollbar-thumb);
   border-radius: 10px;
   transition: background 0.3s ease;
 }
 
 .commentsList::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #f4a261 0%, #e76f51 100%);
+  background: var(--scrollbar-thumb-hover);
 }
 
 .noComments {
   text-align: center;
   padding: 40px;
-  color: #6c757d;
+  color: var(--text-tertiary);
 }
 
 .noComments p {
@@ -353,14 +345,14 @@
   align-items: center;
   justify-content: center;
   min-height: 400px;
-  color: #6c757d;
+  color: var(--text-tertiary);
 }
 
 .spinner {
   width: 40px;
   height: 40px;
-  border: 4px solid #f3f3f3;
-  border-top: 4px solid #007bff;
+  border: 4px solid var(--border-light);
+  border-top: 4px solid var(--action-secondary);
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin-bottom: 16px;
@@ -378,16 +370,16 @@
 .notFound {
   text-align: center;
   padding: 60px 20px;
-  color: #6c757d;
-  background: white;
+  color: var(--text-tertiary);
+  background: var(--bg-primary);
   border-radius: 12px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow-sm);
 }
 
 .notFound h2 {
   margin: 0 0 12px 0;
   font-size: 24px;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .notFound p {
@@ -504,8 +496,8 @@
 }
 
 .cancelButton {
-  background: #6c757d;
-  color: white;
+  background: var(--action-secondary);
+  color: var(--action-secondary-text);
   border: none;
   padding: 12px 24px;
   border-radius: 8px;
@@ -516,13 +508,13 @@
 }
 
 .cancelButton:hover {
-  background: #5a6268;
+  background: var(--action-secondary-hover);
   transform: translateY(-1px);
 }
 
 .confirmButton {
-  background: #e76f51;
-  color: white;
+  background: var(--action-danger);
+  color: var(--action-danger-text);
   border: none;
   padding: 12px 24px;
   border-radius: 8px;
@@ -533,6 +525,6 @@
 }
 
 .confirmButton:hover {
-  background: #d85a3c;
+  background: var(--action-danger-hover);
   transform: translateY(-1px);
 }

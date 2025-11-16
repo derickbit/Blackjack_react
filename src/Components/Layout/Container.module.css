@@ -1,21 +1,23 @@
 .container {
   width: 100%;
-
   margin: 0 auto; /* Garante centralização horizontal */
   display: flex;
   justify-content: center; /* Alinha conteúdo no centro por padrão */
   flex-wrap: wrap; /* Ajusta para telas menores */
   padding-top: 72px; /* Altura da navbar fixa */
-  padding-bottom: 80px; /* Mais espaço para garantir que nada fique atrás do footer */
+  padding-bottom: 64px; /* Altura do footer (min-height do footer) */
   background: transparent !important; /* Garante fundo transparente */
   box-shadow: none !important;
+  min-height: 100vh; /* Ocupa toda a altura da viewport */
+  box-sizing: border-box; /* Inclui padding no cálculo da altura */
 }
 
 /* Responsividade Mobile */
 @media (max-width: 768px) {
   .container {
+    min-height: 100vh;
     padding-top: 60px;
-    padding-bottom: 60px;
+    padding-bottom: 64px;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
   }
@@ -23,8 +25,9 @@
 
 @media (max-width: 480px) {
   .container {
+    min-height: 100vh;
     padding-top: 50px;
-    padding-bottom: 50px;
+    padding-bottom: 64px;
     padding-left: 0.25rem;
     padding-right: 0.25rem;
   }
@@ -36,5 +39,5 @@
 }
 
 .min_height {
-  min-height: 75vh; /* Define uma altura mínima */
+  min-height: unset; /* Remove min-height para evitar conflitos */
 }

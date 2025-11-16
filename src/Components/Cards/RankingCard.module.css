@@ -2,41 +2,42 @@
 /* Cartão menor e menos espaçado */
 .ranking_card {
   padding: 0.5em 0.7em;
-  border: 1px solid #b1b1b191;
+  border: 1px solid var(--border-medium);
   border-radius: 5px;
   margin: 0.2em 0;
-  color: white; /* Cor padrão para texto */
+  color: var(--text-primary);
   font-size: 0.95em;
   min-height: 60px;
-  height: auto; /* Permite que o card expanda */
+  height: auto;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* Alinha no topo quando expandido */
+  justify-content: flex-start;
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
-  overflow: visible; /* Permite que o conteúdo seja visível */
-  width: 100%; /* Garante que o card ocupe toda a largura disponível */
+  overflow: visible;
+  width: 100%;
   box-sizing: border-box;
-  z-index: 1; /* Base z-index */
+  z-index: 1;
 }
 
 /* Quando expandido, aumenta o z-index para ficar acima dos outros */
 .ranking_card.expanded {
-  z-index: 100; /* Z-index bem alto para garantir que fique acima */
-  margin-bottom: 1em; /* Espaço extra para não sobrepor o próximo card */
+  z-index: 100;
+  margin-bottom: 1em;
 }
 
 .ranking_card::after {
   content: "▼";
   position: absolute;
   right: 0.5em;
-  top: 0.5em; /* Ajustado para ficar no topo */
+  top: 0.5em;
   font-size: 0.7em;
   opacity: 0.5;
   transition: all 0.3s ease;
-  pointer-events: none; /* Não bloqueia o clique */
+  pointer-events: none;
   z-index: 1;
+  color: var(--text-secondary);
 }
 
 .ranking_card:hover::after {
@@ -45,7 +46,8 @@
 
 .ranking_card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(30, 60, 114, 0.3);
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-accent);
 }
 
 /* Estilo para o 1º lugar */
@@ -59,6 +61,7 @@
   margin-bottom: 8px;
   min-height: auto; /* Remove altura fixa */
   z-index: 2; /* Um pouco acima dos default */
+  color: #000 !important; /* Texto sempre preto para contraste */
 }
 
 .gold:hover {
@@ -80,6 +83,7 @@
   margin-bottom: 8px;
   min-height: auto; /* Remove altura fixa */
   z-index: 2; /* Um pouco acima dos default */
+  color: #000 !important; /* Texto sempre preto para contraste */
 }
 
 .silver:hover {
@@ -96,6 +100,7 @@
   margin-top: 8px;
   margin-bottom: 8px;
   min-height: auto; /* Remove altura fixa */
+  color: #000 !important; /* Texto sempre preto para contraste */
   z-index: 2; /* Um pouco acima dos default */
 }
 
@@ -105,22 +110,32 @@
 
 /* Estilo para os demais */
 .default {
-  background-color: lightgray;
-  color: black;
-  pointer-events: auto; /* Garante que é clicável */
-  min-height: auto; /* Permite expansão como os outros */
-  height: auto; /* Garante que expande */
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+  pointer-events: auto;
+  min-height: auto;
+  height: auto;
 }
 
 /* Mantendo estilos do título */
 .ranking_card h4 {
-  color: #222;
+  color: var(--text-primary);
   padding: 0.2em 0.1em;
-  padding-right: 1.5em; /* Espaço para a setinha */
+  padding-right: 1.5em;
   margin-bottom: 0.5em;
   font-size: 1.05em;
-  word-wrap: break-word; /* Quebra palavras longas */
+  word-wrap: break-word;
   overflow-wrap: break-word;
+}
+
+/* Texto sempre preto para os 3 primeiros lugares */
+.gold h4,
+.silver h4,
+.bronze h4,
+.gold *,
+.silver *,
+.bronze * {
+  color: #000 !important;
 }
 
 /* Pontuação */

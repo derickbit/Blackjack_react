@@ -1,4 +1,5 @@
 @import "animate.css";
+@import "./styles/themes.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -10,14 +11,37 @@
   font-family: "Lora", serif;
 }
 
-html,
-body,
-#root {
-  background: transparent !important;
+html {
+  background-color: transparent;
+  color: var(--text-primary);
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto; /* Scroll acontece no html */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: transparent;
+  color: var(--text-primary);
   min-height: 100vh;
   width: 100%;
-  overflow-y: auto;
-  overflow-x: hidden; /* Previne scroll horizontal desnecessário */
+  overflow-x: hidden;
+  overflow-y: visible; /* Body não controla o scroll */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#root {
+  background-color: transparent;
+  min-height: 100vh;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 /* src/index.css */

@@ -14,7 +14,7 @@
   box-sizing: border-box;
   font-weight: 600;
   font-size: 1.08em;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm);
   position: relative;
   overflow: hidden;
 }
@@ -46,6 +46,6 @@
   color: #e0e1dd;
   background: linear-gradient(90deg, #2c3e50 0%, #1b263b 100%);
   font-weight: bold;
-  box-shadow: 0 6px 18px rgba(27, 38, 59, 0.3);
+  box-shadow: var(--shadow-md);
   transform: translateY(-2px) scale(1.045);
 }

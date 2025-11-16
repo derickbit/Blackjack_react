@@ -3,8 +3,6 @@ import PropTypes from "prop-types";
 import { FaTimes, FaImage } from "react-icons/fa";
 import { useForumContext } from "../../contexts/ForumContext";
 import MentionInput from "../Form/MentionInput";
-import Input from "../Form/Input";
-import SubmitButton from "../Form/SubmitButton";
 import styles from "./TopicModal.module.css";
 
 const TopicModal = ({
@@ -187,15 +185,20 @@ const TopicModal = ({
       <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
         {/* Header do modal */}
         <div className={styles.modalHeader}>
-          <h2>{isEditing ? "Editar Tópico" : "Novo Tópico"}</h2>
+          <h2 className={styles.modalTitle}>
+            {isEditing ? "Editar Tópico" : "Novo Tópico"}
+          </h2>
           <button
             className={styles.closeButton}
             onClick={handleClose}
             disabled={isSubmitting}
+            title="Fechar"
           >
-            <FaTimes />
+            ×
           </button>
         </div>
+
+        <div className={styles.divider}></div>
 
         {/* Formulário */}
         <form onSubmit={handleSubmit} className={styles.modalForm}>
@@ -205,24 +208,29 @@ const TopicModal = ({
 
           {/* Título */}
           <div className={styles.formGroup}>
-            <Input
+            <label className={styles.fieldLabel} htmlFor="titulo">
+              Título do tópico
+            </label>
+            <input
               type="text"
-              text="Título"
-              name="titulo"
+              id="titulo"
+              className={styles.fieldInput}
               placeholder="Digite o título do tópico..."
               value={formData.titulo}
-              handleOnChange={(e) =>
-                handleInputChange("titulo")(e.target.value)
-              }
+              onChange={(e) => handleInputChange("titulo")(e.target.value)}
             />
             {errors.titulo && (
               <span className={styles.fieldError}>{errors.titulo}</span>
             )}
           </div>
 
+          <div className={styles.divider}></div>
+
           {/* Conteúdo */}
           <div className={styles.formGroup}>
-            <label htmlFor="conteudo">Conteúdo:</label>
+            <label className={styles.fieldLabel} htmlFor="conteudo">
+              Conteúdo do tópico
+            </label>
             <MentionInput
               value={formData.conteudo}
               onChange={handleInputChange("conteudo")}
@@ -236,25 +244,11 @@ const TopicModal = ({
             )}
           </div>
 
+          <div className={styles.divider}></div>
+
           {/* Upload de imagem */}
           <div className={styles.formGroup}>
-            <label>Imagem (opcional):</label>
-            <div className={styles.imageUpload}>
-              <input
-                type="file"
-                id="topic-image"
-                accept="image/*"
-                onChange={handleImageChange}
-                className={styles.fileInput}
-              />
-              <label htmlFor="topic-image" className={styles.fileLabel}>
-                <FaImage />
-                <span>Selecionar imagem</span>
-              </label>
-              {errors.imagem && (
-                <span className={styles.fieldError}>{errors.imagem}</span>
-              )}
-            </div>
+            <label className={styles.fieldLabel}>Imagem (opcional)</label>
 
             {/* Preview da imagem */}
             {imagePreview && (
@@ -270,7 +264,30 @@ const TopicModal = ({
                 </button>
               </div>
             )}
+
+            <div className={styles.imageUploadWrapper}>
+              <input
+                type="file"
+                id="topic-image"
+                accept="image/*"
+                onChange={handleImageChange}
+                className={styles.fileInput}
+              />
+              <label htmlFor="topic-image" className={styles.fileUploadButton}>
+                <FaImage className={styles.uploadIcon} />
+                <span className={styles.uploadText}>
+                  {formData.imagem || imagePreview
+                    ? "Alterar"
+                    : "Escolher imagem"}
+                </span>
+              </label>
+              {errors.imagem && (
+                <span className={styles.fieldError}>{errors.imagem}</span>
+              )}
+            </div>
           </div>
+
+          <div className={styles.divider}></div>
 
           {/* Botões de ação */}
           <div className={styles.modalActions}>
@@ -282,18 +299,17 @@ const TopicModal = ({
             >
               Cancelar
             </button>
-            <SubmitButton
-              text={
-                isSubmitting
-                  ? "Salvando..."
-                  : isEditing
-                  ? "Salvar Alterações"
-                  : "Criar Tópico"
-              }
+            <button
               type="submit"
               className={styles.submitButton}
               disabled={isSubmitting}
-            />
+            >
+              {isSubmitting
+                ? "Salvando..."
+                : isEditing
+                ? "Salvar Alterações"
+                : "Criar Tópico"}
+            </button>
           </div>
         </form>
       </div>

@@ -2,14 +2,14 @@
   position: absolute;
   top: calc(100% + 0.5rem);
   right: 0;
-  background: #34495e;
+  background: var(--bg-elevated);
   border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow-xl);
   min-width: 350px;
   max-width: 400px;
   z-index: 2000;
   animation: slideDown 0.3s ease-out;
-  border: 1px solid #34495e;
+  border: 1px solid var(--border-medium);
   overflow: hidden;
 }
 
@@ -20,7 +20,7 @@
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, #ff7f00 0%, #ff9933 50%, #ff7f00 100%);
+  background: var(--action-primary);
   border-radius: 12px 12px 0 0;
 }
 
@@ -51,20 +51,20 @@
   left: 0;
   right: 0;
   height: 2px;
-  background: rgba(255, 127, 0, 0.3);
+  background: var(--border-light);
 }
 
 .dropdownTitle {
   margin: 0;
-  color: #e0e1dd;
+  color: var(--text-primary);
   font-size: 1.2rem;
   font-weight: 600;
 }
 
 .closeBtn {
-  background: rgba(255, 127, 0, 0.2);
-  border: 2px solid rgba(255, 127, 0, 0.4);
-  color: #ff7f00;
+  background: var(--state-hover);
+  border: 2px solid var(--action-primary);
+  color: var(--action-primary);
   font-size: 1.5rem;
   cursor: pointer;
   padding: 0;
@@ -80,10 +80,10 @@
 }
 
 .closeBtn:hover {
-  background: #ff7f00;
-  color: white;
+  background: var(--action-primary);
+  color: var(--text-on-action);
   transform: rotate(90deg) scale(1.1);
-  box-shadow: 0 4px 12px rgba(255, 127, 0, 0.4);
+  box-shadow: var(--shadow-md);
 }
 
 .dropdownContent {
@@ -97,23 +97,23 @@
 }
 
 .dropdownContent::-webkit-scrollbar-track {
-  background: rgba(224, 225, 221, 0.05);
+  background: var(--scrollbar-track);
   border-radius: 4px;
 }
 
 .dropdownContent::-webkit-scrollbar-thumb {
-  background: rgba(224, 225, 221, 0.2);
+  background: var(--scrollbar-thumb);
   border-radius: 4px;
 }
 
 .dropdownContent::-webkit-scrollbar-thumb:hover {
-  background: rgba(224, 225, 221, 0.3);
+  background: var(--scrollbar-thumb-hover);
 }
 
 .errorMessage {
-  background: rgba(220, 38, 38, 0.1);
-  border: 1px solid rgba(220, 38, 38, 0.3);
-  color: #fca5a5;
+  background: var(--bg-danger);
+  border: 1px solid var(--action-danger);
+  color: var(--action-danger);
   padding: 0.75rem;
   border-radius: 8px;
   margin-bottom: 1rem;
@@ -122,7 +122,7 @@
 }
 
 .authMessage {
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--text-primary);
   font-size: 0.95rem;
   text-align: center;
   margin-bottom: 1rem;
@@ -142,10 +142,10 @@
   gap: 0.75rem;
   width: 100%;
   padding: 1rem;
-  background: rgba(27, 38, 59, 0.3);
-  border: 1px solid rgba(224, 225, 221, 0.2);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
   border-radius: 8px;
-  color: #e0e1dd;
+  color: var(--text-primary);
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
@@ -153,15 +153,15 @@
 }
 
 .optionButton:hover {
-  background: rgba(27, 38, 59, 0.5);
-  border-color: rgba(224, 225, 221, 0.3);
+  background: var(--state-hover);
+  border-color: var(--border-medium);
   transform: translateX(4px);
 }
 
 .optionIcon {
   width: 24px;
   height: 24px;
-  color: #e0e1dd;
+  color: var(--text-primary);
 }
 
 .form {
@@ -179,7 +179,7 @@
 }
 
 .label {
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--text-primary);
   font-weight: 500;
   font-size: 0.95rem;
 }
@@ -187,24 +187,24 @@
 .input {
   width: 100%;
   padding: 12px;
-  border: 1px solid #34495e;
+  border: 1px solid var(--border-medium);
   border-radius: 8px;
   font-size: 1rem;
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
   transition: all 0.3s ease;
   box-sizing: border-box;
 }
 
 .input:focus {
   outline: none;
-  border-color: #ff7f00;
-  background: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 0 0 3px rgba(255, 127, 0, 0.1);
+  border-color: var(--action-primary);
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow-inset);
 }
 
 .input::placeholder {
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--text-tertiary);
 }
 
 .passwordWrapper {
@@ -229,7 +229,7 @@
   display: flex;
   align-items: center;
   height: 100%;
-  color: #e0e1dd;
+  color: var(--text-secondary);
 }
 
 .passwordToggleBtn:hover,
@@ -265,19 +265,19 @@
   left: 0;
   top: 110%;
   z-index: 100;
-  background: #34495e;
-  border: 1px solid #34495e;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-medium);
   border-radius: 8px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow-xl);
   padding: 12px 16px;
   min-width: 220px;
   font-size: 0.97em;
   animation: fadeIn 0.2s;
-  color: white;
+  color: var(--text-primary);
 }
 
 .helperText {
-  color: rgba(224, 225, 221, 0.7);
+  color: var(--text-secondary);
   font-size: 0.85rem;
   margin-top: 0.25rem;
   line-height: 1.4;
@@ -286,7 +286,7 @@
 .passwordPopoverTitle {
   font-weight: bold;
   margin-bottom: 6px;
-  color: #ff7f00;
+  color: var(--action-primary);
 }
 
 .passwordRules {
@@ -316,14 +316,14 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(90deg, #1b263b 0%, #2c3e50 100%);
-  color: #e0e1dd;
+  background: var(--action-primary);
+  color: var(--text-on-action);
   font-weight: 600;
   font-size: 1.08em;
   padding: 0.7em 1.6em;
   border: none;
   border-radius: 2em;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm);
   cursor: pointer;
   transition: background 0.5s cubic-bezier(0.4, 0, 0.2, 1),
     color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
@@ -346,8 +346,8 @@
   height: 100%;
   background: linear-gradient(
     120deg,
-    rgba(224, 225, 221, 0.18) 0%,
-    rgba(224, 225, 221, 0.01) 100%
+    rgba(255, 255, 255, 0.18) 0%,
+    rgba(255, 255, 255, 0.01) 100%
   );
   transform: skewX(-20deg);
   transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1),
@@ -362,25 +362,25 @@
 
 .button:hover,
 .button:focus {
-  background: linear-gradient(90deg, #2c3e50 0%, #1b263b 100%);
-  color: #e0e1dd;
-  box-shadow: 0 6px 18px rgba(27, 38, 59, 0.3);
+  background: var(--action-hover);
+  color: var(--text-on-action);
+  box-shadow: var(--shadow-md);
   transform: translateY(-2px) scale(1.045);
 }
 
 .button:active {
-  background: #1b263b;
-  color: #e0e1dd;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: var(--action-primary-active);
+  color: var(--text-on-action);
+  box-shadow: var(--shadow-sm);
   transform: translateY(0) scale(1);
 }
 
 .cancelButton {
   width: 100%;
   padding: 0.7em 1.6em;
-  background: linear-gradient(90deg, #34495e 0%, #2c3e50 100%);
-  color: #e0e1dd;
-  border: none;
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-medium);
   border-radius: 2em;
   font-size: 1.08em;
   font-weight: 600;
@@ -390,9 +390,9 @@
 }
 
 .cancelButton:hover {
-  background: linear-gradient(90deg, #2c3e50 0%, #34495e 100%);
+  background: var(--state-hover);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-sm);
 }
 
 /* Mobile adjustments */

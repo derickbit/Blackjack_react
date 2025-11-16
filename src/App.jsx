@@ -19,6 +19,7 @@ import ReportsProvider from "./contexts/ReportsProvider";
 import { RankingProvider } from "./contexts/RankingProvider.jsx";
 import { HistoricoProvider } from "./contexts/HistoricoProvider.jsx";
 import ForumProvider from "./contexts/ForumProvider.jsx";
+import { ThemeProvider } from "./contexts/ThemeProvider.jsx";
 import ProtectedRoute from "./Config/ProtectedRoute";
 import "animate.css";
 import AguardeVerificacao from "./Components/Pages/AguardeVerificacao";
@@ -129,21 +130,23 @@ function AppContent() {
 
 function App() {
   return (
-    <AuthProvider>
-      <UsersProvider>
-        <ReportsProvider>
-          <ForumProvider>
-            <RankingProvider>
-              <HistoricoProvider>
-                <Router>
-                  <AppContent />
-                </Router>
-              </HistoricoProvider>
-            </RankingProvider>
-          </ForumProvider>
-        </ReportsProvider>
-      </UsersProvider>
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <UsersProvider>
+          <ReportsProvider>
+            <ForumProvider>
+              <RankingProvider>
+                <HistoricoProvider>
+                  <Router>
+                    <AppContent />
+                  </Router>
+                </HistoricoProvider>
+              </RankingProvider>
+            </ForumProvider>
+          </ReportsProvider>
+        </UsersProvider>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 

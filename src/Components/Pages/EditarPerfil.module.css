@@ -101,11 +101,6 @@ input:focus {
   composes: mainButton from "../../styles/Button.css";
 }
 
-.submitButton:hover {
-  background-color: #222;
-  transform: scale(1.03);
-}
-
 .submitButtonExcluir {
   composes: mainButton danger from "../../styles/Button.css";
 }

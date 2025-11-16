@@ -1,14 +1,15 @@
 .footer {
-  background-color: #1b263b;
-  color: #e0e1dd;
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border-top: 1px solid var(--border-light);
   padding: 1em;
   text-align: center;
   width: 100%;
-  position: fixed; /* Fixa o rodapé no final da página */
-  bottom: 0; /* Garante que ele fique na parte inferior */
+  position: fixed;
+  bottom: 0;
   left: 0;
-  min-height: 64px; /* Garante altura mínima, mas permite crescer */
-  z-index: 1001; /* Garante que o rodapé fique acima de outros conteúdos */
+  min-height: 64px;
+  z-index: 1001;
 }
 
 .body-wrapper {
@@ -33,7 +34,7 @@
 }
 
 .social_list li:hover {
-  color: #b0c4de;
+  color: var(--action-primary);
 }
 
 .social_list svg {
@@ -50,7 +51,7 @@
 
 .copy_right span {
   font-weight: bold;
-  color: #b0c4de;
+  color: var(--action-primary);
 }
 
 .footer .container {

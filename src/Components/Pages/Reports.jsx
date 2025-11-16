@@ -2,7 +2,8 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { useReportsContext } from "../../contexts/ReportsProvider";
 import { getImageUrl } from "../../utils/imageUtils";
 import styles from "./Reports.module.css";
-import SubmitButton from "../Form/SubmitButton";
+import formStyles from "./forms.module.css";
+import rankingStyles from "./Ranking.module.css";
 import { useAuthContext } from "../../contexts/AuthProvider";
 import imageCompression from "browser-image-compression";
 import { useToast } from "../../utils/useToast";
@@ -292,8 +293,8 @@ const Reports = () => {
   return (
     <div className={styles.project_container}>
       <ToastContainer toasts={toasts} onRemoveToast={removeToast} />
-      <div className={styles.reports_title_container}>
-        <h1 className={styles.reports_grand_title}>Envie seu recado</h1>
+      <div className={rankingStyles.grand_title_container}>
+        <h1 className={rankingStyles.grand_title}>Envie seu recado</h1>
       </div>
       <div className={styles.reports_flex}>
         {/* Formulário de novo report */}
@@ -340,11 +341,8 @@ const Reports = () => {
               />
             </div>
 
-            <div className={styles.formField}>
-              <label className={styles.fieldLabel}>
-                Anexar imagem (opcional)
-              </label>
-              {newReport.imagem && (
+            {newReport.imagem && (
+              <div className={styles.formField}>
                 <div className={styles.filePreview}>
                   {newReportImagePreview && (
                     <img
@@ -357,8 +355,8 @@ const Reports = () => {
                     {newReport.imagem.name}
                   </span>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
 
             <div className={styles.submitButtonWrapper}>
               <label className={styles.fileUploadButton}>
@@ -374,11 +372,10 @@ const Reports = () => {
                   {newReport.imagem ? "Alterar" : "Escolher imagem"}
                 </span>
               </label>
-              <SubmitButton
-                text="Enviar Relato"
-                type="submit"
-                icon={<FaPaperPlane />}
-              />
+              <button type="submit" className={formStyles.button}>
+                <FaPaperPlane style={{ marginRight: "8px" }} />
+                Enviar Relato
+              </button>
             </div>
           </form>
         </div>
@@ -482,10 +479,12 @@ const Reports = () => {
                       (user?.id === report.user_id &&
                         report.status !== "concluído")) && (
                       <div className={styles.cardActions}>
-                        <SubmitButton
-                          text="Abrir Chat"
+                        <button
+                          className={formStyles.button}
                           onClick={() => openChat(report)}
-                        />
+                        >
+                          Abrir Chat
+                        </button>
                       </div>
                     )}
                   </div>
@@ -524,41 +523,30 @@ const Reports = () => {
               {messages.map((msg) => (
                 <div
                   key={msg.id}
-                  style={{
-                    marginBottom: 12,
-                    textAlign: msg.user_id === user?.id ? "right" : "left",
-                  }}
+                  className={`${styles.messageWrapper} ${
+                    msg.user_id === user?.id
+                      ? styles.messageWrapperUser
+                      : styles.messageWrapperAdmin
+                  }`}
                 >
                   <div
-                    style={{
-                      backgroundColor:
-                        msg.user_id === user?.id ? "#dcf8c6" : "#f1f0f0",
-                      padding: "8px 12px",
-                      borderRadius: "10px",
-                      display: "inline-block",
-                      maxWidth: "70%",
-                      textAlign: "left",
-                      boxShadow: "0 1px 1px rgba(0,0,0,0.1)",
-                    }}
+                    className={`${styles.messageBubble} ${
+                      msg.user_id === user?.id
+                        ? styles.messageBubbleUser
+                        : styles.messageBubbleAdmin
+                    }`}
                   >
-                    <strong>
+                    <div className={styles.messageSender}>
                       {msg.user?.name ||
                         (msg.user_id === user?.id ? "Você" : "Suporte")}
-                    </strong>
-                    : <div>{msg.mensagem}</div>
+                    </div>
+                    <div className={styles.messageContent}>{msg.mensagem}</div>
                     {msg.imagem && (
-                      <div style={{ marginTop: "5px" }}>
+                      <div className={styles.messageImage}>
                         {getImageUrl(msg.imagem) ? (
                           <img
                             src={getImageUrl(msg.imagem)}
                             alt="Imagem da mensagem"
-                            style={{
-                              maxWidth: "200px",
-                              maxHeight: "200px",
-                              borderRadius: 6,
-                              cursor: "pointer",
-                              display: "block",
-                            }}
                             onClick={() =>
                               openImageModal(
                                 getImageUrl(msg.imagem),
@@ -585,12 +573,11 @@ const Reports = () => {
                       </div>
                     )}
                     <div
-                      style={{
-                        fontSize: "0.8em",
-                        color: "#888",
-                        marginTop: "4px",
-                        textAlign: "right",
-                      }}
+                      className={`${styles.messageTimestamp} ${
+                        msg.user_id === user?.id
+                          ? styles.messageTimestampUser
+                          : styles.messageTimestampAdmin
+                      }`}
                     >
                       {new Date(msg.created_at).toLocaleString()}
                     </div>
@@ -640,11 +627,13 @@ const Reports = () => {
                   />
                   <span className={styles.attachmentIcon}>📎</span>
                 </label>
-                <SubmitButton
-                  text="Enviar"
+                <button
                   type="submit"
                   disabled={sendingMessage}
-                />
+                  className={formStyles.button}
+                >
+                  Enviar
+                </button>
               </div>
             </form>
           </div>

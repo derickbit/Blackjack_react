@@ -1,11 +1,18 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
+import { useTheme } from "../contexts/ThemeProvider";
 import backgroundClaro from "../assets/BackgroundClaro.png";
+import backgroundEscuro from "../assets/BackgroundEscuro.png";
 
 const ParallaxBackground = () => {
   const imgRef = useRef(null);
   const parallaxInstance = useRef(null);
   const location = useLocation();
+  const { theme } = useTheme();
+
+  // Usa BackgroundClaro no tema claro e BackgroundEscuro no tema escuro
+  const backgroundImage =
+    theme === "light" ? backgroundClaro : backgroundEscuro;
 
   useEffect(() => {
     const initParallax = () => {
@@ -14,25 +21,34 @@ const ParallaxBackground = () => {
           parallaxInstance.current.destroy();
         }
 
-        // Configuração muito conservadora para evitar barra branca
+        // Configuração para funcionar com scroll no body/window
         parallaxInstance.current = new window.simpleParallax(imgRef.current, {
-          scale: 1.02, // Scale mínimo para quase nenhum movimento
-          delay: 0.02, // Delay mínimo
+          scale: 1.02,
+          delay: 0.02,
           transition: "cubic-bezier(0,0,0,1)",
           orientation: "up",
           overflow: true,
+          // Não passa customContainer para usar o padrão (window)
         });
       }
     };
 
-    initParallax();
+    // Delay maior para garantir que tudo está carregado
+    const timer = setTimeout(() => {
+      initParallax();
+      // Força um refresh do parallax
+      if (parallaxInstance.current) {
+        window.dispatchEvent(new Event("resize"));
+      }
+    }, 200);
 
     return () => {
+      clearTimeout(timer);
       if (parallaxInstance.current) {
         parallaxInstance.current.destroy();
       }
     };
-  }, [location]);
+  }, [location, backgroundImage]);
 
   return (
     <div
@@ -55,10 +71,11 @@ const ParallaxBackground = () => {
           left: "-15vw",
           width: "130vw",
           height: "180vh",
-          backgroundImage: `url(${backgroundClaro})`,
+          backgroundImage: `url(${backgroundImage})`,
           backgroundRepeat: "repeat",
-          backgroundSize: "450px 450px", // Tamanho equilibrado para boa visibilidade mantendo proporção quadrada
+          backgroundSize: "450px 450px",
           backgroundPosition: "0 0",
+          transition: "background-image 0.3s ease-in-out",
         }}
         className="parallax-bg"
       />

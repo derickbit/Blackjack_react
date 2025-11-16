@@ -30,10 +30,26 @@ const Atualizacoes = () => {
   const isAdmin = user?.role === "admin";
 
   const tiposUpdate = {
-    feature: { label: "Nova Funcionalidade", color: "#4CAF50", icon: "✨" },
-    bugfix: { label: "Correção de Bug", color: "#f44336", icon: "🐛" },
-    improvement: { label: "Melhoria", color: "#2196F3", icon: "⚡" },
-    breaking: { label: "Mudança Significativa", color: "#FF9800", icon: "⚠️" },
+    feature: {
+      label: "Nova Funcionalidade",
+      className: styles.badgeFeature,
+      icon: "✨",
+    },
+    bugfix: {
+      label: "Correção de Bug",
+      className: styles.badgeBugfix,
+      icon: "🐛",
+    },
+    improvement: {
+      label: "Melhoria",
+      className: styles.badgeImprovement,
+      icon: "⚡",
+    },
+    breaking: {
+      label: "Mudança Significativa",
+      className: styles.badgeBreaking,
+      icon: "⚠️",
+    },
   };
 
   const fetchAtualizacoes = useCallback(
@@ -378,8 +394,9 @@ const Atualizacoes = () => {
               <div className={styles.updateHeader}>
                 <div className={styles.updateTitle}>
                   <span
-                    className={styles.typeIcon}
-                    style={{ backgroundColor: tiposUpdate[update.tipo]?.color }}
+                    className={`${styles.typeIcon} ${
+                      tiposUpdate[update.tipo]?.className
+                    }`}
                   >
                     {tiposUpdate[update.tipo]?.icon}
                   </span>
@@ -407,8 +424,9 @@ const Atualizacoes = () => {
                     </div>
                   </div>
                   <span
-                    className={styles.updateType}
-                    style={{ backgroundColor: tiposUpdate[update.tipo]?.color }}
+                    className={`${styles.updateType} ${
+                      tiposUpdate[update.tipo]?.className
+                    }`}
                   >
                     {tiposUpdate[update.tipo]?.label}
                   </span>
