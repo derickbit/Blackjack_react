@@ -291,6 +291,48 @@
   transform: scale(1.1);
 }
 
+/* Preview de imagem no chat */
+.chatImagePreviewContainer {
+  position: relative;
+  display: inline-block;
+  margin: 0 auto 10px auto;
+}
+
+.chatImagePreview {
+  max-height: 80px;
+  max-width: 100%;
+  border-radius: 8px;
+  object-fit: contain;
+  border: 1px solid var(--border-medium);
+  box-shadow: var(--shadow-md);
+  display: block;
+}
+
+.removeChatImageButton {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: var(--action-danger);
+  color: var(--text-on-action);
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-md);
+}
+
+.removeChatImageButton:hover {
+  background-color: var(--action-danger);
+  filter: brightness(0.85);
+  transform: scale(1.1);
+}
+
 .previewImage {
   width: 55px;
   height: 55px;

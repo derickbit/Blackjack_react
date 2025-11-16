@@ -240,6 +240,18 @@ const Reports = () => {
     }
   };
 
+  // NOVO: Remover imagem do chat
+  const handleRemoveChatMessageImage = () => {
+    if (newChatMessageImagePreview)
+      URL.revokeObjectURL(newChatMessageImagePreview);
+    setNewChatMessageImage(null);
+    setNewChatMessageImagePreview(null);
+    // Limpar o input de arquivo
+    if (fileInputRefChatMessage.current) {
+      fileInputRefChatMessage.current.value = "";
+    }
+  };
+
   const handleSendMessage = async (e) => {
     e.preventDefault();
     if (sendingMessage) return; // Evita múltiplos envios
@@ -617,17 +629,20 @@ const Reports = () => {
               }}
             >
               {newChatMessageImagePreview && (
-                <div style={{ marginBottom: "10px", textAlign: "center" }}>
+                <div className={styles.chatImagePreviewContainer}>
                   <img
                     src={newChatMessageImagePreview}
                     alt="Preview da nova imagem do chat"
-                    style={{
-                      maxHeight: "80px",
-                      maxWidth: "100%",
-                      borderRadius: 4,
-                      objectFit: "contain",
-                    }}
+                    className={styles.chatImagePreview}
                   />
+                  <button
+                    type="button"
+                    className={styles.removeChatImageButton}
+                    onClick={handleRemoveChatMessageImage}
+                    title="Remover imagem"
+                  >
+                    <FaTimes />
+                  </button>
                 </div>
               )}
               <div className={styles.chatInputRow}>
