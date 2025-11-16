@@ -7,7 +7,7 @@
 :root {
   /* Backgrounds */
   --bg-primary: #f5f7fa; /* Fundo principal - cinza muito claro */
-  --bg-secondary: #ffffff; /* Fundo secundário - branco puro */
+  --bg-secondary: #e8ecf1; /* Fundo secundário - off-white suave */
   --bg-tertiary: #e8ecf1; /* Fundo terciário - cinza claro */
   --bg-elevated: #ffffff; /* Cards/Elevados - branco */
   --bg-overlay: rgba(27, 38, 59, 0.5); /* Overlay com navy */
