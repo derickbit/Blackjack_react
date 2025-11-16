@@ -10,7 +10,13 @@ import { useToast } from "../../utils/useToast";
 import ToastContainer from "../Layout/ToastContainer";
 import ImageModal from "../Layout/ImageModal";
 import { useImageModal } from "../../utils/useImageModal";
-import { FaPaperPlane, FaImage, FaSync, FaInbox } from "react-icons/fa";
+import {
+  FaPaperPlane,
+  FaImage,
+  FaSync,
+  FaInbox,
+  FaTimes,
+} from "react-icons/fa";
 
 const getBackendBaseUrl = () => {
   const apiUrl = import.meta.env.VITE_API_URL || "";
@@ -192,6 +198,17 @@ const Reports = () => {
     }
   };
 
+  // NOVO: Remover imagem do novo report
+  const handleRemoveNewReportImage = () => {
+    if (newReportImagePreview) URL.revokeObjectURL(newReportImagePreview);
+    setNewReport({ ...newReport, imagem: null });
+    setNewReportImagePreview(null);
+    // Limpar o input de arquivo
+    if (fileInputRefNewReport.current) {
+      fileInputRefNewReport.current.value = "";
+    }
+  };
+
   // NOVO: Handler de imagem do chat com compressão
   const handleNewChatMessageImageChange = async (e) => {
     const file = e.target.files[0];
@@ -341,19 +358,23 @@ const Reports = () => {
               />
             </div>
 
-            {newReport.imagem && (
+            {/* Preview da imagem */}
+            {newReportImagePreview && (
               <div className={styles.formField}>
-                <div className={styles.filePreview}>
-                  {newReportImagePreview && (
-                    <img
-                      src={newReportImagePreview}
-                      alt="Preview"
-                      className={styles.previewImage}
-                    />
-                  )}
-                  <span className={styles.fileName}>
-                    {newReport.imagem.name}
-                  </span>
+                <div className={styles.imagePreviewContainer}>
+                  <img
+                    src={newReportImagePreview}
+                    alt="Preview"
+                    className={styles.imagePreview}
+                  />
+                  <button
+                    type="button"
+                    className={styles.removeImageButton}
+                    onClick={handleRemoveNewReportImage}
+                    title="Remover imagem"
+                  >
+                    <FaTimes />
+                  </button>
                 </div>
               </div>
             )}

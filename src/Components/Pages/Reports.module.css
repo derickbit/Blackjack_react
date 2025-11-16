@@ -249,6 +249,48 @@
   box-shadow: var(--shadow-sm);
 }
 
+/* Novo estilo de preview de imagem (igual ao TopicModal) */
+.imagePreviewContainer {
+  position: relative;
+  display: inline-block;
+  margin: 0 auto;
+}
+
+.imagePreview {
+  max-width: 200px;
+  max-height: 150px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid var(--border-medium);
+  box-shadow: var(--shadow-md);
+  display: block;
+}
+
+.removeImageButton {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: var(--action-danger);
+  color: var(--text-on-action);
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-md);
+}
+
+.removeImageButton:hover {
+  background-color: var(--action-danger);
+  filter: brightness(0.85);
+  transform: scale(1.1);
+}
+
 .previewImage {
   width: 55px;
   height: 55px;

@@ -20,11 +20,14 @@
   border-radius: 20px;
   width: 100%;
   max-width: 650px;
-  max-height: 90vh;
+  height: calc(100vh - 200px); /* navbar (100px) + footer (80px) */
+  max-height: calc(100vh - 200px);
   overflow-y: auto;
   box-shadow: var(--shadow-xl);
   backdrop-filter: blur(10px);
   position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Borda de acento superior */
