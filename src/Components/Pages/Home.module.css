@@ -78,23 +78,22 @@
 /* Modal de jogo: sobrepõe conteúdo, mas não navbar/footer */
 .game_modal {
   position: fixed;
-  top: 80px; /* altura do navbar, ajuste se necessário */
+  top: 100px; /* altura do navbar com margem de segurança */
   left: 0;
   width: 50vw;
-  min-width: 320px;
-  max-width: 600px;
-  height: calc(
-    100vh - 80px - 64px
-  ); /* 64px = altura do footer, ajuste se necessário */
+  min-width: 420px;
+  max-width: 550px;
+  height: calc(100vh - 100px - 80px); /* navbar (100px) + footer (80px) */
   background: var(--bg-elevated);
   border-radius: 1em;
   box-shadow: var(--shadow-xl);
-  padding: 1.5em 1em 3.5em 1em; /* espaço extra para botão mobile */
+  padding: 2em 1.5em;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   z-index: 1100;
+  overflow: hidden;
 }
 .game_modal.right {
   left: auto;

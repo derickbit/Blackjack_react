@@ -2,10 +2,12 @@
 import styles from "./Home.module.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { useAuthContext } from "../../contexts/AuthProvider";
 import HiLo from "./hiLo";
 import Blackjack from "./Blackjack";
 
 function Home() {
+  const { user } = useAuthContext();
   const [showHiLo, setShowHiLo] = useState(false);
   const [showBlackjack, setShowBlackjack] = useState(false);
 
@@ -14,7 +16,7 @@ function Home() {
 
   return (
     <section className={styles.home_container}>
-      <h1>Bem vindo(a)</h1>
+      <h1>Bem vindo(a), {user?.name?.split(" ")[0] || "Jogador"}!</h1>
       <h2>Escolha um jogo para começar!</h2>
       <p>
         Se preferir, leia os tutoriais na nossa{" "}

@@ -1,19 +1,15 @@
 /* Herdar estilo do botão global, mas permitir customização se necessário */
 .start_button {
-  /* Copiando o estilo do mainButton manualmente para garantir aplicação */
+  /* Usando as mesmas variáveis CSS dos botões principais do site */
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(
-    90deg,
-    var(--bg-tertiary) 0%,
-    var(--bg-secondary) 100%
-  );
-  color: var(--text-primary);
+  background: var(--action-primary);
+  color: var(--text-on-action);
   font-weight: 600;
   font-size: 1.08em;
   padding: 0.7em 1.6em;
-  border: none;
+  border: 1px solid var(--action-primary);
   border-radius: 2em;
   box-shadow: var(--shadow-sm);
   cursor: pointer;
@@ -36,7 +32,7 @@
   top: 0;
   width: 50%;
   height: 100%;
-  background: linear-gradient(120deg, var(--state-hover) 0%, transparent 100%);
+  background: var(--state-overlay);
   transform: skewX(-20deg);
   transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1),
     opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
@@ -50,19 +46,16 @@
 
 .start_button:hover,
 .start_button:focus {
-  background: linear-gradient(
-    90deg,
-    var(--bg-secondary) 0%,
-    var(--bg-tertiary) 100%
-  );
-  color: var(--text-primary);
+  background: var(--action-primary-hover);
+  border-color: var(--action-primary-hover);
+  color: var(--text-on-action);
   box-shadow: var(--shadow-md);
   transform: translateY(-2px) scale(1.045);
 }
 
 .start_button:active {
-  background: var(--bg-tertiary);
-  color: var(--text-primary);
+  background: var(--action-primary-active);
+  color: var(--text-on-action);
   box-shadow: var(--shadow-sm);
   transform: translateY(0) scale(1);
 }
