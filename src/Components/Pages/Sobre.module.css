@@ -8,7 +8,7 @@
 /* Sobrescreve o min-height do project_container para a página Sobre */
 .sobrePageContainer {
   min-height: auto !important;
-  padding: 3em 1em 0.5em 1em !important;
+  padding: 5em 1em 0.5em 1em !important; /* Reduzido padding-top */
   overflow: hidden !important;
 }
 
@@ -573,6 +573,10 @@
   }
 }
 @media (max-width: 600px) {
+  .sobrePageContainer {
+    padding: 4em 0.5em 0.5em 0.5em !important; /* Reduzido padding-top para mobile */
+  }
+
   .sobreTitle {
     font-size: 2rem;
   }

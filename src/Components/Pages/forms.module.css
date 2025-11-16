@@ -627,7 +627,7 @@
   }
 
   .project_container {
-    padding: 0 1rem 2rem 1rem;
+    padding: 4em 1rem 2rem 1rem; /* Reduzido padding-top para mobile */
   }
 
   .form {

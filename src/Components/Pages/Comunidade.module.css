@@ -2,7 +2,7 @@
   max-width: 1200px; /* Largura fixa padronizada */
   min-width: 1200px; /* Largura fixa padronizada */
   margin: 0 auto;
-  padding: 0 20px 20px 20px; /* Remove padding top para evitar espaço extra */
+  padding: 5em 20px 20px 20px; /* Adiciona padding-top para evitar sobreposição */
   /* Removido background-color para deixar transparente */
   min-height: calc(100vh - 100px); /* Aumentado para cobrir mais área */
 }
@@ -378,7 +378,7 @@
 
 @media (max-width: 768px) {
   .comunidadeContainer {
-    padding: 12px;
+    padding: 4em 12px 12px 12px; /* Reduzido padding-top para mobile */
     min-width: unset; /* Remove largura mínima fixa no mobile */
     max-width: 100%; /* Garante que usa toda a largura disponível */
   }

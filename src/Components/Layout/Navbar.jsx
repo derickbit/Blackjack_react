@@ -84,25 +84,7 @@ function Navbar() {
           <Hamburger border={false} active={isMobileMenuOpen} />
         </div>
         {/* Menu principal */}
-        <ul
-          className={`${styles.list} ${isMobileMenuOpen ? styles.open : ""}`}
-          style={{
-            ...(isMobileMenuOpen
-              ? {
-                  width: "auto",
-                  minWidth: "unset",
-                  maxWidth: "none",
-                  left: 0,
-                  right: "auto",
-                  boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-                  background: "#222",
-                  padding: "0.3em 0.7em",
-                  borderRadius: "0 0 8px 8px",
-                  marginTop: "0.5em",
-                }
-              : {}),
-          }}
-        >
+        <ul className={`${styles.list} ${isMobileMenuOpen ? styles.open : ""}`}>
           <li className={styles.item} onClick={handleMobileLinkClick}>
             <Link to="/">Home</Link>
           </li>

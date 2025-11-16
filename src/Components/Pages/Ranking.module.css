@@ -29,7 +29,7 @@
   align-items: center;
   justify-content: flex-start;
   background: transparent;
-  padding: 3em 1em;
+  padding: 5em 1em 3em 1em; /* Reduzido padding-top */
   height: 100%; /* Usa 100% ao invés de 100vh */
   overflow: hidden; /* Evita scroll desnecessário */
 }
@@ -37,7 +37,7 @@
 /* Responsividade para celulares */
 @media (max-width: 768px) {
   .project_container {
-    padding: 2em 0.5em;
+    padding: 4em 0.5em 2em 0.5em; /* Reduzido padding-top para mobile */
   }
 }
 

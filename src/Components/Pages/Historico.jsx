@@ -119,8 +119,8 @@ const HistoricoPartidas = () => {
 
   return (
     <div className={rankingStyles.project_container}>
-      <div className={rankingStyles.grand_title_container}>
-        <h1 className={rankingStyles.grand_title}>Histórico de Partidas</h1>
+      <div className={styles.titleContainer}>
+        <h1 className={styles.pageTitle}>Histórico de Partidas</h1>
       </div>
       {loading ? (
         <p className={styles.message}>Carregando...</p>

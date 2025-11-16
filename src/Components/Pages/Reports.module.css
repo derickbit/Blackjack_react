@@ -9,7 +9,7 @@
   align-items: center;
   justify-content: flex-start;
   background: transparent;
-  padding: 3em 1em;
+  padding: 5em 1em 3em 1em; /* Reduzido padding-top */
   height: 100%; /* Usa 100% ao invés de 100vh */
   overflow: hidden; /* Evita scroll desnecessário */
 }
@@ -659,6 +659,10 @@
 
 /* Responsividade */
 @media (max-width: 768px) {
+  .project_container {
+    padding: 4em 1em 2rem 1em; /* Reduzido padding-top para mobile */
+  }
+
   .reports_flex {
     flex-direction: column;
     gap: 1.5em;

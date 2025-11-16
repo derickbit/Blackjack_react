@@ -202,10 +202,10 @@
 
 @media (max-width: 600px) {
   .home_container {
-    padding: 0;
+    padding: 4em 0 2em 0; /* Reduzido padding-top para mobile */
     margin: 0;
     min-height: unset;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
   }
   .home_container h1 {

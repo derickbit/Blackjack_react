@@ -413,16 +413,19 @@
     position: absolute;
     top: 100%;
     left: 0;
-    background: var(--bg-elevated);
+    background: var(--bg-elevated); /* Fundo que se adapta ao tema */
     flex-direction: column;
-    align-items: flex-start;
-    padding: 0.3em 0.5em;
+    align-items: center; /* Centraliza os itens */
+    padding: 0.5em 0.8em;
+    margin-top: 0.5em; /* Espaço entre navbar e menu */
     z-index: 100;
-    border-radius: 0 0 8px 8px;
-    box-shadow: var(--shadow-lg);
+    border-radius: 8px;
+    box-shadow: var(--shadow-lg); /* Sombra que se adapta ao tema */
+    border: 1px solid var(--border-medium); /* Borda sutil */
     width: max-content;
     max-width: 95vw;
     transition: all 0.2s;
+    gap: 0.4em; /* Espaçamento entre os botões */
   }
   .list.open {
     display: flex;
@@ -430,13 +433,19 @@
   .item {
     margin-right: 0;
     width: 100%;
+    display: flex;
+    justify-content: center; /* Centraliza o item */
   }
   .item a {
     width: 100%;
-    padding: 0.3em 0.2em;
+    padding: 0.65em 1.5em;
     font-size: 1.05em;
     font-weight: bold;
     white-space: nowrap;
+    text-align: center; /* Centraliza o texto */
+    justify-content: center; /* Centraliza o conteúdo */
+    display: flex;
+    align-items: center;
   }
 
   /* Mobile: oculta o texto do usuário, mostra apenas ícone */
