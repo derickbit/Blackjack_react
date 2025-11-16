@@ -10,6 +10,7 @@ import Logo from "../Layout/Logo";
 import eyeSprite from "../../assets/eye-sprite.png";
 import { useToast } from "../../utils/useToast";
 import ToastContainer from "../Layout/ToastContainer";
+import ThemeToggleButton from "../Layout/ThemeToggleButton";
 
 function Login() {
   const { setToken, setUser } = useAuthContext();
@@ -63,7 +64,10 @@ function Login() {
       <main className={styles.main}>
         <div className={styles.container}>
           {/* <img src={logo} alt="Logo Blackjack" className={styles.logo} /> */}
-          <Logo className={styles.logo} size={150} />
+          <div className={styles.headerWithTheme}>
+            <Logo className={styles.logo} size={150} />
+            <ThemeToggleButton />
+          </div>
           <h1 className={styles.title}>Login</h1>
           {mensagemErro && <p className={styles.prompt}>{mensagemErro}</p>}
           <form className={styles.form} method="post" onSubmit={onSubmit}>

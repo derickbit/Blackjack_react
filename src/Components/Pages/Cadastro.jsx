@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "./forms.module.css";
-import logo from "../../assets/blackjack_logo.jpg";
 import axiosClient from "../../utils/axios_client";
 import { useNavigate } from "react-router-dom";
 import SubmitButton from "../Form/SubmitButton";
 import Logo from "../Layout/Logo";
+import eyeSprite from "../../assets/eye-sprite.png";
 import { useToast } from "../../utils/useToast";
 import ToastContainer from "../Layout/ToastContainer";
+import ThemeToggleButton from "../Layout/ThemeToggleButton";
 
 function Cadastro() {
   const [name, setName] = useState("");
@@ -15,6 +16,7 @@ function Cadastro() {
   const [password, setPassword] = useState("");
   const [mensagemErro, setMensagemErro] = useState("");
   const [showPasswordRules, setShowPasswordRules] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const { toasts, showSuccess, showError, removeToast } = useToast();
@@ -127,7 +129,10 @@ function Cadastro() {
       <main className={styles.main}>
         <div className={styles.container}>
           {/* <img src={logo} alt="Logo Blackjack" className={styles.logo} /> */}
-          <Logo className={styles.logo} size={150} />
+          <div className={styles.headerWithTheme}>
+            <Logo className={styles.logo} size={150} />
+            <ThemeToggleButton />
+          </div>
 
           <h1 className={styles.title}>Cadastro</h1>
           {mensagemErro && <p className={styles.prompt}>{mensagemErro}</p>}
@@ -164,18 +169,37 @@ function Cadastro() {
               <label htmlFor="senha" className={styles.label}>
                 Senha:
               </label>
-              <input
-                type="password"
-                name="senha"
-                id="senha"
-                value={password}
-                onChange={handlePassword}
-                onFocus={() => setShowPasswordRules(true)}
-                onBlur={() => setShowPasswordRules(false)}
-                required
-                className={styles.input}
-                autoComplete="new-password"
-              />
+              <div className={styles.passwordWrapper}>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="senha"
+                  id="senha"
+                  value={password}
+                  onChange={handlePassword}
+                  onFocus={() => setShowPasswordRules(true)}
+                  onBlur={() => setShowPasswordRules(false)}
+                  required
+                  className={styles.input}
+                  autoComplete="new-password"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  className={styles.passwordToggleBtn}
+                  tabIndex={-1}
+                  aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+                >
+                  <span className={styles.eyeSpriteWrapper}>
+                    <img
+                      src={eyeSprite}
+                      alt={showPassword ? "Ocultar senha" : "Mostrar senha"}
+                      className={
+                        showPassword ? styles.eyeImgClosed : styles.eyeImgOpen
+                      }
+                    />
+                  </span>
+                </button>
+              </div>
               {showPasswordRules && (
                 <div className={styles.passwordPopover}>
                   <div className={styles.passwordPopoverTitle}>

@@ -12,8 +12,21 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 
   background: transparent; /* Remova a cor de fundo */
+}
+
+/* Header com logo e botão de tema */
+.headerWithTheme {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 20px;
+  position: relative;
 }
 
 .main {
@@ -222,12 +235,23 @@
 
 .link {
   color: var(--action-primary);
-  text-decoration: none;
+  text-decoration: underline;
   font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
 }
 
 .link:hover {
+  color: var(--action-hover);
   text-decoration: underline;
+  text-shadow: 0 0 8px rgba(30, 60, 114, 0.3);
+}
+
+.link:focus {
+  outline: 2px solid var(--action-primary);
+  outline-offset: 2px;
+  border-radius: 2px;
 }
 
 .passwordPopover {
