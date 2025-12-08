@@ -16,7 +16,7 @@ function Home() {
 
   return (
     <section className={styles.home_container}>
-      <h1>Bem vindo(a), {user?.name?.split(" ")[0] || "Jogador"}!</h1>
+      <h1>Bem vindo(a) ao CardNest, {user ?.name ?.split(" ")[0] || "Jogador"}!</h1>
       <h2>Escolha um jogo para começar!</h2>
       <p>
         Se preferir, leia os tutoriais na nossa{" "}
